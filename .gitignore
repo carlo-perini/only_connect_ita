@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+
+# Flask
+instance/
+
+# Media files (optional - se usa git-lfs)
+# app/static/media/
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Distribution / building
+build/
+dist/
+*.egg-info/

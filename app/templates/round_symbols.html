@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Only Connect - Selezione {{ round_type }}{% endblock %}
+
+{% block content %}
+<div class="round-page symbols-page">
+    <div class="round-header">
+        <h1>{% if round_type == 'connections' %}Connessioni{% else %}Sequenza{% endif %}</h1>
+        <p class="round-subtitle">Scegli un simbolo per iniziare</p>
+    </div>
+    
+    <div class="symbols-grid">
+        {% for symbol in symbols %}
+        <button 
+            class="symbol-button {% if symbol.id in completed_symbol_ids %}completed{% endif %}"
+            onclick="selectSymbol('{{ symbol.id }}')"
+            {% if symbol.id in completed_symbol_ids %}disabled{% endif %}
+            title="{{ symbol.label or symbol.display }}"
+        >
+            <span class="symbol-display">{{ symbol.display }}</span>
+            {% if symbol.id in completed_symbol_ids %}
+            <span class="symbol-check">✓</span>
+            {% endif %}
+        </button>
+        {% endfor %}
+    </div>
+    
+    <div class="nav-buttons">
+        <a href="/" class="btn btn-secondary">← Indietro</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const roundType = "{{ round_type }}";
+    
+    function selectSymbol(symbolId) {
+        // Naviga verso la domanda associata al simbolo
+        window.location.href = `/round/${roundType}/${symbolId}`;
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Only Connect - Italia - Home{% endblock %}
+
+{% block content %}
+<div class="home-page">
+    <!-- Scoreboard -->
+    {% if teams_scores %}
+    <div class="scoreboard">
+        {% for team in teams_scores %}
+        <div class="score-card">
+            <div class="team-name">{{ team.team_name }}</div>
+            <div class="team-score">{{ team.score }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="header">
+        <h1>Only Connect</h1>
+        <p class="subtitle">Edizione Italiana</p>
+    </div>
+    
+    <div class="menu">
+        <div class="menu-card">
+            <h2>Connessioni</h2>
+            <p>Indovina la connessione dai clue progressivi.</p>
+            <a href="#" class="btn btn-primary" onclick="startRound('connections')">
+                Inizia →
+            </a>
+        </div>
+        
+        <div class="menu-card">
+            <h2>Sequenza</h2>
+            <p>Completa la sequenza trovando il quarto elemento.</p>
+            <a href="#" class="btn btn-primary" onclick="startRound('sequence')">
+                Inizia →
+            </a>
+        </div>
+        
+        <div class="menu-card">
+            <h2>Muro delle Connessioni</h2>
+            <p>Trasforma il muro: raggruppa 4 elementi per ogni connessione.</p>
+            <a href="#" class="btn btn-primary disabled" title="Prossimamente">
+                Presto →
+            </a>
+        </div>
+        
+        <div class="menu-card">
+            <h2>Vocali Mancanti</h2>
+            <p>Riconosci le frasi senza le vocali.</p>
+            <a href="#" class="btn btn-primary disabled" title="Prossimamente">
+                Presto →
+            </a>
+        </div>
+    </div>
+    
+    <div class="footer-info">
+        <p>Carica le domande da <code>quiz_data.json</code></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function startRound(roundType) {
+        // Naviga direttamente alla griglia di simboli
+        window.location.href = `/round/${roundType}/symbols`;
+    }
+</script>
+{% endblock %}

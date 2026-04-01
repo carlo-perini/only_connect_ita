@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}Only Connect - Sequenza{% endblock %}
+
+{% block content %}
+<div class="round-page sequence-page">
+    <!-- Scoreboard durante il round -->
+    {% if teams_scores %}
+    <div class="round-scoreboard">
+        {% for team in teams_scores %}
+        <div class="score-card">
+            <span class="team-name">{{ team.team_name }}</span>
+            <span class="team-score">{{ team.score }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="round-header">
+        <h1>Sequenza</h1>
+        <div class="timer-display" id="timer">00:40</div>
+    </div>
+    
+    <div class="clues-container">
+        <!-- I clue verranno renderizzati qui da JavaScript -->
+        <div id="clues-area"></div>
+    </div>
+    
+    <div class="sequence-info">
+        <p class="rule" id="sequence-rule"></p>
+    </div>
+    
+    <div class="answer-section">
+        <!-- Il conduttore controlla manualmente la risposta -->
+        <button class="btn btn-warning" id="show-answer-btn">Mostra Risposta Corretta</button>
+        <button class="btn btn-secondary" id="show-all-btn">Mostra Tutti gli Indizi</button>
+    </div>
+    
+    <div class="answer-display" id="answer-area" style="display: none;">
+        <div class="answer-box">
+            <h2>Quarto Elemento della Sequenza</h2>
+            <p class="answer-text" id="answer-text"></p>
+            <p class="explanation-text" id="explanation-text"></p>
+        </div>
+    </div>
+    
+    <!-- Sezione Assegnazione Punti -->
+    {% if current_team and game_state %}
+    <div class="scoring-section" id="scoring-section">
+        <h3>Assegna i Punti</h3>
+        <div class="current-team-display">
+            <p>Team in turno: <strong>{{ current_team.team_name }}</strong></p>
+        </div>
+        
+        <div class="points-buttons">
+            <div class="points-group">
+                <p>Team in turno:</p>
+                <button class="btn btn-success" onclick="assignPoints(5, '{{ current_team.team_id }}')">5 punti (1° indizio)</button>
+                <button class="btn btn-success" onclick="assignPoints(3, '{{ current_team.team_id }}')">3 punti (2° indizio)</button>
+                <button class="btn btn-success" onclick="assignPoints(2, '{{ current_team.team_id }}')">2 punti (3° indizio)</button>
+            </div>
+            
+            <div class="points-group">
+                <p>Bonus (altra squadra):</p>
+                {% if teams_scores and teams_scores|length > 1 %}
+                    {% set other_team = teams_scores[1] if current_team.team_id == teams_scores[0].team_id else teams_scores[0] %}
+                    <button class="btn btn-info" onclick="assignPoints(1, '{{ other_team.team_id }}')">1 punto bonus ({{ other_team.team_name }})</button>
+                {% endif %}
+            </div>
+            
+            <div class="points-group">
+                <p>Nessun punto:</p>
+                <button class="btn btn-secondary" onclick="assignPoints(0, null)">Nessun punto assegnato</button>
+            </div>
+        </div>
+        
+        <div class="points-status" id="points-status" style="display: none;">
+            <p id="status-text"></p>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="nav-buttons">
+        {% if symbol_id %}
+        <button class="btn btn-secondary" id="back-btn" onclick="backToSymbols()">← Torna ai Simboli</button>
+        {% else %}
+        <a href="/" class="btn btn-secondary">← Indietro</a>
+        {% endif %}
+        <button class="btn btn-secondary" id="next-btn" disabled>Prossima Domanda →</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Dati della domanda (passati dal template)
+    const questionData = {
+        id: "{{ question.id }}",
+        clues: {{ question.clues | tojson }},
+        answer: "{{ question.answer }}",
+        sequence_rule: "{{ question.sequence_rule }}",
+        explanation: "{{ question.explanation }}"
+    };
+    
+    const symbolId = "{{ symbol_id or '' }}";
+    const roundType = "{{ round_type or 'sequence' }}";
+    const gameState = {{ game_state | tojson }};
+    const currentTeamId = "{{ current_team.team_id if current_team else '' }}";
+    
+    let allCluesVisible = false;
+    let pointsAssigned = gameState.points_assigned_for_current_question || false;
+    
+    // Funzione per renderizzare un singolo clue
+    function renderClue(clue, index) {
+        const clueEl = document.createElement('div');
+        clueEl.className = 'clue-card';
+        clueEl.id = `clue-${index}`;
+        
+        const label = document.createElement('div');
+        label.className = 'clue-label';
+        label.textContent = `Elemento ${index + 1}`;
+        clueEl.appendChild(label);
+        
+        const content = document.createElement('div');
+        content.className = 'clue-content';
+        
+        if (clue.type === 'text') {
+            content.innerHTML = `<p>${clue.value}</p>`;
+        } else if (clue.type === 'image') {
+            const mediaPath = `/static/media/${clue.value}`;
+            content.innerHTML = `<img src="${mediaPath}" alt="${clue.label || 'Elemento ' + (index + 1)}" />`;
+        } else if (clue.type === 'audio') {
+            const mediaPath = `/static/media/${clue.value}`;
+            content.innerHTML = `
+                <div class="audio-player">
+                    <audio controls>
+                        <source src="${mediaPath}" type="audio/mpeg" />
+                        Il tuo browser non supporta l'audio HTML5.
+                    </audio>
+                </div>
+            `;
+        }
+        
+        clueEl.appendChild(content);
+        return clueEl;
+    }
+    
+    // Renderizza tutti i clue
+    function updateCluesDisplay() {
+        const cluesArea = document.getElementById('clues-area');
+        cluesArea.innerHTML = '';
+        
+        questionData.clues.forEach((clue, index) => {
+            cluesArea.appendChild(renderClue(clue, index));
+        });
+        
+        // Mostra la regola della sequenza
+        document.getElementById('sequence-rule').textContent = 
+            `Regola: ${questionData.sequence_rule}`;
+    }
+    
+    // Mostra tutti gli indizi
+    document.getElementById('show-all-btn').addEventListener('click', function() {
+        allCluesVisible = !allCluesVisible;
+        this.textContent = allCluesVisible ? 'Nascondi alcuni indizi' : 'Mostra Tutti gli Indizi';
+    });
+    
+    // Mostra la risposta corretta
+    document.getElementById('show-answer-btn').addEventListener('click', function() {
+        const answerArea = document.getElementById('answer-area');
+        document.getElementById('answer-text').textContent = questionData.answer;
+        document.getElementById('explanation-text').textContent = questionData.explanation;
+        answerArea.style.display = 'block';
+        document.getElementById('next-btn').disabled = false;
+    });
+    
+    // Assegna i punti a una squadra
+    function assignPoints(points, teamId) {
+        fetch('/api/assign-points', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                points: points,
+                team_id: teamId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                pointsAssigned = true;
+                
+                // Aggiorna lo status
+                const statusEl = document.getElementById('points-status');
+                const statusText = document.getElementById('status-text');
+                if (points === 0) {
+                    statusText.textContent = '✓ Nessun punto assegnato';
+                } else {
+                    statusText.textContent = `✓ ${points} punto/i assegnato/i`;
+                }
+                statusEl.style.display = 'block';
+                
+                // Disabilita i bottoni di assegnazione
+                document.querySelectorAll('.points-buttons button').forEach(btn => {
+                    btn.disabled = true;
+                });
+                
+                // Abilita il bottone "Torna ai Simboli"
+                if (document.getElementById('back-btn')) {
+                    document.getElementById('back-btn').disabled = false;
+                }
+            } else {
+                alert('Errore: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Errore:', error);
+            alert('Errore nell\'assegnazione dei punti');
+        });
+    }
+    
+    // Torna ai simboli e marca il simbolo come completato
+    function backToSymbols() {
+        if (!pointsAssigned) {
+            alert('Devi assegnare i punti prima di tornare ai simboli!');
+            return;
+        }
+        
+        if (symbolId) {
+            // Segna il simbolo come completato
+            fetch('/api/mark-symbol-complete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    round_type: roundType,
+                    symbol_id: symbolId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = `/round/${roundType}/symbols`;
+                } else {
+                    alert('Errore: ' + data.error);
+                }
+            })
+            .catch(error => console.error('Errore:', error));
+        } else {
+            window.history.back();
+        }
+    }
+    
+    // Disabilita il bottone inizialmente se i punti non sono stati ancora assegnati
+    function updateBackButtonState() {
+        const backBtn = document.getElementById('back-btn');
+        if (backBtn) {
+            backBtn.disabled = !pointsAssigned;
+        }
+    }
+    
+    // Inizializzazione
+    updateCluesDisplay();
+    updateBackButtonState();
+</script>
+{% endblock %}

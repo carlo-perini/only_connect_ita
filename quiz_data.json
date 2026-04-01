@@ -1,0 +1,55 @@
+{
+  "teams": [
+    {
+      "id": "team-1",
+      "name": "Team 1",
+      "color": "#FF8C42"
+    },
+    {
+      "id": "team-2",
+      "name": "Team 2",
+      "color": "#0066FF"
+    }
+  ],
+  "connections": {
+    "symbols": [
+      {"id": "sym-001", "display": "♀", "label": "Venere"},
+      {"id": "sym-002", "display": "☿", "label": "Mercurio"},
+      {"id": "sym-003", "display": "♃", "label": "Giove"},
+      {"id": "sym-004", "display": "♄", "label": "Saturno"},
+      {"id": "sym-005", "display": "♅", "label": "Urano"},
+      {"id": "sym-006", "display": "♆", "label": "Nettuno"}
+    ],
+    "questions": {
+      "sym-001": {
+        "id": "conn-001",
+        "clues": [{"type": "text", "value": "Sono arancioni e rotondi", "label": "Indizio 1"}, {"type": "text", "value": "Vengono usate per fare il succo", "label": "Indizio 2"}, {"type": "text", "value": "Sono il colore del nostro sole", "label": "Indizio 3"}, {"type": "text", "value": "Il mio omonimo è un social network", "label": "Indizio 4"}],
+        "answer": "Arancia",
+        "explanation": "Tutte le piste portano al concetto di 'Arancia'. La quarta pista è un gioco di parole con Orange (il social network)."
+      },
+      "sym-002": {"id": "conn-002", "clues": [{"type": "text", "value": "Capitale della Francia", "label": "Città"}, {"type": "text", "value": "Protagonista della mitologia greca", "label": "Personaggio"}, {"type": "text", "value": "Colore tossico", "label": "Colore"}, {"type": "text", "value": "Una malattia psicologica legata ai turisti", "label": "Sindrome"}], "answer": "Paris / Parigi", "explanation": "Tutti gli elementi sono associati a 'Paris/Parigi': la città, il personaggio mitologico, il colore Paris green, e il Paris syndrome."},
+      "sym-003": {"id": "conn-003", "clues": [{"type": "text", "value": "Strumento musicale a corde", "label": "Musica"}, {"type": "text", "value": "Segno zodiacale", "label": "Astrologia"}, {"type": "text", "value": "Luogo di detenzione medievale", "label": "Architettura"}, {"type": "text", "value": "Tipo di scarpa da ginnastica vintage", "label": "Moda"}], "answer": "Lira", "explanation": "Lira è la lira musicale, il segno zodiacale, una prigione medievale, e un brand di scarpe storiche."},
+      "sym-004": {"id": "conn-004", "clues": [{"type": "text", "value": "Tipo di formaggio olandese", "label": "Formaggio"}, {"type": "text", "value": "Regione spagnola", "label": "Geografia"}, {"type": "text", "value": "Piatto italiano con pasta", "label": "Cucina"}, {"type": "text", "value": "Nome di una dea romana", "label": "Mitologia"}], "answer": "Grana", "explanation": "Grana è un tipo di formaggio, una regione spagnola, un ingrediente di cucina italiana, e una divinità romana."},
+      "sym-005": {"id": "conn-005", "clues": [{"type": "text", "value": "Poeta italiano del Medioevo", "label": "Letteratura"}, {"type": "text", "value": "Moneta della lira italiana", "label": "Economia"}, {"type": "text", "value": "Unità di misura della lunghezza", "label": "Metrica"}, {"type": "text", "value": "Colore scuro", "label": "Colore"}], "answer": "Dante", "explanation": "Dante Alighieri è il poeta, una moneta storica, un'unità di misura, e un colore ricco."},
+      "sym-006": {"id": "conn-006", "clues": [{"type": "text", "value": "Giocattolo a molla", "label": "Giocattoli"}, {"type": "text", "value": "Elemento chimico Au", "label": "Chimica"}, {"type": "text", "value": "Colore caldo e prezioso", "label": "Colore"}, {"type": "text", "value": "Città californiana during la rush", "label": "Storia"}], "answer": "Oro", "explanation": "Oro è il giocattolo, l'elemento, il colore lusso, e riferimento alla corsa all'oro."}
+    }
+  },
+  "sequence": {
+    "symbols": [
+      {"id": "seq-sym-001", "display": "♪", "label": "Musica"},
+      {"id": "seq-sym-002", "display": "🎭", "label": "Teatro"},
+      {"id": "seq-sym-003", "display": "📚", "label": "Libro"},
+      {"id": "seq-sym-004", "display": "🎬", "label": "Film"},
+      {"id": "seq-sym-005", "display": "🎨", "label": "Arte"},
+      {"id": "seq-sym-006", "display": "🎪", "label": "Circo"}
+    ],
+    "questions": {
+      "seq-sym-001": {"id": "seq-001", "clues": [{"type": "text", "value": "Primo album Beatles (1963)", "label": "Album 1"}, {"type": "text", "value": "Secondo album Beatles (1964)", "label": "Album 2"}, {"type": "text", "value": "Terzo album Beatles (1965)", "label": "Album 3"}], "answer": "Help!", "sequence_rule": "Album Beatles in ordine cronologico", "explanation": "After Please Please Me, With the Beatles, A Hard Day's Night, arriva Help!"},
+      "seq-sym-002": {"id": "seq-002", "clues": [{"type": "text", "value": "StarWars (1977)", "label": "Film 1"}, {"type": "text", "value": "Indiana Jones (1981)", "label": "Film 2"}, {"type": "text", "value": "Back to the Future (1985)", "label": "Film 3"}], "answer": "Gremlins", "sequence_rule": "Film celebri degli anni 80", "explanation": "Dopo i tre, nel 1984 esce Gremlins."},
+      "seq-sym-003": {"id": "seq-003", "clues": [{"type": "text", "value": "2, 3, 5", "label": "Numeri 1-3"}, {"type": "text", "value": "7, 11, 13", "label": "Numeri 4-6"}, {"type": "text", "value": "17, 19, 23", "label": "Numeri 7-9"}], "answer": "29", "sequence_rule": "Numeri primi in ordine crescente", "explanation": "La sequenza di numeri primi continua: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29."},
+      "seq-sym-004": {"id": "seq-004", "clues": [{"type": "text", "value": "Primo imperatore romano", "label": "Sovrano 1"}, {"type": "text", "value": "Seconda generazione di imperatori", "label": "Sovrano 2"}, {"type": "text", "value": "Terza generazione di imperatori", "label": "Sovrano 3"}], "answer": "Caligola", "sequence_rule": "Imperatori romani primi tre", "explanation": "Augusto, Tiberio, Caligola sono i primi tre."},
+      "seq-sym-005": {"id": "seq-005", "clues": [{"type": "text", "value": "Rosso + Blu", "label": "Colore 1"}, {"type": "text", "value": "Rosso + Giallo", "label": "Colore 2"}, {"type": "text", "value": "Blu + Giallo", "label": "Colore 3"}], "answer": "Verde", "sequence_rule": "Colori secondari", "explanation": "Viola, Arancione, Verde seguono la miscelazione di colori primari."},
+      "seq-sym-006": {"id": "seq-006", "clues": [{"type": "text", "value": "1, 1", "label": "Termini 1-2"}, {"type": "text", "value": "2, 3", "label": "Termini 3-4"}, {"type": "text", "value": "5, 8", "label": "Termini 5-6"}], "answer": "13", "sequence_rule": "Sequenza di Fibonacci", "explanation": "1, 1, 2, 3, 5, 8, 13... è la sequenza Fibonacci."}
+    }
+  }
+}
