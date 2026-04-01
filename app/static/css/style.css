@@ -280,14 +280,20 @@ html, body {
     flex: 1;
     margin-bottom: 2rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 #clues-area {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
 }
 
 .clue-card {
@@ -296,6 +302,9 @@ html, body {
     border-radius: var(--border-radius);
     padding: 1.5rem;
     animation: slideIn 0.3s ease;
+    flex: 1 1 auto;
+    min-width: 200px;
+    max-width: 300px;
 }
 
 @keyframes slideIn {
@@ -310,12 +319,7 @@ html, body {
 }
 
 .clue-label {
-    font-size: 0.9rem;
-    color: var(--color-primary);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    display: none;
 }
 
 .clue-content {
