@@ -18,7 +18,7 @@
     
     <div class="header">
         <h1>Only Connect</h1>
-        <p class="subtitle">Edizione Italiana</p>
+        <p class="subtitle">Edizione italiana</p>
     </div>
     
     <div class="menu">
@@ -26,7 +26,7 @@
             <h2>Connessioni</h2>
             <p>Indovina la connessione dai clue progressivi.</p>
             <a href="#" class="btn btn-primary" onclick="startRound('connections')">
-                Inizia →
+                Inizia
             </a>
         </div>
         
@@ -34,7 +34,7 @@
             <h2>Sequenza</h2>
             <p>Completa la sequenza trovando il quarto elemento.</p>
             <a href="#" class="btn btn-primary" onclick="startRound('sequence')">
-                Inizia →
+                Inizia
             </a>
         </div>
         
@@ -42,7 +42,7 @@
             <h2>Muro delle Connessioni</h2>
             <p>Trasforma il muro: raggruppa 4 elementi per ogni connessione.</p>
             <a href="#" class="btn btn-primary disabled" title="Prossimamente">
-                Presto →
+                TODO
             </a>
         </div>
         
@@ -50,7 +50,7 @@
             <h2>Vocali Mancanti</h2>
             <p>Riconosci le frasi senza le vocali.</p>
             <a href="#" class="btn btn-primary disabled" title="Prossimamente">
-                Presto →
+                TODO
             </a>
         </div>
     </div>
@@ -64,8 +64,8 @@
 {% block scripts %}
 <script>
     function startRound(roundType) {
-        // Naviga direttamente alla griglia di simboli
-        window.location.href = `/round/${roundType}/symbols`;
+        // Naviga alla pagina di scelta team
+        window.location.href = `/round/${roundType}/choose-team`;
     }
 </script>
 {% endblock %}

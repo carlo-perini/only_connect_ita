@@ -76,16 +76,83 @@ def get_game_state():
 @bp.route("/")
 def home():
     """Home page dell'app."""
-    # Pulisci la sessione dalle domande precedenti
+    # Pulisci la sessione dalle domande precedenti e reset game state
     session.pop('completed_symbols', None)
+    session.pop('game_state', None)
     
-    # Inizializza il game state se non esiste
-    game_state = get_game_state()
+    return render_template("home.html")
+
+
+@bp.route("/round/<round_type>/choose-team")
+def choose_team(round_type):
+    """
+    Pagina di scelta del team iniziale.
     
-    # Ottieni i team scores
-    teams_scores = game_state.get('teams_scores', [])
+    Args:
+        round_type: 'connections' o 'sequence'
+    """
+    if round_type not in ['connections', 'sequence']:
+        return "Round non valido", 404
     
-    return render_template("home.html", teams_scores=teams_scores)
+    try:
+        loader = get_quiz_loader()
+        quiz_data = loader.load()
+        
+        # Ottieni i team
+        teams = quiz_data.teams or []
+        
+        return render_template(
+            "choose_team.html",
+            round_type=round_type,
+            teams=teams
+        )
+    
+    except QuizLoadError as e:
+        return f"Errore nel caricamento del quiz: {str(e)}", 500
+
+
+@bp.route("/round/<round_type>/start/<team_id>")
+def start_round(round_type, team_id):
+    """
+    Inizia il round con il team scelto e reindirizza alla griglia dei simboli.
+    
+    Args:
+        round_type: 'connections' o 'sequence'
+        team_id: ID del team che inizia
+    """
+    if round_type not in ['connections', 'sequence']:
+        return "Round non valido", 404
+    
+    try:
+        loader = get_quiz_loader()
+        quiz_data = loader.load()
+        
+        # Inizializza il game state
+        init_game_state()
+        
+        # Imposta il team iniziale
+        game_state = get_game_state()
+        teams = quiz_data.teams or []
+        
+        # Trova l'indice del team scelto
+        team_index = 0
+        for i, team in enumerate(teams):
+            if team['id'] == team_id:
+                team_index = i
+                break
+        
+        game_state['current_team_index'] = team_index
+        session['game_state'] = game_state
+        session.modified = True
+        
+        # Reindirizza alla griglia dei simboli
+        return jsonify({
+            "success": True,
+            "redirect": f"/round/{round_type}/symbols"
+        })
+    
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @bp.route("/api/quiz")
@@ -270,6 +337,12 @@ def mark_symbol_complete():
         
         if symbol_id not in session['completed_symbols'][round_type]:
             session['completed_symbols'][round_type].append(symbol_id)
+            
+            # Alterna il team di turno
+            teams_scores = game_state.get('teams_scores', [])
+            current_index = game_state.get('current_team_index', 0)
+            next_index = (current_index + 1) % len(teams_scores)
+            game_state['current_team_index'] = next_index
             
             # Reset del flag per la prossima domanda
             game_state['points_assigned_for_current_question'] = False

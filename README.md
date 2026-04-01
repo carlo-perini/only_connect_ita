@@ -8,13 +8,19 @@ Creare una piattaforma completamente personalizzabile per giocare a Only Connect
 
 ## 🚀 Quickstart
 
-### 1. Installa le dipendenze
+### 1. Installa le dipendenze nella venv
 
-Assicurati di avere Python 3.12+ installato, poi:
+- Python 3.12+ installato
 
+attivare una venv con bash 
+```bash
+venv\Scripts\Activate.ps1
+```
+e installare i pacchetti
 ```bash
 pip install -r requirements.txt
 ```
+()
 
 ### 2. Avvia l'app
 
@@ -107,12 +113,9 @@ Il file `quiz_data.json` contiene tutte le domande organizzate per round con gri
 ### Format dei Simboli
 - **id**: ID unico del simbolo (es: "sym-001", "seq-sym-001")
 - **display**: Un singolo carattere Unicode (es: ♀, ♃, ♪, 🎭)
-- **label**: Descrizione (opzionale, per accessibilità)
 
-**Simboli consigliati**:
+Esempio:
 - Astrologia: ♀ ♂ ☿ ♃ ♄ ♅ ♆ ♇
-- Musica: ♪ ♫ 🎵 🎶 🎼 🎹
-- Emoji di base: 🎭 📚 🎬 🎨 🎪 🎯
 
 ### 3. Sessioni e Tracciamento Simboli
 
@@ -127,9 +130,9 @@ session['completed_symbols'] = {
 ```
 
 I simboli completati sono:
-- ✓ Marcati con un checkmark verde
+- marcati con un checkmark verde
 - 🚫 Disabilitati (non cliccabili)
-- Solo visibili per il round corrente
+- solo visibili per il round corrente
 
 Quando si torna alla home, la sessione si resetta.
 
@@ -331,12 +334,14 @@ pytest tests/ -v
 - [ ] Round Muro delle Connessioni
 - [ ] Round Vocali Mancanti
 - [ ] Tabellone punteggi persistente
-- [ ] Sound effects (correct.mp3, wrong.mp3, etc)
-
-### Fase 3 (TODO)
-- [ ] Multiplayer LAN
+- [ ] Sound effects (correct.mp3, wrong.mp3, etc) temporizzati
+- [ ] Logo Only connect visibile
 - [ ] Editor web delle domande
 - [ ] Persistenza punteggi su database
+ 
+
+### Fase 3
+- [ ] Multiplayer LAN
 - [ ] Deploy su server remoto
 
 ## 🎨 Design

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Only Connect - Scegli Team{% endblock %}
+
+{% block content %}
+<div class="choose-team-page">
+    <div class="header">
+        <h1>Solo Connect</h1>
+        <p class="subtitle">Chi inizia?</p>
+    </div>
+    
+    <div class="round-name">
+        {% if round_type == 'connections' %}
+            <p>Round: <strong>Connessioni</strong></p>
+        {% elif round_type == 'sequence' %}
+            <p>Round: <strong>Sequenza</strong></p>
+        {% endif %}
+    </div>
+    
+    <div class="teams-selection">
+        {% for team in teams %}
+        <div class="team-choice-card">
+            <div class="team-choice-name">{{ team.name }}</div>
+            <button class="btn btn-primary btn-large" onclick="selectTeam('{{ team.id }}')">
+                Inizia questo round
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="nav-buttons">
+        <a href="/" class="btn btn-secondary">← Indietro</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const roundType = "{{ round_type }}";
+    
+    function selectTeam(teamId) {
+        // Chiama l'API per iniziare il round con il team scelto
+        fetch(`/round/${roundType}/start/${teamId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reindirizza alla griglia dei simboli
+                    window.location.href = data.redirect;
+                } else {
+                    alert('Errore: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+                alert('Errore nella selezione del team');
+            });
+    }
+</script>
+{% endblock %}
