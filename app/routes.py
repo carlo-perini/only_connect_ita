@@ -309,6 +309,9 @@ def round_question(round_type, symbol_id):
         
         template = f"{round_type}.html"
         
+        # Ottieni il tempo totale per questo round dal config
+        total_time = config.DEFAULT_TIMERS.get(round_type, 45)
+        
         return render_template(
             template,
             question=question_dict,
@@ -316,7 +319,8 @@ def round_question(round_type, symbol_id):
             round_type=round_type,
             current_team=current_team,
             game_state=game_state,
-            teams_scores=teams_scores
+            teams_scores=teams_scores,
+            total_time=total_time
         )
     
     except QuizLoadError as e:

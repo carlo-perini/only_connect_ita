@@ -25,7 +25,7 @@
     
     <div class="round-header">
         <h1>Sequenza</h1>
-        <div class="timer-display" id="timer">00:40</div>
+        <div class="timer-display" id="timer" data-total-time="{{ total_time }}"></div>
     </div>
     
     <div class="clues-container">
@@ -265,5 +265,30 @@
     // Inizializzazione
     updateCluesDisplay();
     updateBackButtonState();
+    
+    // Avvia il timer del round
+    const timerElement = document.getElementById('timer');
+    if (timerElement && timerElement.dataset.totalTime) {
+        const totalTime = parseInt(timerElement.dataset.totalTime);
+        const roundTimer = new RoundTimer(totalTime, 
+            function onTick(remainingSeconds) {
+                timerElement.textContent = formatTime(remainingSeconds);
+                
+                // Cambia colore in base al tempo rimanente
+                timerElement.classList.remove('warning', 'critical');
+                if (remainingSeconds <= 5) {
+                    timerElement.classList.add('critical');
+                } else if (remainingSeconds <= 10) {
+                    timerElement.classList.add('warning');
+                }
+            },
+            function onComplete() {
+                timerElement.textContent = '00:00';
+                timerElement.classList.remove('warning', 'critical');
+                console.log('⏰ Timer completato');
+            }
+        );
+        roundTimer.start();
+    }
 </script>
 {% endblock %}
