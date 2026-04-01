@@ -22,20 +22,34 @@
     </div>
     
     <div class="menu">
-        <div class="menu-card">
+        <div class="menu-card {% if completed_rounds.get('connections') %}round-completed{% endif %}">
             <h2>Connessioni</h2>
             <p>Indovina la connessione dai clue progressivi.</p>
+            {% if completed_rounds.get('connections') %}
+            <span class="completed-badge">✓ Completato</span>
+            <a href="#" class="btn btn-primary disabled_custom" title="Round già completato">
+                Completato
+            </a>
+            {% else %}
             <a href="#" class="btn btn-primary" onclick="startRound('connections')">
                 Inizia
             </a>
+            {% endif %}
         </div>
         
-        <div class="menu-card">
+        <div class="menu-card {% if completed_rounds.get('sequence') %}round-completed{% endif %}">
             <h2>Sequenza</h2>
             <p>Completa la sequenza trovando il quarto elemento.</p>
+            {% if completed_rounds.get('sequence') %}
+            <span class="completed-badge">✓ Completato</span>
+            <a href="#" class="btn btn-primary disabled_custom" title="Round già completato">
+                Completato
+            </a>
+            {% else %}
             <a href="#" class="btn btn-primary" onclick="startRound('sequence')">
                 Inizia
             </a>
+            {% endif %}
         </div>
         
         <div class="menu-card">

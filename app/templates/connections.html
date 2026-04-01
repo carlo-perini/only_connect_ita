@@ -35,13 +35,13 @@
     
     <div class="answer-section">
         <!-- Il conduttore controlla manualmente la risposta -->
-        <button class="btn btn-warning" id="show-answer-btn">Mostra Risposta Corretta</button>
-        <button class="btn btn-secondary" id="reveal-btn">Rivela Prossimo Indizio</button>
+        <button class="btn btn-warning" id="show-answer-btn">Mostra risposta corretta</button>
+        <button class="btn btn-secondary" id="reveal-btn">Prossimo Indizio</button>
     </div>
     
     <div class="answer-display" id="answer-area" style="display: none;">
         <div class="answer-box">
-            <h2>Risposta Corretta</h2>
+            <h2>Risposta corretta</h2>
             <p class="answer-text" id="answer-text"></p>
             <p class="explanation-text" id="explanation-text"></p>
         </div>
@@ -50,7 +50,7 @@
     <!-- Sezione Assegnazione Punti -->
     {% if current_team and game_state %}
     <div class="scoring-section" id="scoring-section">
-        <h3>Assegna i Punti</h3>
+        <h3>Assegna i punti</h3>
         <div class="current-team-display">
             <p>Team in turno: <strong>{{ current_team.team_name }}</strong></p>
         </div>
@@ -73,7 +73,7 @@
             </div>
             
             <div class="points-group">
-                <p>Nessun punto:</p>
+                <p>NESSUNA SQUADRA HA RISPOSTO CORRETTAMENTE:</p>
                 <button class="btn btn-secondary" onclick="assignPoints(0, null)">Nessun punto assegnato</button>
             </div>
         </div>

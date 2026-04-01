@@ -44,6 +44,7 @@ def get_quiz_loader():
 def init_game_state():
     """
     Inizializza il game state nella sessione con i dati dei team dal quiz.
+    Questa funzione viene chiamata UNA SOLA VOLTA all'inizio della partita.
     """
     try:
         loader = get_quiz_loader()
@@ -57,8 +58,9 @@ def init_game_state():
         
         session['game_state'] = {
             'current_team_index': 0,
-            'teams_scores': teams_scores,
-            'points_assigned_for_current_question': False
+            'teams_scores': teams_scores,  # Punteggio globale di partita
+            'points_assigned_for_current_question': False,
+            'completed_rounds': {}  # Traccia quali round sono completati
         }
         session.modified = True
     except Exception as e:
@@ -68,6 +70,7 @@ def init_game_state():
 def get_game_state():
     """
     Ritorna il game state dalla sessione, inizializzandolo se necessario.
+    NON resetta il punteggio globale.
     """
     if 'game_state' not in session:
         init_game_state()
@@ -76,17 +79,26 @@ def get_game_state():
 @bp.route("/")
 def home():
     """Home page dell'app."""
-    # Pulisci la sessione dalle domande precedenti e reset game state
+    # Pulisci i simboli completati dal round precedente, NON resetiamo il game_state globale!
     session.pop('completed_symbols', None)
-    session.pop('game_state', None)
     
-    return render_template("home.html")
+    # Ottieni il game state (con punteggio globale accumulato)
+    game_state = get_game_state()
+    teams_scores = game_state.get('teams_scores', [])
+    completed_rounds = game_state.get('completed_rounds', {})
+    
+    return render_template(
+        "home.html",
+        teams_scores=teams_scores,
+        completed_rounds=completed_rounds
+    )
 
 
 @bp.route("/round/<round_type>/choose-team")
 def choose_team(round_type):
     """
     Pagina di scelta del team iniziale.
+    Verifica se il round è già completato.
     
     Args:
         round_type: 'connections' o 'sequence'
@@ -97,6 +109,18 @@ def choose_team(round_type):
     try:
         loader = get_quiz_loader()
         quiz_data = loader.load()
+        
+        # Ottieni il game state
+        game_state = get_game_state()
+        completed_rounds = game_state.get('completed_rounds', {})
+        
+        # Controlla se il round è già completato
+        if completed_rounds.get(round_type, False):
+            return render_template(
+                "round_completed.html",
+                round_type=round_type,
+                teams_scores=game_state.get('teams_scores', [])
+            )
         
         # Ottieni i team
         teams = quiz_data.teams or []
@@ -346,8 +370,14 @@ def mark_symbol_complete():
             
             # Reset del flag per la prossima domanda
             game_state['points_assigned_for_current_question'] = False
-            session['game_state'] = game_state
             
+            # Controlla se il round è completato (tutti i 6 simboli)
+            if len(session['completed_symbols'][round_type]) == 6:
+                completed_rounds = game_state.get('completed_rounds', {})
+                completed_rounds[round_type] = True
+                game_state['completed_rounds'] = completed_rounds
+            
+            session['game_state'] = game_state
             session.modified = True
         
         return jsonify({"success": True})

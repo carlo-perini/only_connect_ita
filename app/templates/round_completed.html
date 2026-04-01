@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Round Completato{% endblock %}
+
+{% block content %}
+<div class="round-completed-page">
+    <div class="header">
+        <h1>Round Completato</h1>
+    </div>
+    
+    <div class="round-completed-message">
+        <p>Il round di <strong>
+            {% if round_type == 'connections' %}
+                Connessioni
+            {% elif round_type == 'sequence' %}
+                Sequenza
+            {% endif %}
+        </strong> è già stato completato.</p>
+        
+        <p>Non è possibile rigiocare questo round, ma puoi consultarne i risultati.</p>
+    </div>
+    
+    <!-- Scoreboard finale -->
+    {% if teams_scores %}
+    <div class="scoreboard">
+        {% for team in teams_scores %}
+        <div class="score-card">
+            <div class="team-name">{{ team.team_name }}</div>
+            <div class="team-score">{{ team.score }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="nav-buttons">
+        <a href="/" class="btn btn-secondary">← Torna alla Home</a>
+    </div>
+</div>
+{% endblock %}

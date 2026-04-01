@@ -109,6 +109,35 @@ html, body {
     margin-bottom: 1.5rem;
 }
 
+/* Round completato */
+.menu-card.round-completed {
+    border-color: var(--color-success);
+    opacity: 0.7;
+    background-color: rgba(46, 204, 113, 0.05);
+}
+
+.menu-card.round-completed:hover {
+    background-color: rgba(46, 204, 113, 0.10);
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.2);
+    transform: translateY(0);
+}
+
+.menu-card.round-completed h2 {
+    color: var(--color-success);
+}
+
+.completed-badge {
+    display: inline-block;
+    background-color: var(--color-success);
+    color: var(--color-dark);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    margin-top: -0.5rem;
+}
+
 /* Bottoni */
 .btn {
     display: inline-block;
@@ -174,6 +203,13 @@ html, body {
 .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.btn.disabled_custom {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--color-success) !important;
+    color: var(--color-dark) !important;
 }
 
 .footer-info {
