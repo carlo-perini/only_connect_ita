@@ -33,14 +33,10 @@
         <div id="clues-area"></div>
     </div>
     
-    <div class="sequence-info">
-        <p class="rule" id="sequence-rule"></p>
-    </div>
-    
     <div class="answer-section">
-        <!-- Il conduttore controlla manualmente la risposta -->
+        <!-- Il conduttore rivela gli indizi progressivamente -->
+        <button class="btn btn-secondary" id="next-clue-btn">Prossimo Indizio</button>
         <button class="btn btn-warning" id="show-answer-btn">Mostra Risposta Corretta</button>
-        <button class="btn btn-secondary" id="show-all-btn">Mostra Tutti gli Indizi</button>
     </div>
     
     <div class="answer-display" id="answer-area" style="display: none;">
@@ -104,7 +100,6 @@
         id: "{{ question.id }}",
         clues: {{ question.clues | tojson }},
         answer: "{{ question.answer }}",
-        sequence_rule: "{{ question.sequence_rule }}",
         explanation: "{{ question.explanation }}"
     };
     
@@ -113,7 +108,7 @@
     const gameState = {{ game_state | tojson }};
     const currentTeamId = "{{ current_team.team_id if current_team else '' }}";
     
-    let allCluesVisible = false;
+    let currentClueIndex = 0; // Quale clue mostrare (0-indexed, massimo 2 per 3 clue)
     let pointsAssigned = gameState.points_assigned_for_current_question || false;
     
     // Funzione per renderizzare un singolo clue
@@ -151,24 +146,29 @@
         return clueEl;
     }
     
-    // Renderizza tutti i clue
+    // Renderizza solo gli indizi visibili fino a currentClueIndex
     function updateCluesDisplay() {
         const cluesArea = document.getElementById('clues-area');
         cluesArea.innerHTML = '';
         
-        questionData.clues.forEach((clue, index) => {
-            cluesArea.appendChild(renderClue(clue, index));
-        });
-        
-        // Mostra la regola della sequenza
-        document.getElementById('sequence-rule').textContent = 
-            `Regola: ${questionData.sequence_rule}`;
+        // Mostra solo gli indizi da 0 a currentClueIndex (incluso)
+        for (let i = 0; i <= currentClueIndex && i < questionData.clues.length; i++) {
+            cluesArea.appendChild(renderClue(questionData.clues[i], i));
+        }
     }
     
-    // Mostra tutti gli indizi
-    document.getElementById('show-all-btn').addEventListener('click', function() {
-        allCluesVisible = !allCluesVisible;
-        this.textContent = allCluesVisible ? 'Nascondi alcuni indizi' : 'Mostra Tutti gli Indizi';
+    // Bottone "Prossimo Indizio" - rivela indizi uno per uno
+    document.getElementById('next-clue-btn').addEventListener('click', function() {
+        if (currentClueIndex < questionData.clues.length - 1) {
+            currentClueIndex++;
+            updateCluesDisplay();
+        }
+        
+        // Disabilita il bottone quando sono visibili tutti gli indizi
+        if (currentClueIndex >= questionData.clues.length - 1) {
+            this.disabled = true;
+            this.textContent = 'Tutti gli indizi mostrati';
+        }
     });
     
     // Mostra la risposta corretta
