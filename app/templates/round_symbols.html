@@ -4,6 +4,13 @@
 
 {% block content %}
 <div class="round-page symbols-page">
+    <!-- Indica chi è di turno -->
+    {% if current_team %}
+    <div class="current-team-banner">
+        <p>Di turno: <strong>{{ current_team.team_name }}</strong></p>
+    </div>
+    {% endif %}
+    
     <div class="round-header">
         <h1>{% if round_type == 'connections' %}Connessioni{% else %}Sequenza{% endif %}</h1>
         <p class="round-subtitle">Scegli un simbolo per iniziare</p>

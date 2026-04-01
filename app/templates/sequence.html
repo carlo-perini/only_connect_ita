@@ -16,6 +16,13 @@
     </div>
     {% endif %}
     
+    <!-- Indica chi è di turno -->
+    {% if current_team %}
+    <div class="current-team-banner">
+        <p>Di turno: <strong>{{ current_team.team_name }}</strong></p>
+    </div>
+    {% endif %}
+    
     <div class="round-header">
         <h1>Sequenza</h1>
         <div class="timer-display" id="timer">00:40</div>
@@ -86,7 +93,6 @@
         {% else %}
         <a href="/" class="btn btn-secondary">← Indietro</a>
         {% endif %}
-        <button class="btn btn-secondary" id="next-btn" disabled>Prossima Domanda →</button>
     </div>
 </div>
 {% endblock %}
@@ -171,7 +177,6 @@
         document.getElementById('answer-text').textContent = questionData.answer;
         document.getElementById('explanation-text').textContent = questionData.explanation;
         answerArea.style.display = 'block';
-        document.getElementById('next-btn').disabled = false;
     });
     
     // Assegna i punti a una squadra

@@ -363,8 +363,8 @@ def assign_points():
     
     Richiesta JSON:
         {
-            "points": 5,  // 5, 3, 2, 1 per team in turno; 1 per bonus all'altra squadra
-            "team_id": "team-1"  // ID della squadra a cui assegnare i punti
+            "points": 5,  // 5, 3, 2, 1 per team in turno; 1 per bonus all'altra squadra; 0 per nessun punto
+            "team_id": "team-1"  // ID della squadra a cui assegnare i punti (non necessario se points=0)
         }
     """
     try:
@@ -372,12 +372,16 @@ def assign_points():
         points = data.get("points")
         team_id = data.get("team_id")
         
-        if points is None or not team_id:
+        if points is None:
             return jsonify({"success": False, "error": "Parametri mancanti"}), 400
         
         # Valida i punti
         if points not in [0, 1, 2, 3, 5]:
             return jsonify({"success": False, "error": "Punti non validi"}), 400
+        
+        # Se points > 0, team_id è obbligatorio
+        if points > 0 and not team_id:
+            return jsonify({"success": False, "error": "Team ID mancante"}), 400
         
         # Ottieni il game state
         game_state = get_game_state()
