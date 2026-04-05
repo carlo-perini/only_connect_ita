@@ -21,7 +21,6 @@
         <button 
             class="symbol-button {% if symbol.id in completed_symbol_ids %}completed{% endif %}"
             onclick="selectSymbol('{{ symbol.id }}')"
-            {% if symbol.id in completed_symbol_ids %}disabled{% endif %}
             title="{{ symbol.label or symbol.display }}"
         >
             <span class="symbol-display">{{ symbol.display }}</span>

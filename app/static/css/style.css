@@ -535,7 +535,7 @@ html, body {
     background-color: rgba(46, 204, 113, 0.15);
     border-color: var(--color-success);
     opacity: 0.7;
-    cursor: not-allowed;
+    cursor: pointer;
 }
 
 .symbol-button:disabled {

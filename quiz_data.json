@@ -13,12 +13,12 @@
   ],
   "connections": {
     "symbols": [
-      {"id": "sym-001", "display": "♀", "label": "Venere"},
-      {"id": "sym-002", "display": "☿", "label": "Mercurio"},
-      {"id": "sym-003", "display": "♃", "label": "Giove"},
-      {"id": "sym-004", "display": "♄", "label": "Saturno"},
-      {"id": "sym-005", "display": "♅", "label": "Urano"},
-      {"id": "sym-006", "display": "♆", "label": "Nettuno"}
+      {"id": "sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "sym-006", "display": "𓂀", "label": "Occhio di Horus"}
     ],
     "questions": {
       "sym-001": {

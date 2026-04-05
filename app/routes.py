@@ -60,7 +60,9 @@ def init_game_state():
             'current_team_index': 0,
             'teams_scores': teams_scores,  # Punteggio globale di partita
             'points_assigned_for_current_question': False,
-            'completed_rounds': {}  # Traccia quali round sono completati
+            'completed_rounds': {},  # Traccia quali round sono completati
+            'symbol_points_history': {},  # Traccia i punti assegnati a ciascun simbolo
+            'symbol_team_history': {}  # Traccia il team che ha giocato ogni simbolo
         }
         session.modified = True
     except Exception as e:
@@ -303,9 +305,30 @@ def round_question(round_type, symbol_id):
         
         # Ottieni il game state
         game_state = get_game_state()
-        current_team_index = game_state.get('current_team_index', 0)
         teams_scores = game_state.get('teams_scores', [])
-        current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None
+        
+        # Controlla se il simbolo è già stato giocato (è una modifica)
+        is_modification = False
+        modification_team = None
+        if 'completed_symbols' in session and round_type in session['completed_symbols']:
+            if symbol_id in session['completed_symbols'][round_type]:
+                is_modification = True
+                # Estrai il team che ha giocato per primo da symbol_points_history
+                symbol_points_history = game_state.get('symbol_points_history', {})
+                if round_type in symbol_points_history and symbol_id in symbol_points_history[round_type]:
+                    original_team_id = symbol_points_history[round_type][symbol_id].get('original_team_id')
+                    # Trova il team con questo ID
+                    for team in teams_scores:
+                        if team['team_id'] == original_team_id:
+                            modification_team = team
+                            break
+        
+        # Se è una modifica, usa il team originale; altrimenti usa il team alternato
+        if is_modification:
+            current_team = modification_team
+        else:
+            current_team_index = game_state.get('current_team_index', 0)
+            current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None
         
         template = f"{round_type}.html"
         
@@ -320,7 +343,8 @@ def round_question(round_type, symbol_id):
             current_team=current_team,
             game_state=game_state,
             teams_scores=teams_scores,
-            total_time=total_time
+            total_time=total_time,
+            is_modification=is_modification
         )
     
     except QuizLoadError as e:
@@ -333,6 +357,8 @@ def round_question(round_type, symbol_id):
 def mark_symbol_complete():
     """
     Segna un simbolo come completato.
+    Permette la modifica retroattiva: se un simbolo era già completato,
+    non alterna il team (solo salva i nuovi punti).
     
     Richiesta JSON:
         {
@@ -363,26 +389,29 @@ def mark_symbol_complete():
         if round_type not in session['completed_symbols']:
             session['completed_symbols'][round_type] = []
         
-        if symbol_id not in session['completed_symbols'][round_type]:
+        # Controlla se il simbolo era già completato (è una modifica retroattiva)
+        is_modification = symbol_id in session['completed_symbols'][round_type]
+        
+        if not is_modification:  # Nuovo simbolo
             session['completed_symbols'][round_type].append(symbol_id)
             
-            # Alterna il team di turno
+            # Alterna il team di turno solo se è la prima volta
             teams_scores = game_state.get('teams_scores', [])
             current_index = game_state.get('current_team_index', 0)
             next_index = (current_index + 1) % len(teams_scores)
             game_state['current_team_index'] = next_index
-            
-            # Reset del flag per la prossima domanda
-            game_state['points_assigned_for_current_question'] = False
             
             # Controlla se il round è completato (tutti i 6 simboli)
             if len(session['completed_symbols'][round_type]) == 6:
                 completed_rounds = game_state.get('completed_rounds', {})
                 completed_rounds[round_type] = True
                 game_state['completed_rounds'] = completed_rounds
-            
-            session['game_state'] = game_state
-            session.modified = True
+        # Se è una modifica, NON alterniamo il team — solo salviamo i nuovi punti
+        
+        # Reset del flag per la prossima domanda
+        game_state['points_assigned_for_current_question'] = False
+        session['game_state'] = game_state
+        session.modified = True
         
         return jsonify({"success": True})
     
@@ -394,17 +423,22 @@ def mark_symbol_complete():
 def assign_points():
     """
     Assegna punti a una squadra per la domanda corrente.
+    Permette la modifica retroattiva: sottrae i vecchi punti e aggiunge i nuovi.
     
     Richiesta JSON:
         {
             "points": 5,  // 5, 3, 2, 1 per team in turno; 1 per bonus all'altra squadra; 0 per nessun punto
-            "team_id": "team-1"  // ID della squadra a cui assegnare i punti (non necessario se points=0)
+            "team_id": "team-1",  // ID della squadra a cui assegnare i punti (non necessario se points=0)
+            "round_type": "connections",  // Tipo di round (per storico)
+            "symbol_id": "sym-001"  // ID del simbolo (per storico)
         }
     """
     try:
         data = request.get_json()
         points = data.get("points")
         team_id = data.get("team_id")
+        round_type = data.get("round_type")
+        symbol_id = data.get("symbol_id")
         
         if points is None:
             return jsonify({"success": False, "error": "Parametri mancanti"}), 400
@@ -421,11 +455,43 @@ def assign_points():
         game_state = get_game_state()
         teams_scores = game_state.get('teams_scores', [])
         
-        # Trova il team e assegna i punti
-        for team_score in teams_scores:
-            if team_score['team_id'] == team_id:
-                team_score['score'] += points
-                break
+        # Traccia la cronologia dei punteggi (per permettere modifiche retroattive)
+        symbol_points_history = game_state.get('symbol_points_history', {})
+        if round_type and symbol_id:
+            if round_type not in symbol_points_history:
+                symbol_points_history[round_type] = {}
+            
+            # Recupera i vecchi punti per questo simbolo (se esiste una modifica)
+            old_points_data = symbol_points_history[round_type].get(symbol_id, {})
+            old_points = old_points_data.get('points', 0)
+            old_team_id = old_points_data.get('team_id', None)
+            original_team_id = old_points_data.get('original_team_id', None)  # Team che ha giocato per primo
+            
+            # Se è una modifica, togli i vecchi punti
+            if old_points > 0 and old_team_id:
+                for team_score in teams_scores:
+                    if team_score['team_id'] == old_team_id:
+                        team_score['score'] -= old_points
+                        break
+            
+            # Se è la prima volta, registra il team che ha giocato
+            if not original_team_id:
+                original_team_id = team_id
+            
+            # Traccia i nuovi punti
+            symbol_points_history[round_type][symbol_id] = {
+                'points': points,
+                'team_id': team_id,
+                'original_team_id': original_team_id  # Team che ha giocato per primo
+            }
+            game_state['symbol_points_history'] = symbol_points_history
+        
+        # Trova il team e assegna i nuovi punti
+        if points > 0 and team_id:
+            for team_score in teams_scores:
+                if team_score['team_id'] == team_id:
+                    team_score['score'] += points
+                    break
         
         # Setta il flag
         game_state['points_assigned_for_current_question'] = True

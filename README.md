@@ -358,14 +358,8 @@ pytest tests/ -v
 - **python-dotenv 1.0.0**: Configurazioni da .env
 - **pytest**: Testing
 
-## 🤝 Contributi
-
-Questo è un progetto personale. Sentiti libero di farla propria e modificarla!
-
-## 📞 Support
+## Supporto
 
 Se hai domande sulla struttura o come estenderla, vedi i commenti nel codice. Ogni file ha una docstring che spiega il suo ruolo.
 
 ---
-
-**Creato con ❤️ per giocare a Only Connect in italiano.**

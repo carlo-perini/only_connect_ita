@@ -58,23 +58,23 @@
         <div class="points-buttons">
             <div class="points-group">
                 <p>Team in turno:</p>
-                <button class="btn btn-success" onclick="assignPoints(5, '{{ current_team.team_id }}')">5 punti (1° indizio)</button>
-                <button class="btn btn-success" onclick="assignPoints(3, '{{ current_team.team_id }}')">3 punti (2° indizio)</button>
-                <button class="btn btn-success" onclick="assignPoints(2, '{{ current_team.team_id }}')">2 punti (3° indizio)</button>
-                <button class="btn btn-success" onclick="assignPoints(1, '{{ current_team.team_id }}')">1 punto (4° indizio)</button>
+                <button class="btn btn-success" onclick="assignPoints(5, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">5 punti (1° indizio)</button>
+                <button class="btn btn-success" onclick="assignPoints(3, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">3 punti (2° indizio)</button>
+                <button class="btn btn-success" onclick="assignPoints(2, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">2 punti (3° indizio)</button>
+                <button class="btn btn-success" onclick="assignPoints(1, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">1 punto (4° indizio)</button>
             </div>
             
             <div class="points-group">
                 <p>Bonus (altra squadra):</p>
                 {% if teams_scores and teams_scores|length > 1 %}
                     {% set other_team = teams_scores[1] if current_team.team_id == teams_scores[0].team_id else teams_scores[0] %}
-                    <button class="btn btn-info" onclick="assignPoints(1, '{{ other_team.team_id }}')">1 punto bonus ({{ other_team.team_name }})</button>
+                    <button class="btn btn-info" onclick="assignPoints(1, '{{ other_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">1 punto bonus ({{ other_team.team_name }})</button>
                 {% endif %}
             </div>
             
             <div class="points-group">
                 <p>NESSUNA SQUADRA HA RISPOSTO CORRETTAMENTE:</p>
-                <button class="btn btn-secondary" onclick="assignPoints(0, null)">Nessun punto assegnato</button>
+                <button class="btn btn-secondary" onclick="assignPoints(0, null, '{{ round_type }}', '{{ symbol_id }}')">Nessun punto assegnato</button>
             </div>
         </div>
         
@@ -108,6 +108,7 @@
     const roundType = "{{ round_type or 'connections' }}";
     const gameState = {{ game_state | tojson }};
     const currentTeamId = "{{ current_team.team_id if current_team else '' }}";
+    const isModification = {{ 'true' if is_modification else 'false' }};
     
     let currentClueIndex = 0; // Quale clue mostrare (0-indexed)
     let pointsAssigned = gameState.points_assigned_for_current_question || false;
@@ -172,13 +173,15 @@
     });
     
     // Assegna i punti a una squadra
-    function assignPoints(points, teamId) {
+    function assignPoints(points, teamId, roundType, symbolId) {
         fetch('/api/assign-points', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 points: points,
-                team_id: teamId
+                team_id: teamId,
+                round_type: roundType,
+                symbol_id: symbolId
             })
         })
         .then(response => response.json())
@@ -190,16 +193,13 @@
                 const statusEl = document.getElementById('points-status');
                 const statusText = document.getElementById('status-text');
                 if (points === 0) {
-                    statusText.textContent = '✓ Nessun punto assegnato';
+                    statusText.textContent = '✓ Nessun punto assegnato (puoi modificare)';
                 } else {
-                    statusText.textContent = `✓ ${points} punto/i assegnato/i`;
+                    statusText.textContent = `✓ ${points} punto/i assegnato/i (puoi modificare)`;
                 }
                 statusEl.style.display = 'block';
                 
-                // Disabilita i bottoni di assegnazione
-                document.querySelectorAll('.points-buttons button').forEach(btn => {
-                    btn.disabled = true;
-                });
+                // NON disabilitiamo i bottoni - permette la modifica retroattiva
                 
                 // Abilita il bottone "Torna ai Simboli"
                 if (document.getElementById('back-btn')) {
@@ -255,10 +255,30 @@
     }
     
     // Inizializzazione
+    if (isModification) {
+        // Se è una modifica: mostra tutti gli indizi e la risposta
+        currentClueIndex = questionData.clues.length - 1;
+        
+        // Mostra la risposta subito
+        const answerArea = document.getElementById('answer-area');
+        document.getElementById('answer-text').textContent = questionData.answer;
+        document.getElementById('explanation-text').textContent = questionData.explanation;
+        answerArea.style.display = 'block';
+        
+        // Disabilita il bottone "Prossimo Indizio"
+        document.getElementById('reveal-btn').disabled = true;
+        document.getElementById('reveal-btn').textContent = 'Tutti gli indizi mostrati (modifica)';
+        
+        // Disabilita il bottone "Mostra Risposta"
+        document.getElementById('show-answer-btn').disabled = true;
+        document.getElementById('show-answer-btn').textContent = 'Risposta (modifica)';
+    }
+    
     updateCluesDisplay();
     updateBackButtonState();
     
-    // Avvia il timer del round
+    // Avvia il timer del round SOLO se è la prima volta
+    if (!isModification) {
     const timerElement = document.getElementById('timer');
     if (timerElement && timerElement.dataset.totalTime) {
         const totalTime = parseInt(timerElement.dataset.totalTime);
@@ -282,5 +302,6 @@
         );
         roundTimer.start();
     }
+    } // Fine del if (!isModification)
 </script>
 {% endblock %}
