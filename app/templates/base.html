@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060a1f">
     <title>{% block title %}Only Connect - Italia{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <div class="app-container">
-        {% block content %}{% endblock %}
+<body class="oc-theme">
+    <div class="app-shell">
+        <div class="bg-orbit bg-orbit-1"></div>
+        <div class="bg-orbit bg-orbit-2"></div>
+        <div class="app-container">
+            {% block content %}{% endblock %}
+        </div>
     </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block scripts %}{% endblock %}
