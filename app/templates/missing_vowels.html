@@ -75,9 +75,6 @@
         
         <!-- Bottoni di navigazione parole -->
         <div class="mv-nav-buttons">
-            <button class="btn btn-warning" id="show-answer-btn" onclick="mvShowAnswer()">
-                Mostra Risposta
-            </button>
             <button class="btn btn-primary" id="next-word-btn" onclick="mvNextWord()">
                 Prossima Parola →
             </button>
@@ -137,15 +134,13 @@
         }
     }
     
-    // Mostra la risposta corretta
-    function mvShowAnswer() {
+    // Mostra la risposta corretta automaticamente
+    function showAnswerAutomatically() {
         const category = categories[currentCategoryIndex];
         const word = category.words[currentWordIndex];
         
         document.getElementById('answer-text').textContent = word.answer;
         document.getElementById('answer-area').style.display = 'block';
-        document.getElementById('show-answer-btn').disabled = true;
-        document.getElementById('show-answer-btn').textContent = 'Risposta visibile';
     }
     
     // Assegna punti (+1 o -1)
@@ -166,6 +161,11 @@
                     const scoreEl = document.getElementById(`score-${team.team_id}`);
                     if (scoreEl) scoreEl.textContent = team.score;
                 });
+                
+                // Mostra la risposta automaticamente se è un punto positivo
+                if (points > 0) {
+                    showAnswerAutomatically();
+                }
                 
                 // Mostra status
                 const statusEl = document.getElementById('points-status');
@@ -189,6 +189,9 @@
     
     // Nessun punto assegnato
     function mvNoPoints() {
+        // Mostra la risposta automaticamente
+        showAnswerAutomatically();
+        
         const statusEl = document.getElementById('points-status');
         const statusText = document.getElementById('status-text');
         statusText.textContent = '— Nessun punto assegnato';
