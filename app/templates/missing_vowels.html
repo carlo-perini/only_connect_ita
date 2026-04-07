@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Only Connect - Vocali Mancanti{% endblock %}
+
+{% block content %}
+<div class="round-page missing-vowels-page">
+    <!-- Scoreboard durante il round -->
+    {% if teams_scores %}
+    <div class="round-scoreboard">
+        {% for team in teams_scores %}
+        <div class="score-card">
+            <span class="team-name">{{ team.team_name }}</span>
+            <span class="team-score" id="score-{{ team.team_id }}">{{ team.score }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="round-header">
+        <h1>Vocali Mancanti</h1>
+        <div class="timer-display" id="timer" data-total-time="{{ total_time }}"></div>
+    </div>
+    
+    <!-- Nome della categoria corrente -->
+    <div class="mv-category-display">
+        <h2 id="category-name"></h2>
+        <p class="mv-progress" id="progress-text"></p>
+    </div>
+    
+    <!-- Parola senza vocali -->
+    <div class="mv-word-display">
+        <div class="mv-word-card" id="word-card">
+            <p class="mv-word-text" id="word-display"></p>
+        </div>
+    </div>
+    
+    <!-- Risposta corretta (nascosta) -->
+    <div class="answer-display" id="answer-area" style="display: none;">
+        <div class="answer-box">
+            <p class="answer-text" id="answer-text"></p>
+        </div>
+    </div>
+    
+    <!-- Sezione Assegnazione Punti -->
+    {% if teams_scores %}
+    <div class="scoring-section mv-scoring" id="scoring-section">
+        <div class="points-buttons mv-points-buttons">
+            <!-- Punti positivi -->
+            <div class="points-group">
+                <p>Punto diretto:</p>
+                {% for team in teams_scores %}
+                <button class="btn btn-success mv-btn" onclick="mvAssignPoints(1, '{{ team.team_id }}')">
+                    +1 {{ team.team_name }}
+                </button>
+                {% endfor %}
+                <button class="btn btn-secondary mv-btn" onclick="mvNoPoints()">
+                    Nessun punto
+                </button>
+            </div>
+            
+            <!-- Penalità -->
+            <div class="points-group">
+                <p>Penalità (risposta sbagliata):</p>
+                {% for team in teams_scores %}
+                <button class="btn btn-danger mv-btn" onclick="mvAssignPoints(-1, '{{ team.team_id }}')">
+                    -1 {{ team.team_name }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="points-status" id="points-status" style="display: none;">
+            <p id="status-text"></p>
+        </div>
+        
+        <!-- Bottoni di navigazione parole -->
+        <div class="mv-nav-buttons">
+            <button class="btn btn-warning" id="show-answer-btn" onclick="mvShowAnswer()">
+                Mostra Risposta
+            </button>
+            <button class="btn btn-primary" id="next-word-btn" onclick="mvNextWord()">
+                Prossima Parola →
+            </button>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="nav-buttons">
+        <a href="/" class="btn btn-secondary">← Torna alla Home</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Dati del round (passati dal template)
+    const categories = {{ categories | tojson }};
+    const gameState = {{ game_state | tojson }};
+    
+    let currentCategoryIndex = 0;
+    let currentWordIndex = 0;
+    let roundFinished = false;
+    
+    // Mostra la parola corrente
+    function updateDisplay() {
+        if (roundFinished) return;
+        
+        const category = categories[currentCategoryIndex];
+        const word = category.words[currentWordIndex];
+        
+        // Aggiorna categoria e progresso
+        document.getElementById('category-name').textContent = category.category_name;
+        document.getElementById('progress-text').textContent = 
+            `Categoria ${currentCategoryIndex + 1}/${categories.length} — Parola ${currentWordIndex + 1}/${category.words.length}`;
+        
+        // Mostra la parola senza vocali
+        document.getElementById('word-display').textContent = word.display;
+        
+        // Nascondi la risposta
+        document.getElementById('answer-area').style.display = 'none';
+        document.getElementById('show-answer-btn').disabled = false;
+        document.getElementById('show-answer-btn').textContent = 'Mostra Risposta';
+        
+        // Nascondi lo status
+        document.getElementById('points-status').style.display = 'none';
+        
+        // Aggiorna il testo del bottone "prossima parola"
+        const isLastWord = currentCategoryIndex === categories.length - 1 && 
+                          currentWordIndex === category.words.length - 1;
+        const nextBtn = document.getElementById('next-word-btn');
+        if (isLastWord) {
+            nextBtn.textContent = 'Termina Round';
+        } else if (currentWordIndex === category.words.length - 1) {
+            nextBtn.textContent = 'Prossima Categoria →';
+        } else {
+            nextBtn.textContent = 'Prossima Parola →';
+        }
+    }
+    
+    // Mostra la risposta corretta
+    function mvShowAnswer() {
+        const category = categories[currentCategoryIndex];
+        const word = category.words[currentWordIndex];
+        
+        document.getElementById('answer-text').textContent = word.answer;
+        document.getElementById('answer-area').style.display = 'block';
+        document.getElementById('show-answer-btn').disabled = true;
+        document.getElementById('show-answer-btn').textContent = 'Risposta visibile';
+    }
+    
+    // Assegna punti (+1 o -1)
+    function mvAssignPoints(points, teamId) {
+        fetch('/api/missing-vowels/assign-points', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                points: points,
+                team_id: teamId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Aggiorna i punteggi nella UI
+                data.teams_scores.forEach(team => {
+                    const scoreEl = document.getElementById(`score-${team.team_id}`);
+                    if (scoreEl) scoreEl.textContent = team.score;
+                });
+                
+                // Mostra status
+                const statusEl = document.getElementById('points-status');
+                const statusText = document.getElementById('status-text');
+                const teamName = data.teams_scores.find(t => t.team_id === teamId)?.team_name || teamId;
+                if (points > 0) {
+                    statusText.textContent = `✓ +${points} punto a ${teamName}`;
+                } else {
+                    statusText.textContent = `✗ ${points} punto a ${teamName}`;
+                }
+                statusEl.style.display = 'block';
+            } else {
+                alert('Errore: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Errore:', error);
+            alert('Errore nell\'assegnazione dei punti');
+        });
+    }
+    
+    // Nessun punto assegnato
+    function mvNoPoints() {
+        const statusEl = document.getElementById('points-status');
+        const statusText = document.getElementById('status-text');
+        statusText.textContent = '— Nessun punto assegnato';
+        statusEl.style.display = 'block';
+    }
+    
+    // Passa alla prossima parola o categoria
+    function mvNextWord() {
+        const category = categories[currentCategoryIndex];
+        
+        if (currentWordIndex < category.words.length - 1) {
+            // Prossima parola nella stessa categoria
+            currentWordIndex++;
+        } else if (currentCategoryIndex < categories.length - 1) {
+            // Prossima categoria
+            currentCategoryIndex++;
+            currentWordIndex = 0;
+        } else {
+            // Round terminato!
+            mvFinishRound();
+            return;
+        }
+        
+        updateDisplay();
+    }
+    
+    // Termina il round
+    function mvFinishRound() {
+        roundFinished = true;
+        
+        fetch('/api/missing-vowels/complete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = '/';
+            }
+        })
+        .catch(error => console.error('Errore:', error));
+    }
+    
+    // Inizializzazione
+    updateDisplay();
+    
+    // Timer globale per tutto il round
+    const timerElement = document.getElementById('timer');
+    if (timerElement && timerElement.dataset.totalTime) {
+        const totalTime = parseInt(timerElement.dataset.totalTime);
+        const roundTimer = new RoundTimer(totalTime, 
+            function onTick(remainingSeconds) {
+                timerElement.textContent = formatTime(remainingSeconds);
+                
+                timerElement.classList.remove('warning', 'critical');
+                if (remainingSeconds <= 10) {
+                    timerElement.classList.add('critical');
+                } else if (remainingSeconds <= 30) {
+                    timerElement.classList.add('warning');
+                }
+            },
+            function onComplete() {
+                timerElement.textContent = '00:00';
+                timerElement.classList.remove('warning', 'critical');
+                console.log('⏰ Tempo scaduto!');
+            }
+        );
+        roundTimer.start();
+    }
+</script>
+{% endblock %}

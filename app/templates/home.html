@@ -60,12 +60,19 @@
             </a>
         </div>
         
-        <div class="menu-card">
+        <div class="menu-card {% if completed_rounds.get('missing_vowels') %}round-completed{% endif %}">
             <h2>Vocali Mancanti</h2>
             <p>Riconosci le frasi senza le vocali.</p>
-            <a href="#" class="btn btn-primary disabled" title="Prossimamente">
-                TODO
+            {% if completed_rounds.get('missing_vowels') %}
+            <span class="completed-badge">✓ Completato</span>
+            <a href="#" class="btn btn-primary disabled_custom" title="Round già completato">
+                Completato
             </a>
+            {% else %}
+            <a href="/round/missing_vowels" class="btn btn-primary">
+                Inizia
+            </a>
+            {% endif %}
         </div>
     </div>
     

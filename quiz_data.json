@@ -51,5 +51,49 @@
       "seq-sym-005": {"id": "seq-005", "clues": [{"type": "text", "value": "Rosso + Blu", "label": "Colore 1"}, {"type": "text", "value": "Rosso + Giallo", "label": "Colore 2"}, {"type": "text", "value": "Blu + Giallo", "label": "Colore 3"}], "answer": "Verde", "sequence_rule": "Colori secondari", "explanation": "Viola, Arancione, Verde seguono la miscelazione di colori primari."},
       "seq-sym-006": {"id": "seq-006", "clues": [{"type": "text", "value": "1, 1", "label": "Termini 1-2"}, {"type": "text", "value": "2, 3", "label": "Termini 3-4"}, {"type": "text", "value": "5, 8", "label": "Termini 5-6"}], "answer": "13", "sequence_rule": "Sequenza di Fibonacci", "explanation": "1, 1, 2, 3, 5, 8, 13... è la sequenza Fibonacci."}
     }
+  },
+  "missing_vowels": {
+    "categories": [
+      {
+        "id": "mv-cat-001",
+        "category_name": "Capitali europee",
+        "words": [
+          {"answer": "Londra", "display": "LN DR"},
+          {"answer": "Parigi", "display": "PR G"},
+          {"answer": "Berlino", "display": "BR LN"},
+          {"answer": "Madrid", "display": "MDR D"}
+        ]
+      },
+      {
+        "id": "mv-cat-002",
+        "category_name": "Animali domestici",
+        "words": [
+          {"answer": "Gatto", "display": "G TT"},
+          {"answer": "Cane", "display": "CN"},
+          {"answer": "Coniglio", "display": "CN GL"},
+          {"answer": "Criceto", "display": "CR CT"}
+        ]
+      },
+      {
+        "id": "mv-cat-003",
+        "category_name": "Piatti italiani",
+        "words": [
+          {"answer": "Carbonara", "display": "CR BN R"},
+          {"answer": "Lasagna", "display": "LS GN"},
+          {"answer": "Tiramisù", "display": "TR MS"},
+          {"answer": "Risotto", "display": "RS TT"}
+        ]
+      },
+      {
+        "id": "mv-cat-004",
+        "category_name": "Pianeti del sistema solare",
+        "words": [
+          {"answer": "Mercurio", "display": "MR CR"},
+          {"answer": "Giove", "display": "GV"},
+          {"answer": "Saturno", "display": "ST RN"},
+          {"answer": "Nettuno", "display": "NT TN"}
+        ]
+      }
+    ]
   }
 }

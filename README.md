@@ -57,8 +57,8 @@ only-connect-ita/
 │   │   ├── home.html        # Home page
 │   │   ├── connections.html # Round Connessioni
 │   │   ├── sequence.html    # Round Sequenza
+│   │   ├── missing_vowels.html # Round Vocali Mancanti
 │   │   ├── wall.html        # Round Muro (TODO)
-│   │   └── missing_vowels.html # Round Vocali Mancanti (TODO)
 │   └── static/              # File statici (CSS, JS, media)
 │       ├── css/style.css
 │       ├── js/main.js
@@ -106,9 +106,35 @@ Il file `quiz_data.json` contiene tutte le domande organizzate per round con gri
   },
   "sequence": {
     // ... stessa struttura ma con 3 clue per domanda
+  },
+  "missing_vowels": {
+    "categories": [
+      {
+        "id": "mv-cat-001",
+        "category_name": "Capitali europee",
+        "words": [
+          {"answer": "Londra", "display": "LN DR"},
+          {"answer": "Parigi", "display": "PR G"},
+          {"answer": "Berlino", "display": "BR LN"},
+          {"answer": "Madrid", "display": "MDR D"}
+        ]
+      }
+      // ... esattamente 4 categorie con 4 parole ciascuna
+    ]
   }
 }
 ```
+
+### Format Vocali Mancanti
+- **id**: ID unico della categoria (es: "mv-cat-001")
+- **category_name**: Nome della categoria mostrato ai concorrenti
+- **words**: Lista di 4 parole, ciascuna con:
+  - **answer**: La parola/frase corretta con le vocali
+  - **display**: La versione senza vocali con spaziature modificate (inserita a mano)
+
+Esempio di rimozione vocali:
+- "Carbonara" → `CR BN R`
+- "Tiramisù" → `TR MS`
 
 ### Format dei Simboli
 - **id**: ID unico del simbolo (es: "sym-001", "seq-sym-001")
@@ -117,24 +143,28 @@ Il file `quiz_data.json` contiene tutte le domande organizzate per round con gri
 Esempio:
 - Astrologia: ♀ ♂ ☿ ♃ ♄ ♅ ♆ ♇
 
-### 3. Sessioni e Tracciamento Simboli
+### 3. Sessioni e Tracciamento
 
-L'app usa le **Flask sessions** per tracciare i simboli già completati durante il round:
+L'app usa il **game_state** nella sessione Flask per tracciare lo stato globale della partita:
 
 ```python
-# Quando torna ai simboli, il sistema salva:
-session['completed_symbols'] = {
+# I simboli completati sono persistenti per tutta la partita
+game_state['completed_symbols'] = {
     'connections': ['sym-001', 'sym-002'],
     'sequence': ['seq-sym-001']
+}
+# Il round Vocali Mancanti è completato
+game_state['completed_rounds'] = {
+    'missing_vowels': True
 }
 ```
 
 I simboli completati sono:
 - marcati con un checkmark verde
-- 🚫 Disabilitati (non cliccabili)
-- solo visibili per il round corrente
+- Cliccabili per **modificare il punteggio** (modifica retroattiva)
+- Persistenti anche tornando alla home e rientrando nel round
 
-Quando si torna alla home, la sessione si resetta.
+I punteggi assegnati sono tracciati in `symbol_points_history` per permettere correzioni.
 
 ### 4. Aggiungere Simboli Personalizzati
 
@@ -173,9 +203,10 @@ Nel JSON, referenzia i file con percorsi relativi:
 
 L'app valida il `quiz_data.json` all'avvio. Controlla:
 
-- ✅ Esattamente 6 simboli per round
+- ✅ Esattamente 6 simboli per round (Connessioni e Sequenza)
 - ✅ Esattamente 6 domande (una per simbolo)
 - ✅ 4 clue per Connessioni, 3 per Sequenze
+- ✅ 4 categorie con 4 parole ciascuna per Vocali Mancanti
 - ✅ I file media referenziati esistano
 
 Se c'è un errore:
@@ -207,6 +238,25 @@ Ogni round ha **6 domande**, ognuna associata a un **simbolo Unicode** in una gr
 - **Griglia**: 6 simboli, 3 indizi per domanda
 - **Meccanica**: La squadra deve indovinare il quarto elemento
 - **Risposta**: Manuale (il conduttore decide)
+
+### Vocali Mancanti
+- **Struttura**: 4 categorie con 4 parole ciascuna (16 parole totali)
+- **Timer**: Globale per tutto il round (default 3 minuti)
+- **Turni**: Entrambe le squadre giocano contemporaneamente (nessuna alternanza)
+- **Meccanica**: Il conduttore mostra la parola senza vocali, le squadre rispondono a voce
+
+#### Flusso del round:
+1. 🏁 **Inizio** — Timer di 3 minuti parte
+2. 📂 **Categoria** — Viene mostrato il nome della categoria
+3. 🔤 **Parola** — La parola senza vocali appare (es: `LN DR`)
+4. 💭 **Squadre rispondono** — Entrambe le squadre possono rispondere
+5. ✅ **Punteggio** — Il conduttore assegna i punti:
+   - `+1` alla squadra che risponde correttamente
+   - `Nessun punto` se nessuno risponde
+   - `-1` penalità se una squadra sbaglia
+   - Dopo una penalità, l'altra squadra può provare a rispondere (+1)
+6. ➡️ **Prossima parola** — Clicca per avanzare
+7. 🔁 **Ripeti** — Fino a 16 parole completate o tempo scaduto
 
 ## 💡 Spiegazione dell'architettura
 
@@ -271,10 +321,10 @@ Modifica `config.py`:
 ```python
 # Timeout di default per i round (secondi)
 DEFAULT_TIMERS = {
-    "connections": 40,
-    "sequence": 40,
-    "wall": 120,
-    "missing_vowels": 30,
+    "connections": 45,
+    "sequence": 45,
+    "wall": 180,
+    "missing_vowels": 180,  # 3 minuti per tutto il round
 }
 
 # Debug mode
@@ -329,10 +379,12 @@ pytest tests/ -v
 - [x] Caricamento JSON con validazione
 - [x] Round Connessioni + Sequenza
 - [x] UI base con CSS scuro
+- [x] Modifica retroattiva punteggi
+- [x] Persistenza simboli completati nella sessione di gioco
+- [x] Round Vocali Mancanti
 
 ### Fase 2 (TODO)
 - [ ] Round Muro delle Connessioni
-- [ ] Round Vocali Mancanti
 - [ ] Tabellone punteggi persistente
 - [ ] Sound effects (correct.mp3, wrong.mp3, etc) temporizzati
 - [ ] Logo Only connect visibile

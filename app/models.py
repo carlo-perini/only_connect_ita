@@ -107,6 +107,38 @@ class RoundSymbols(BaseModel):
         return v
 
 
+class MissingVowelsWord(BaseModel):
+    """Una parola nel round Vocali Mancanti."""
+    answer: str = Field(..., description="La parola/frase corretta con le vocali")
+    display: str = Field(..., description="La versione senza vocali con spaziature modificate")
+
+
+class MissingVowelsCategory(BaseModel):
+    """Una categoria del round Vocali Mancanti con 4 parole."""
+    id: str = Field(..., description="ID unico della categoria")
+    category_name: str = Field(..., description="Nome della categoria (mostrato ai concorrenti)")
+    words: List[MissingVowelsWord] = Field(..., description="Lista di 4 parole")
+    
+    @validator("words")
+    def validate_words_count(cls, v):
+        """Ogni categoria deve avere esattamente 4 parole."""
+        if len(v) != 4:
+            raise ValueError(f"Vocali Mancanti: ogni categoria deve avere 4 parole, ricevute {len(v)}")
+        return v
+
+
+class MissingVowelsRound(BaseModel):
+    """Round Vocali Mancanti con 4 categorie."""
+    categories: List[MissingVowelsCategory] = Field(..., description="Lista di 4 categorie")
+    
+    @validator("categories")
+    def validate_categories_count(cls, v):
+        """Devono esserci esattamente 4 categorie."""
+        if len(v) != 4:
+            raise ValueError(f"Vocali Mancanti: devono esserci 4 categorie, ricevute {len(v)}")
+        return v
+
+
 class QuizData(BaseModel):
     """Contenitore principale del file quiz_data.json."""
     connections: Optional[RoundSymbols] = Field(
@@ -116,6 +148,10 @@ class QuizData(BaseModel):
     sequence: Optional[RoundSymbols] = Field(
         None,
         description="Round Sequenza con 6 simboli"
+    )
+    missing_vowels: Optional[MissingVowelsRound] = Field(
+        None,
+        description="Round Vocali Mancanti con 4 categorie da 4 parole"
     )
     teams: Optional[List[Dict]] = Field(
         None,
