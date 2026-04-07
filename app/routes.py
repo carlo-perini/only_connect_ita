@@ -9,7 +9,7 @@ Le rotte Flask gestiscono:
 5. La logica di navigazione
 """
 
-from flask import Blueprint, render_template, request, jsonify, session
+from flask import Blueprint, render_template, request, jsonify, session, redirect
 from pathlib import Path
 import sys
 
@@ -61,6 +61,7 @@ def init_game_state():
             'teams_scores': teams_scores,  # Punteggio globale di partita
             'points_assigned_for_current_question': False,
             'completed_rounds': {},  # Traccia quali round sono completati
+            'completed_symbols': {},  # Traccia i simboli completati per round (globale per la partita)
             'symbol_points_history': {},  # Traccia i punti assegnati a ciascun simbolo
             'symbol_team_history': {}  # Traccia il team che ha giocato ogni simbolo
         }
@@ -81,10 +82,8 @@ def get_game_state():
 @bp.route("/")
 def home():
     """Home page dell'app."""
-    # Pulisci i simboli completati dal round precedente, NON resetiamo il game_state globale!
-    session.pop('completed_symbols', None)
-    
     # Ottieni il game state (con punteggio globale accumulato)
+    # I simboli completati rimangono tracciati nella sessione di gioco
     game_state = get_game_state()
     teams_scores = game_state.get('teams_scores', [])
     completed_rounds = game_state.get('completed_rounds', {})
@@ -100,7 +99,7 @@ def home():
 def choose_team(round_type):
     """
     Pagina di scelta del team iniziale.
-    Verifica se il round è già completato.
+    Verifica se il round è già completato o già iniziato.
     
     Args:
         round_type: 'connections' o 'sequence'
@@ -115,6 +114,7 @@ def choose_team(round_type):
         # Ottieni il game state
         game_state = get_game_state()
         completed_rounds = game_state.get('completed_rounds', {})
+        completed_symbols = game_state.get('completed_symbols', {})
         
         # Controlla se il round è già completato
         if completed_rounds.get(round_type, False):
@@ -123,6 +123,11 @@ def choose_team(round_type):
                 round_type=round_type,
                 teams_scores=game_state.get('teams_scores', [])
             )
+        
+        # Controlla se il round è già iniziato (ha simboli completati)
+        if round_type in completed_symbols and len(completed_symbols[round_type]) > 0:
+            # Il round è già stato iniziato, vai direttamente alla griglia
+            return redirect(f"/round/{round_type}/symbols")
         
         # Ottieni i team
         teams = quiz_data.teams or []
@@ -141,6 +146,7 @@ def choose_team(round_type):
 def start_round(round_type, team_id):
     """
     Inizia il round con il team scelto e reindirizza alla griglia dei simboli.
+    NON resetta il game state se esiste già (preserva i simboli completati).
     
     Args:
         round_type: 'connections' o 'sequence'
@@ -153,14 +159,11 @@ def start_round(round_type, team_id):
         loader = get_quiz_loader()
         quiz_data = loader.load()
         
-        # Inizializza il game state
-        init_game_state()
-        
-        # Imposta il team iniziale
+        # Ottieni il game state (crea solo se non esiste)
         game_state = get_game_state()
         teams = quiz_data.teams or []
         
-        # Trova l'indice del team scelto
+        # Imposta il team iniziale
         team_index = 0
         for i, team in enumerate(teams):
             if team['id'] == team_id:
@@ -240,14 +243,16 @@ def round_symbols(round_type):
         # Prendi i simboli dal round
         symbols = [s.dict() for s in round_data.symbols]
         
-        # Inizializza la sessione con i simboli completati
-        if 'completed_symbols' not in session:
-            session['completed_symbols'] = {}
-        if round_type not in session['completed_symbols']:
-            session['completed_symbols'][round_type] = []
-        
         # Ottieni il game state
         game_state = get_game_state()
+        
+        # Inizializza la lista di simboli completati per questo round (se non esiste)
+        if 'completed_symbols' not in game_state:
+            game_state['completed_symbols'] = {}
+        if round_type not in game_state['completed_symbols']:
+            game_state['completed_symbols'][round_type] = []
+        
+        completed_symbol_ids = game_state['completed_symbols'][round_type]
         
         # Reset del flag per la nuova domanda
         game_state['points_assigned_for_current_question'] = False
@@ -263,7 +268,7 @@ def round_symbols(round_type):
             "round_symbols.html",
             round_type=round_type,
             symbols=symbols,
-            completed_symbol_ids=session['completed_symbols'][round_type],
+            completed_symbol_ids=completed_symbol_ids,
             current_team=current_team,
             game_state=game_state
         )
@@ -310,18 +315,18 @@ def round_question(round_type, symbol_id):
         # Controlla se il simbolo è già stato giocato (è una modifica)
         is_modification = False
         modification_team = None
-        if 'completed_symbols' in session and round_type in session['completed_symbols']:
-            if symbol_id in session['completed_symbols'][round_type]:
-                is_modification = True
-                # Estrai il team che ha giocato per primo da symbol_points_history
-                symbol_points_history = game_state.get('symbol_points_history', {})
-                if round_type in symbol_points_history and symbol_id in symbol_points_history[round_type]:
-                    original_team_id = symbol_points_history[round_type][symbol_id].get('original_team_id')
-                    # Trova il team con questo ID
-                    for team in teams_scores:
-                        if team['team_id'] == original_team_id:
-                            modification_team = team
-                            break
+        completed_symbols = game_state.get('completed_symbols', {})
+        if round_type in completed_symbols and symbol_id in completed_symbols[round_type]:
+            is_modification = True
+            # Estrai il team che ha giocato per primo da symbol_points_history
+            symbol_points_history = game_state.get('symbol_points_history', {})
+            if round_type in symbol_points_history and symbol_id in symbol_points_history[round_type]:
+                original_team_id = symbol_points_history[round_type][symbol_id].get('original_team_id')
+                # Trova il team con questo ID
+                for team in teams_scores:
+                    if team['team_id'] == original_team_id:
+                        modification_team = team
+                        break
         
         # Se è una modifica, usa il team originale; altrimenti usa il team alternato
         if is_modification:
@@ -384,16 +389,17 @@ def mark_symbol_complete():
         if not round_type or not symbol_id:
             return jsonify({"success": False, "error": "Parametri mancanti"}), 400
         
-        if 'completed_symbols' not in session:
-            session['completed_symbols'] = {}
-        if round_type not in session['completed_symbols']:
-            session['completed_symbols'][round_type] = []
+        # Inizializza completed_symbols nel game_state se non esiste
+        if 'completed_symbols' not in game_state:
+            game_state['completed_symbols'] = {}
+        if round_type not in game_state['completed_symbols']:
+            game_state['completed_symbols'][round_type] = []
         
         # Controlla se il simbolo era già completato (è una modifica retroattiva)
-        is_modification = symbol_id in session['completed_symbols'][round_type]
+        is_modification = symbol_id in game_state['completed_symbols'][round_type]
         
         if not is_modification:  # Nuovo simbolo
-            session['completed_symbols'][round_type].append(symbol_id)
+            game_state['completed_symbols'][round_type].append(symbol_id)
             
             # Alterna il team di turno solo se è la prima volta
             teams_scores = game_state.get('teams_scores', [])
@@ -402,7 +408,7 @@ def mark_symbol_complete():
             game_state['current_team_index'] = next_index
             
             # Controlla se il round è completato (tutti i 6 simboli)
-            if len(session['completed_symbols'][round_type]) == 6:
+            if len(game_state['completed_symbols'][round_type]) == 6:
                 completed_rounds = game_state.get('completed_rounds', {})
                 completed_rounds[round_type] = True
                 game_state['completed_rounds'] = completed_rounds
