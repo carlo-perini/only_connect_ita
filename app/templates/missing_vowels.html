@@ -21,29 +21,44 @@
         <div class="timer-display" id="timer" data-total-time="{{ total_time }}"></div>
     </div>
     
+    <!-- Bottone Avvia Round -->
+    <div id="start-round-section" class="start-round-section">
+        <button class="btn btn-primary btn-lg" id="start-round-btn">Avvia Round</button>
+    </div>
+    
     <!-- Nome della categoria corrente -->
-    <div class="mv-category-display">
+    <div class="mv-category-display" id="category-display" style="display: none;">
         <h2 id="category-name"></h2>
         <p class="mv-progress" id="progress-text"></p>
     </div>
     
-    <!-- Parola senza vocali -->
-    <div class="mv-word-display">
-        <div class="mv-word-card" id="word-card">
-            <p class="mv-word-text" id="word-display"></p>
+    <!-- Parola senza vocali e Risposta corretta (sulla stessa riga) -->
+    <div class="mv-clue-answer-wrapper" id="clue-answer-wrapper" style="display: none;">
+        <!-- Parola senza vocali -->
+        <div class="mv-word-display" id="word-display-section">
+            <div class="mv-word-card" id="word-card">
+                <p class="mv-word-text" id="word-display"></p>
+            </div>
+        </div>
+        
+        <!-- Risposta corretta (nascosta) -->
+        <div class="answer-display" id="answer-area" style="display: none;">
+            <div class="answer-box">
+                <p class="answer-text" id="answer-text"></p>
+            </div>
         </div>
     </div>
     
-    <!-- Risposta corretta (nascosta) -->
-    <div class="answer-display" id="answer-area" style="display: none;">
-        <div class="answer-box">
-            <p class="answer-text" id="answer-text"></p>
-        </div>
+    <!-- Bottone Prossima Parola (comparirà solo quando assegnati i punti) -->
+    <div class="mv-nav-buttons" id="next-word-section" style="display: none;">
+        <button class="btn btn-primary" id="next-word-btn" onclick="mvNextWord()">
+            Prossima Parola →
+        </button>
     </div>
     
     <!-- Sezione Assegnazione Punti -->
     {% if teams_scores %}
-    <div class="scoring-section mv-scoring" id="scoring-section">
+    <div class="scoring-section mv-scoring" id="scoring-section" style="display: none;">
         <div class="points-buttons mv-points-buttons">
             <!-- Punti positivi -->
             <div class="points-group">
@@ -71,13 +86,6 @@
         
         <div class="points-status" id="points-status" style="display: none;">
             <p id="status-text"></p>
-        </div>
-        
-        <!-- Bottoni di navigazione parole -->
-        <div class="mv-nav-buttons">
-            <button class="btn btn-primary" id="next-word-btn" onclick="mvNextWord()">
-                Prossima Parola →
-            </button>
         </div>
     </div>
     {% endif %}
@@ -175,6 +183,9 @@
                     statusText.textContent = `✗ ${points} punto a ${teamName}`;
                 }
                 statusEl.style.display = 'block';
+                
+                // Mostra il bottone "Prossima Parola"
+                document.getElementById('next-word-section').style.display = '';
             } else {
                 alert('Errore: ' + data.error);
             }
@@ -194,6 +205,9 @@
         const statusText = document.getElementById('status-text');
         statusText.textContent = '— Nessun punto assegnato';
         statusEl.style.display = 'block';
+        
+        // Mostra il bottone "Prossima Parola"
+        document.getElementById('next-word-section').style.display = '';
     }
     
     // Passa alla prossima parola o categoria
@@ -212,6 +226,9 @@
             mvFinishRound();
             return;
         }
+        
+        // Nascondi il bottone "Prossima Parola"
+        document.getElementById('next-word-section').style.display = 'none';
         
         updateDisplay();
     }
@@ -234,10 +251,16 @@
     }
     
     // Inizializzazione
-    updateDisplay();
+    // Non eseguire updateDisplay() finché non clicchi "Avvia Round"
     
     // Timer globale per tutto il round
     const timerElement = document.getElementById('timer');
+    const startRoundBtn = document.getElementById('start-round-btn');
+    const startRoundSection = document.getElementById('start-round-section');
+    const categoryDisplay = document.getElementById('category-display');
+    const clueAnswerWrapper = document.getElementById('clue-answer-wrapper');
+    const scoringSection = document.getElementById('scoring-section');
+    
     if (timerElement && timerElement.dataset.totalTime) {
         const totalTime = parseInt(timerElement.dataset.totalTime);
         const roundTimer = new RoundTimer(totalTime, 
@@ -257,7 +280,19 @@
                 console.log('⏰ Tempo scaduto!');
             }
         );
-        roundTimer.start();
+        
+        // Imposta l'audio del round
+        roundTimer.setAudio('/static/media/audio/connections_thinking.mp3');
+        
+        // Click su "Avvia Round": mostra contenuti, avvia timer + audio
+        startRoundBtn.addEventListener('click', function() {
+            startRoundSection.style.display = 'none';
+            categoryDisplay.style.display = '';
+            clueAnswerWrapper.style.display = '';
+            scoringSection.style.display = '';
+            updateDisplay();
+            roundTimer.start();
+        });
     }
 </script>
 {% endblock %}

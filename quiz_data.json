@@ -23,7 +23,12 @@
     "questions": {
       "sym-001": {
         "id": "conn-001",
-        "clues": [{"type": "image", "value": "images/MODIFICHE-WIKI.jpg", "label": "modifiche-wiki"}, {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 2"}, {"type": "text", "value": "Sono il colore del nostro sole", "label": "Indizio 3"}, {"type": "text", "value": "Il mio omonimo è un social network", "label": "Indizio 4"}],
+        "clues": [
+          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg", "label": "modifiche-wiki"},
+          {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 2"}, 
+          {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 3"}, 
+          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg", "label": "modifiche-wiki"}
+        ],
         "answer": "Arancia",
         "explanation": "Tutte le piste portano al concetto di 'Arancia'. La quarta pista è un gioco di parole con Orange (il social network)."
       },
@@ -44,7 +49,17 @@
       {"id": "seq-sym-006", "display": "𓂀", "label": "Occhio di Horus"}
     ],
     "questions": {
-      "seq-sym-001": {"id": "seq-001", "clues": [{"type": "text", "value": "Primo album Beatles (1963)", "label": "Album 1"}, {"type": "text", "value": "Secondo album Beatles (1964)", "label": "Album 2"}, {"type": "text", "value": "Terzo album Beatles (1965)", "label": "Album 3"}], "answer": "Help!", "sequence_rule": "Album Beatles in ordine cronologico", "explanation": "After Please Please Me, With the Beatles, A Hard Day's Night, arriva Help!"},
+      "seq-sym-001": 
+      {"id": "seq-001", 
+          "clues": [
+            {"type": "image", "value": "images/MODIFICHE-WIKI.jpg", "label": "modifiche-wiki"},
+            {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 2"}, 
+            {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 3"}
+          ],
+          "answer": "Arancia",
+          "sequence_rule": "Oggetti che appaiono in un certo ordine",
+          "explanation": "La sequenza di indizi porta al concetto di 'Arancia', con un gioco di parole finale su Orange (il social network)."
+      },
       "seq-sym-002": {"id": "seq-002", "clues": [{"type": "text", "value": "StarWars (1977)", "label": "Film 1"}, {"type": "text", "value": "Indiana Jones (1981)", "label": "Film 2"}, {"type": "text", "value": "Back to the Future (1985)", "label": "Film 3"}], "answer": "Gremlins", "sequence_rule": "Film celebri degli anni 80", "explanation": "Dopo i tre, nel 1984 esce Gremlins."},
       "seq-sym-003": {"id": "seq-003", "clues": [{"type": "text", "value": "2, 3, 5", "label": "Numeri 1-3"}, {"type": "text", "value": "7, 11, 13", "label": "Numeri 4-6"}, {"type": "text", "value": "17, 19, 23", "label": "Numeri 7-9"}], "answer": "29", "sequence_rule": "Numeri primi in ordine crescente", "explanation": "La sequenza di numeri primi continua: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29."},
       "seq-sym-004": {"id": "seq-004", "clues": [{"type": "text", "value": "Primo imperatore romano", "label": "Sovrano 1"}, {"type": "text", "value": "Seconda generazione di imperatori", "label": "Sovrano 2"}, {"type": "text", "value": "Terza generazione di imperatori", "label": "Sovrano 3"}], "answer": "Caligola", "sequence_rule": "Imperatori romani primi tre", "explanation": "Augusto, Tiberio, Caligola sono i primi tre."},

@@ -1108,6 +1108,28 @@ h1, h2, h3 {
 
 .mv-nav-buttons {
     display: flex;
+}
+
+/* Vocali Mancanti: parola e risposta sulla stessa riga */
+.mv-clue-answer-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.mv-clue-answer-wrapper .mv-word-display {
+    display: flex;
+    margin: 0;
+}
+
+.mv-clue-answer-wrapper .answer-display {
+    display: flex;
+    margin: 0;
+}
     gap: 0.75rem;
     justify-content: center;
     margin-top: 1.25rem;
