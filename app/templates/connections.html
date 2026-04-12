@@ -40,8 +40,8 @@
     
     <div class="answer-section" id="answer-section" style="display: none;">
         <!-- Il conduttore controlla manualmente la risposta -->
+        <button class="btn btn-secondary" id="reveal-btn">Prossimo indizio</button>
         <button class="btn btn-warning" id="show-answer-btn">Mostra risposta corretta</button>
-        <button class="btn btn-secondary" id="reveal-btn">Prossimo Indizio</button>
     </div>
     
     <div class="answer-display" id="answer-area" style="display: none;">
@@ -157,7 +157,10 @@
             cluesArea.appendChild(renderClue(clue, index));
         });
     }
-    
+
+    // Disabilita il pulsante "Mostra risposta corretta" inizialmente
+    document.getElementById('show-answer-btn').disabled = true;
+
     // Rivela il prossimo indizio
     document.getElementById('reveal-btn').addEventListener('click', function() {
         if (currentClueIndex < questionData.clues.length - 1) {
@@ -166,6 +169,7 @@
         }
         if (currentClueIndex === questionData.clues.length - 1) {
             this.disabled = true;
+            document.getElementById('show-answer-btn').disabled = false;  // ← Manca questa!
         }
     });
     

@@ -40,8 +40,8 @@
     
     <div class="answer-section" id="answer-section" style="display: none;">
         <!-- Il conduttore rivela gli indizi progressivamente -->
-        <button class="btn btn-secondary" id="next-clue-btn">Prossimo Indizio</button>
-        <button class="btn btn-warning" id="show-answer-btn">Mostra Risposta Corretta</button>
+        <button class="btn btn-secondary" id="next-clue-btn">Prossimo indizio</button>
+        <button class="btn btn-warning" id="show-answer-btn">Mostra risposta corretta</button>
     </div>
     
     <div class="answer-display" id="answer-area" style="display: none;">
@@ -158,6 +158,9 @@
             cluesArea.appendChild(renderClue(questionData.clues[i], i));
         }
     }
+
+     // Disabilita il pulsante "Mostra risposta corretta" inizialmente
+    document.getElementById('show-answer-btn').disabled = true;
     
     // Bottone "Prossimo Indizio" - rivela indizi uno per uno
     document.getElementById('next-clue-btn').addEventListener('click', function() {
@@ -169,6 +172,7 @@
         // Disabilita il bottone quando sono visibili tutti gli indizi
         if (currentClueIndex >= questionData.clues.length - 1) {
             this.disabled = true;
+            document.getElementById('show-answer-btn').disabled = false;  // ← Manca questa!
             this.textContent = 'Tutti gli indizi mostrati';
         }
     });
