@@ -25,9 +25,17 @@ AUDIO_DIR = MEDIA_DIR / "audio"
 DEFAULT_TIMERS = {
     "connections": 40,
     "sequence": 40,
-    "wall": 180,
+    "wall": 150,
     "missing_vowels": 180,
 }
+
+# Colori per le righe del Muro delle Connessioni (riga 1, 2, 3, 4)
+WALL_ROW_COLORS = [
+    "#6A4C93",   # Viola
+    "#1982C4",   # Blu
+    "#8AC926",   # Verde
+    "#FFCA3A",   # Giallo
+]
 
 # Modalità debug
 DEBUG = os.getenv("FLASK_ENV") == "development"

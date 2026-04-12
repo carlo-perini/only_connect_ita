@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+
+{% block title %}Only Connect - Muro delle Connessioni{% endblock %}
+
+{% block content %}
+<div class="round-page wall-page">
+    <!-- Scoreboard -->
+    {% if teams_scores %}
+    <div class="round-scoreboard">
+        {% for team in teams_scores %}
+        <div class="score-card">
+            <span class="team-name">{{ team.team_name }}</span>
+            <span class="team-score" id="score-{{ team.team_id }}">{{ team.score }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="round-header">
+        <h1>Muro delle Connessioni</h1>
+        <div class="timer-display" id="timer" data-total-time="{{ total_time }}"></div>
+    </div>
+    
+    <!-- Vite rimaste (visibili solo dopo 2 gruppi trovati) -->
+    <div class="wall-lives" id="wall-lives" style="display: none;">
+        <span>Tentativi rimasti: </span>
+        <span id="lives-count">3</span>
+    </div>
+    
+    <!-- Bottone Avvia Round -->
+    <div id="start-round-section" class="start-round-section">
+        <button class="btn btn-primary btn-lg" id="start-round-btn">Avvia Round</button>
+    </div>
+    
+    <!-- Griglia del Muro 4x4 -->
+    <div class="wall-grid" id="wall-grid" style="display: none;">
+        <!-- Le celle verranno generate da JavaScript -->
+    </div>
+    
+    <!-- Bottone per confermare la selezione -->
+    <div class="wall-actions" id="wall-actions" style="display: none;">
+        <button class="btn btn-primary" id="submit-group-btn" disabled>Conferma Gruppo</button>
+    </div>
+    
+    <!-- Carte delle connessioni (visibili a fine round) -->
+    <div class="wall-connections" id="wall-connections" style="display: none;">
+        <h2>Indovina le connessioni</h2>
+        <div class="wall-connection-cards" id="connection-cards">
+            <!-- Generate da JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Sezione Assegnazione Punti -->
+    {% if teams_scores %}
+    <div class="scoring-section" id="scoring-section" style="display: none;">
+        <h3>Assegna i Punti</h3>
+        <div class="points-buttons">
+            {% for team in teams_scores %}
+            <div class="points-group">
+                <p>{{ team.team_name }}:</p>
+                <button class="btn btn-success" onclick="wallAssignPoints(1, '{{ team.team_id }}')">+1</button>
+                <button class="btn btn-success" onclick="wallAssignPoints(2, '{{ team.team_id }}')">+2</button>
+                <button class="btn btn-success" onclick="wallAssignPoints(3, '{{ team.team_id }}')">+3</button>
+                <button class="btn btn-success" onclick="wallAssignPoints(4, '{{ team.team_id }}')">+4</button>
+            </div>
+            {% endfor %}
+            <div class="points-group">
+                <button class="btn btn-secondary" onclick="wallAssignPoints(0, null)">Nessun punto</button>
+            </div>
+        </div>
+        <div class="points-status" id="points-status" style="display: none;">
+            <p id="status-text"></p>
+        </div>
+        <div class="wall-finish">
+            <button class="btn btn-primary" id="finish-wall-btn" onclick="finishWall()">Termina Round</button>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="nav-buttons">
+        <a href="/" class="btn btn-secondary">← Torna alla Home</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Dati del muro
+    const groups = {{ groups | tojson }};
+    const wallColors = {{ wall_colors | tojson }};
+    
+    // Stato del gioco
+    let allItems = [];           // Tutti i 16 elementi mescolati
+    let selectedItems = [];      // Elementi attualmente selezionati
+    let solvedGroups = [];       // Gruppi già trovati (indice nel groups array)
+    let lives = 3;               // Tentativi rimasti (attivi dopo 2 gruppi trovati)
+    let livesActive = false;     // Le vite sono attive?
+    let roundTimer = null;       // Timer reference
+    let roundEnded = false;      // Round terminato?
+    
+    // Prepara tutti i 16 elementi con riferimento al gruppo
+    function initItems() {
+        allItems = [];
+        groups.forEach((group, groupIndex) => {
+            group.items.forEach(item => {
+                allItems.push({
+                    text: item,
+                    groupIndex: groupIndex,
+                    solved: false
+                });
+            });
+        });
+        // Mescola
+        shuffleArray(allItems);
+    }
+    
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+    }
+    
+    // Renderizza la griglia
+    function renderGrid() {
+        const grid = document.getElementById('wall-grid');
+        grid.innerHTML = '';
+        
+        // Prima: righe dei gruppi risolti (in ordine)
+        solvedGroups.forEach((groupIndex, rowIndex) => {
+            const group = groups[groupIndex];
+            group.items.forEach(item => {
+                const cell = document.createElement('div');
+                cell.className = 'wall-cell solved';
+                cell.style.backgroundColor = wallColors[rowIndex];
+                cell.textContent = item;
+                grid.appendChild(cell);
+            });
+        });
+        
+        // Poi: elementi non risolti
+        const unsolvedItems = allItems.filter(item => !item.solved);
+        unsolvedItems.forEach(item => {
+            const cell = document.createElement('div');
+            cell.className = 'wall-cell';
+            cell.textContent = item.text;
+            cell.dataset.text = item.text;
+            
+            if (selectedItems.includes(item.text)) {
+                cell.classList.add('selected');
+            }
+            
+            if (!roundEnded) {
+                cell.addEventListener('click', () => toggleSelection(item.text));
+            }
+            
+            grid.appendChild(cell);
+        });
+    }
+    
+    // Seleziona/deseleziona un elemento
+    function toggleSelection(text) {
+        if (roundEnded) return;
+        
+        const index = selectedItems.indexOf(text);
+        if (index > -1) {
+            selectedItems.splice(index, 1);
+        } else {
+            if (selectedItems.length < 4) {
+                selectedItems.push(text);
+            }
+        }
+        
+        // Abilita/disabilita il bottone di conferma
+        document.getElementById('submit-group-btn').disabled = selectedItems.length !== 4;
+        
+        renderGrid();
+    }
+    
+    // Conferma la selezione
+    function submitGroup() {
+        if (selectedItems.length !== 4 || roundEnded) return;
+        
+        // Verifica se i 4 elementi appartengono allo stesso gruppo
+        const firstItem = allItems.find(i => i.text === selectedItems[0]);
+        const targetGroup = firstItem.groupIndex;
+        
+        const allSameGroup = selectedItems.every(text => {
+            const item = allItems.find(i => i.text === text);
+            return item && item.groupIndex === targetGroup;
+        });
+        
+        if (allSameGroup) {
+            // Gruppo trovato!
+            solvedGroups.push(targetGroup);
+            
+            // Segna gli elementi come risolti
+            allItems.forEach(item => {
+                if (item.groupIndex === targetGroup) {
+                    item.solved = true;
+                }
+            });
+            
+            selectedItems = [];
+            document.getElementById('submit-group-btn').disabled = true;
+            
+            // Dopo 2 gruppi trovati, attiva le vite
+            if (solvedGroups.length === 2 && !livesActive) {
+                livesActive = true;
+                document.getElementById('wall-lives').style.display = '';
+            }
+            
+            // Tutti i 4 gruppi trovati?
+            if (solvedGroups.length === 4) {
+                endRound(false);
+            }
+            
+            renderGrid();
+        } else {
+            // Tentativo sbagliato
+            if (livesActive) {
+                lives--;
+                document.getElementById('lives-count').textContent = lives;
+                
+                if (lives <= 0) {
+                    // Fine dei tentativi
+                    endRound(true);
+                    return;
+                }
+            }
+            
+            // Deseleziona
+            selectedItems = [];
+            document.getElementById('submit-group-btn').disabled = true;
+            renderGrid();
+        }
+    }
+    
+    // Fine del round (timeout o vite finite)
+    function endRound(forced) {
+        roundEnded = true;
+        
+        // Ferma il timer visivo (portalo a 0 se forzato)
+        if (roundTimer) {
+            roundTimer._stopInterval();
+            if (forced) {
+                const timerEl = document.getElementById('timer');
+                timerEl.textContent = '00:00';
+                timerEl.classList.remove('warning', 'critical');
+            }
+        }
+        
+        // Risolvi automaticamente i gruppi non trovati
+        groups.forEach((group, groupIndex) => {
+            if (!solvedGroups.includes(groupIndex)) {
+                solvedGroups.push(groupIndex);
+                allItems.forEach(item => {
+                    if (item.groupIndex === groupIndex) {
+                        item.solved = true;
+                    }
+                });
+            }
+        });
+        
+        // Nascondi bottone conferma
+        document.getElementById('wall-actions').style.display = 'none';
+        document.getElementById('wall-lives').style.display = 'none';
+        
+        // Renderizza la griglia completa con colori
+        renderGrid();
+        
+        // Mostra le carte delle connessioni
+        showConnectionCards();
+    }
+    
+    // Mostra le 4 carte cliccabili per le connessioni
+    function showConnectionCards() {
+        const container = document.getElementById('connection-cards');
+        container.innerHTML = '';
+        
+        solvedGroups.forEach((groupIndex, rowIndex) => {
+            const group = groups[groupIndex];
+            
+            const card = document.createElement('div');
+            card.className = 'wall-connection-card';
+            card.style.borderColor = wallColors[rowIndex];
+            card.style.backgroundColor = wallColors[rowIndex] + '22';
+            
+            const itemsText = document.createElement('p');
+            itemsText.className = 'wall-card-items';
+            itemsText.textContent = group.items.join(' — ');
+            itemsText.style.color = wallColors[rowIndex];
+            card.appendChild(itemsText);
+            
+            const connectionText = document.createElement('p');
+            connectionText.className = 'wall-card-connection';
+            connectionText.textContent = group.connection;
+            connectionText.style.display = 'none';
+            card.appendChild(connectionText);
+            
+            card.addEventListener('click', function() {
+                if (connectionText.style.display === 'none') {
+                    connectionText.style.display = '';
+                    card.classList.add('revealed');
+                }
+            });
+            
+            container.appendChild(card);
+        });
+        
+        document.getElementById('wall-connections').style.display = '';
+        
+        // Mostra la sezione punteggi
+        document.getElementById('scoring-section').style.display = '';
+    }
+    
+    // Assegnazione punti
+    function wallAssignPoints(points, teamId) {
+        if (points === 0) {
+            const statusEl = document.getElementById('points-status');
+            document.getElementById('status-text').textContent = '— Nessun punto assegnato';
+            statusEl.style.display = 'block';
+            return;
+        }
+        
+        fetch('/api/wall/assign-points', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ points: points, team_id: teamId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                data.teams_scores.forEach(team => {
+                    const scoreEl = document.getElementById(`score-${team.team_id}`);
+                    if (scoreEl) scoreEl.textContent = team.score;
+                });
+                
+                const statusEl = document.getElementById('points-status');
+                document.getElementById('status-text').textContent = `✓ +${points} punto/i assegnato/i`;
+                statusEl.style.display = 'block';
+            }
+        })
+        .catch(error => console.error('Errore:', error));
+    }
+    
+    // Termina il round
+    function finishWall() {
+        fetch('/api/wall/complete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = '/';
+            }
+        })
+        .catch(error => console.error('Errore:', error));
+    }
+    
+    // Inizializzazione
+    initItems();
+    
+    // Bottone conferma
+    document.getElementById('submit-group-btn').addEventListener('click', submitGroup);
+    
+    // Timer + Avvia Round
+    const timerElement = document.getElementById('timer');
+    const startRoundBtn = document.getElementById('start-round-btn');
+    const startRoundSection = document.getElementById('start-round-section');
+    const wallGrid = document.getElementById('wall-grid');
+    const wallActions = document.getElementById('wall-actions');
+    
+    if (timerElement && timerElement.dataset.totalTime) {
+        const totalTime = parseInt(timerElement.dataset.totalTime);
+        roundTimer = new RoundTimer(totalTime, 
+            function onTick(remainingSeconds) {
+                timerElement.textContent = formatTime(remainingSeconds);
+                
+                timerElement.classList.remove('warning', 'critical');
+                if (remainingSeconds <= 10) {
+                    timerElement.classList.add('critical');
+                } else if (remainingSeconds <= 30) {
+                    timerElement.classList.add('warning');
+                }
+            },
+            function onComplete() {
+                timerElement.textContent = '00:00';
+                timerElement.classList.remove('warning', 'critical');
+                if (!roundEnded) {
+                    endRound(true);
+                }
+            }
+        );
+        
+        roundTimer.setAudio('/static/media/audio/connections_thinking.mp3');
+        
+        startRoundBtn.addEventListener('click', function() {
+            startRoundSection.style.display = 'none';
+            wallGrid.style.display = '';
+            wallActions.style.display = '';
+            renderGrid();
+            roundTimer.start();
+        });
+    }
+</script>
+{% endblock %}

@@ -619,3 +619,102 @@ def mv_complete():
     
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+
+
+# ==================== ROUND MURO DELLE CONNESSIONI ====================
+
+@bp.route("/round/wall")
+def wall_round():
+    """
+    Pagina del round Muro delle Connessioni.
+    Griglia 4x4 con 16 elementi da raggruppare in 4 gruppi.
+    """
+    try:
+        loader = get_quiz_loader()
+        quiz_data = loader.load()
+        
+        if not quiz_data.wall:
+            return "Round Muro non disponibile", 404
+        
+        game_state = get_game_state()
+        teams_scores = game_state.get('teams_scores', [])
+        completed_rounds = game_state.get('completed_rounds', {})
+        
+        if completed_rounds.get('wall', False):
+            return render_template(
+                "round_completed.html",
+                round_type='wall',
+                teams_scores=teams_scores
+            )
+        
+        groups = [g.dict() for g in quiz_data.wall.groups]
+        total_time = config.DEFAULT_TIMERS.get('wall', 150)
+        wall_colors = config.WALL_ROW_COLORS
+        
+        return render_template(
+            "wall.html",
+            groups=groups,
+            teams_scores=teams_scores,
+            game_state=game_state,
+            total_time=total_time,
+            wall_colors=wall_colors
+        )
+    
+    except Exception as e:
+        return f"Errore: {str(e)}", 500
+
+
+@bp.route("/api/wall/complete", methods=["POST"])
+def wall_complete():
+    """Segna il round Muro come completato."""
+    try:
+        game_state = get_game_state()
+        completed_rounds = game_state.get('completed_rounds', {})
+        completed_rounds['wall'] = True
+        game_state['completed_rounds'] = completed_rounds
+        session['game_state'] = game_state
+        session.modified = True
+        
+        return jsonify({"success": True})
+    
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@bp.route("/api/wall/assign-points", methods=["POST"])
+def wall_assign_points():
+    """
+    Assegna punti nel round Muro.
+    
+    Richiesta JSON:
+        {
+            "points": numero punti,
+            "team_id": "team-1"
+        }
+    """
+    try:
+        data = request.get_json()
+        points = data.get("points")
+        team_id = data.get("team_id")
+        
+        if points is None or team_id is None:
+            return jsonify({"success": False, "error": "Parametri mancanti"}), 400
+        
+        game_state = get_game_state()
+        teams_scores = game_state.get('teams_scores', [])
+        
+        for team_score in teams_scores:
+            if team_score['team_id'] == team_id:
+                team_score['score'] += points
+                break
+        
+        session['game_state'] = game_state
+        session.modified = True
+        
+        return jsonify({
+            "success": True,
+            "teams_scores": teams_scores
+        })
+    
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500

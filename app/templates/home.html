@@ -53,12 +53,19 @@
             {% endif %}
         </div>
         
-        <div class="menu-card">
+        <div class="menu-card {% if completed_rounds.get('wall') %}round-completed{% endif %}">
             <h2>Muro delle Connessioni</h2>
             <p>Trasforma il muro: raggruppa 4 elementi per ogni connessione.</p>
-            <a href="#" class="btn btn-primary disabled" title="Prossimamente">
-                TODO
+            {% if completed_rounds.get('wall') %}
+            <span class="completed-badge">✓ Completato</span>
+            <a href="#" class="btn btn-primary disabled_custom" title="Round già completato">
+                Completato
             </a>
+            {% else %}
+            <a href="/round/wall" class="btn btn-primary">
+                Inizia
+            </a>
+            {% endif %}
         </div>
         
         <div class="menu-card {% if completed_rounds.get('missing_vowels') %}round-completed{% endif %}">

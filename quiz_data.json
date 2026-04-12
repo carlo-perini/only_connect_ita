@@ -110,5 +110,25 @@
         ]
       }
     ]
+  },
+  "wall": {
+    "groups": [
+      {
+        "connection": "Tipi di pasta",
+        "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+      },
+      {
+        "connection": "Capitali europee",
+        "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
+      },
+      {
+        "connection": "Pianeti del sistema solare",
+        "items": ["Marte", "Giove", "Saturno", "Venere"]
+      },
+      {
+        "connection": "Strumenti musicali a corde",
+        "items": ["Violino", "Chitarra", "Arpa", "Mandolino"]
+      }
+    ]
   }
 }

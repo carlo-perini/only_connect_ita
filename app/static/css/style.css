@@ -354,10 +354,10 @@ h1, h2, h3 {
 /* Rounds grid */
 .menu {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     width: 100%;
-    max-width: 960px;
+    max-width: 100%;
 }
 
 .menu-card {
@@ -1172,6 +1172,126 @@ h1, h2, h3 {
 .round-completed-message strong {
     color: var(--ice);
     font-family: var(--font-display);
+}
+
+/* ----------------------------------------------------------
+   13b. WALL ROUND
+   ---------------------------------------------------------- */
+.wall-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    max-width: 900px;
+    width: 100%;
+}
+
+.wall-cell {
+    background: linear-gradient(145deg, var(--panel) 0%, var(--bg-3) 100%);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    padding: 1.2rem 0.75rem;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+    user-select: none;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wall-cell:hover:not(.solved) {
+    transform: scale(1.03);
+    box-shadow: var(--glow-ice);
+}
+
+.wall-cell.selected {
+    background: var(--ice);
+    color: var(--bg-0);
+    border-color: var(--ice);
+    box-shadow: 0 0 15px rgba(158, 220, 255, 0.4);
+    transform: scale(1.03);
+}
+
+.wall-cell.solved {
+    color: #fff;
+    font-weight: 700;
+    cursor: default;
+    border: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.wall-lives {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--warning);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.wall-actions {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.wall-connections {
+    margin-bottom: 1.5rem;
+}
+
+.wall-connections h2 {
+    font-family: var(--font-display);
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.wall-connection-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.wall-connection-card {
+    border: 2px solid;
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.wall-connection-card:hover {
+    transform: scale(1.01);
+    box-shadow: var(--shadow-md);
+}
+
+.wall-card-items {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.wall-card-connection {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--panel-border);
+}
+
+.wall-connection-card.revealed {
+    box-shadow: 0 0 20px rgba(158, 220, 255, 0.15);
+}
+
+.wall-finish {
+    margin-top: 1rem;
+    text-align: center;
 }
 
 /* ----------------------------------------------------------

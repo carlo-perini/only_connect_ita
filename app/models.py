@@ -139,6 +139,29 @@ class MissingVowelsRound(BaseModel):
         return v
 
 
+class WallGroup(BaseModel):
+    """Un gruppo di 4 elementi nel Muro delle Connessioni."""
+    connection: str = Field(..., description="La connessione nascosta tra i 4 elementi")
+    items: List[str] = Field(..., description="Lista di 4 elementi")
+    
+    @validator("items")
+    def validate_items_count(cls, v):
+        if len(v) != 4:
+            raise ValueError(f"Ogni gruppo del muro deve avere 4 elementi, ricevuti {len(v)}")
+        return v
+
+
+class WallRound(BaseModel):
+    """Round Muro delle Connessioni con 4 gruppi da 4 elementi."""
+    groups: List[WallGroup] = Field(..., description="Lista di 4 gruppi")
+    
+    @validator("groups")
+    def validate_groups_count(cls, v):
+        if len(v) != 4:
+            raise ValueError(f"Il muro deve avere 4 gruppi, ricevuti {len(v)}")
+        return v
+
+
 class QuizData(BaseModel):
     """Contenitore principale del file quiz_data.json."""
     connections: Optional[RoundSymbols] = Field(
@@ -152,6 +175,10 @@ class QuizData(BaseModel):
     missing_vowels: Optional[MissingVowelsRound] = Field(
         None,
         description="Round Vocali Mancanti con 4 categorie da 4 parole"
+    )
+    wall: Optional[WallRound] = Field(
+        None,
+        description="Round Muro delle Connessioni con 4 gruppi da 4 elementi"
     )
     teams: Optional[List[Dict]] = Field(
         None,
