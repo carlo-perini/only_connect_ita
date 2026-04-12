@@ -107,6 +107,32 @@ Il file `quiz_data.json` contiene tutte le domande organizzate per round con gri
   "sequence": {
     // ... stessa struttura ma con 3 clue per domanda
   },
+  "wall": {
+    "symbols": [
+      {"id": "wall-1", "display": "𓃭", "label": "Leone"},
+      {"id": "wall-2", "display": "𓈗", "label": "Acqua"}
+    ],
+    "questions": {
+      "wall-1": {
+        "groups": [
+          {
+            "connection": "Tipi di pasta",
+            "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+          },
+          {
+            "connection": "Capitali europee",
+            "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
+          },
+          // ... esattamente 4 gruppi da 4 elementi
+        ]
+      },
+      "wall-2": {
+        "groups": [
+          // ... seconda griglia del muro
+        ]
+      }
+    }
+  },
   "missing_vowels": {
     "categories": [
       {
@@ -206,6 +232,8 @@ L'app valida il `quiz_data.json` all'avvio. Controlla:
 - ✅ Esattamente 6 simboli per round (Connessioni e Sequenza)
 - ✅ Esattamente 6 domande (una per simbolo)
 - ✅ 4 clue per Connessioni, 3 per Sequenze
+- ✅ 2 simboli per Muro, 2 griglie diverse
+- ✅ 4 gruppi da 4 elementi per ogni griglia del Muro
 - ✅ 4 categorie con 4 parole ciascuna per Vocali Mancanti
 - ✅ I file media referenziati esistano
 
@@ -238,6 +266,39 @@ Ogni round ha **6 domande**, ognuna associata a un **simbolo Unicode** in una gr
 - **Griglia**: 6 simboli, 3 indizi per domanda
 - **Meccanica**: La squadra deve indovinare il quarto elemento
 - **Risposta**: Manuale (il conduttore decide)
+
+### Muro delle Connessioni
+- **Struttura**: 2 simboli, 2 griglie diverse
+- **Griglia**: 4x4 (16 elementi), 4 gruppi da 4 elementi + 1 connessione nascosta
+- **Timer**: Globale per tutto il round (default 2.5 minuti)
+- **Turni**: Alternati tra le squadre (squadra 1 gioca il primo muro, squadra 2 il secondo)
+- **Meccanica**: La squadra deve trovare i 4 gruppi di elementi con una connessione nascosta
+- **Punti**: 0-8 punti assegnabili solo alla squadra di turno
+
+#### Flusso del round:
+1. 🎯 **Scelta Team** — Seleziona quale team inizia
+2. 🔤 **Scelta Simbolo** — Vede 2 simboli corrispondenti a 2 griglie diverse
+3. 🏁 **Inizio Griglia** — Clicca "Avvia Round", timer di 2.5 minuti parte
+4. 🔗 **Selezione Elementi** — La squadra clicca su 4 elementi per formare un gruppo
+5. ✅ **Auto-verifica** — Quando seleziona 4 elementi, il sistema controlla automaticamente:
+   - ✓ Se appartengono allo stesso gruppo → Move in alto con `colore-riga-esima` e transizione animata
+   - ✗ Se sono elementi diversi → Shake animation (3 tentativi/vite dopo aver trovato 2 gruppi)
+6. 📊 **Risultati** — Dopo tutti i 4 gruppi (o fine tempo):
+   - Carte con le connessioni rivelabili al click
+   - Pulsanti per assegnare 0-8 punti al team di turno
+7. ➡️ **Prossimo Simbolo** — Ritorna alla griglia simboli, team alterna
+8. 🔁 **Ripeti** — 2 simboli completati (uno per squadra) = round completato
+
+#### Colori per riga (configurabili):
+```python
+# config.py
+WALL_ROW_COLORS = [
+    "#6A4C93",   # Viola (riga 1)
+    "#1982C4",   # Blu (riga 2)
+    "#8AC926",   # Verde (riga 3)
+    "#FFCA3A"    # Giallo (riga 4)
+]
+```
 
 ### Vocali Mancanti
 - **Struttura**: 4 categorie con 4 parole ciascuna (16 parole totali)
@@ -382,14 +443,14 @@ pytest tests/ -v
 - [x] Modifica retroattiva punteggi
 - [x] Persistenza simboli completati nella sessione di gioco
 - [x] Round Vocali Mancanti
+- [x] Round Muro delle Connessioni (2 simboli, 2 griglie diverse, alternanza team, punti 0-8)
 
 ### Fase 2 (TODO)
-- [ ] Round Muro delle Connessioni
 - [ ] Sound effects temporizzati
-- [ ] nome edizione configurabile e visibile in alto o nella home 
-- [ ] Logo Only connect visibile
+- [ ] Logo e tema visibile nella home
 - [ ] Editor web delle domande
 - [ ] Persistenza punteggi su database
+- [ ] Replay e statistiche degli ultimi round
  
 
 ### Fase 3
