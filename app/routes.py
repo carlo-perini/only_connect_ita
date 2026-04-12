@@ -623,55 +623,253 @@ def mv_complete():
 
 # ==================== ROUND MURO DELLE CONNESSIONI ====================
 
-@bp.route("/round/wall")
-def wall_round():
+@bp.route("/round/wall/choose-team")
+def wall_choose_team():
     """
-    Pagina del round Muro delle Connessioni.
-    Griglia 4x4 con 16 elementi da raggruppare in 4 gruppi.
+    Pagina di scelta del team iniziale per il Muro delle Connessioni.
+    Verifica se il round è già completato.
+    """
+    if True:  # Mantieni struttura coerente
+        try:
+            loader = get_quiz_loader()
+            quiz_data = loader.load()
+            
+            # Ottieni il game state
+            game_state = get_game_state()
+            completed_rounds = game_state.get('completed_rounds', {})
+            completed_symbols = game_state.get('completed_symbols', {})
+            
+            # Controlla se il round è già completato
+            if completed_rounds.get('wall', False):
+                return render_template(
+                    "round_completed.html",
+                    round_type='wall',
+                    teams_scores=game_state.get('teams_scores', [])
+                )
+            
+            # Controlla se il round è già iniziato (ha simboli completati)
+            if 'wall' in completed_symbols and len(completed_symbols['wall']) > 0:
+                # Il round è già stato iniziato, vai direttamente alla griglia simboli
+                return redirect(f"/round/wall/symbols")
+            
+            # Ottieni i team
+            teams = quiz_data.teams or []
+            
+            return render_template(
+                "choose_team.html",
+                round_type='wall',
+                teams=teams
+            )
+        
+        except QuizLoadError as e:
+            return f"Errore nel caricamento del quiz: {str(e)}", 500
+
+
+@bp.route("/round/wall/start/<team_id>")
+def start_wall_round(team_id):
+    """
+    Inizia il muro con il team scelto e reindirizza alla griglia dei simboli.
     """
     try:
         loader = get_quiz_loader()
         quiz_data = loader.load()
         
+        # Ottieni il game state
+        game_state = get_game_state()
+        teams = quiz_data.teams or []
+        
+        # Imposta il team iniziale
+        team_index = 0
+        for i, team in enumerate(teams):
+            if team['id'] == team_id:
+                team_index = i
+                break
+        
+        game_state['current_team_index'] = team_index
+        session['game_state'] = game_state
+        session.modified = True
+        
+        # Reindirizza alla griglia dei simboli
+        return jsonify({
+            "success": True,
+            "redirect": f"/round/wall/symbols"
+        })
+    
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@bp.route("/round/wall/symbols")
+def wall_symbols():
+    """
+    Mostra la griglia di 2 simboli per scegliere la griglia del muro.
+    """
+    try:
+        loader = get_quiz_loader()
+        quiz_data = loader.load()
+        
+        # Ottieni il round muro
         if not quiz_data.wall:
             return "Round Muro non disponibile", 404
         
+        # Prendi i simboli dal wall
+        symbols = [s.dict() for s in quiz_data.wall.symbols]
+        
+        # Ottieni il game state
+        game_state = get_game_state()
+        
+        # Inizializza la lista di simboli completati per il muro (se non esiste)
+        if 'completed_symbols' not in game_state:
+            game_state['completed_symbols'] = {}
+        if 'wall' not in game_state['completed_symbols']:
+            game_state['completed_symbols']['wall'] = []
+        
+        completed_symbol_ids = game_state['completed_symbols']['wall']
+        
+        # Reset del flag per la nuova domanda
+        game_state['points_assigned_for_current_question'] = False
+        session['game_state'] = game_state
+        session.modified = True
+        
+        # Ottieni il team in turno
+        current_team_index = game_state.get('current_team_index', 0)
+        teams_scores = game_state.get('teams_scores', [])
+        current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None
+        
+        return render_template(
+            "wall_symbols.html",
+            symbols=symbols,
+            completed_symbol_ids=completed_symbol_ids,
+            current_team=current_team,
+            game_state=game_state
+        )
+    
+    except QuizLoadError as e:
+        return f"Errore nel caricamento del quiz: {str(e)}", 500
+
+
+@bp.route("/round/wall/<symbol_id>")
+def wall_question(symbol_id):
+    """
+    Mostra il muro associato a un simbolo.
+    
+    Args:
+        symbol_id: ID del simbolo scelto (wall-1 o wall-2)
+    """
+    try:
+        loader = get_quiz_loader()
+        quiz_data = loader.load()
+        
+        # Ottieni il round muro
+        if not quiz_data.wall:
+            return "Round Muro non disponibile", 404
+        
+        # Trova la griglia associata al simbolo
+        if symbol_id not in quiz_data.wall.questions:
+            return "Simbolo non trovato", 404
+        
+        wall_question_obj = quiz_data.wall.questions[symbol_id]
+        groups = [g.dict() for g in wall_question_obj.groups]
+        
+        # Ottieni il game state
         game_state = get_game_state()
         teams_scores = game_state.get('teams_scores', [])
-        completed_rounds = game_state.get('completed_rounds', {})
         
-        if completed_rounds.get('wall', False):
-            return render_template(
-                "round_completed.html",
-                round_type='wall',
-                teams_scores=teams_scores
-            )
+        # Controlla se il simbolo è già stato giocato (è una modifica)
+        is_modification = False
+        modification_team = None
+        completed_symbols = game_state.get('completed_symbols', {})
+        if 'wall' in completed_symbols and symbol_id in completed_symbols['wall']:
+            is_modification = True
+            # Estrai il team che ha giocato per primo da symbol_points_history
+            symbol_points_history = game_state.get('symbol_points_history', {})
+            if 'wall' in symbol_points_history and symbol_id in symbol_points_history['wall']:
+                original_team_id = symbol_points_history['wall'][symbol_id].get('original_team_id')
+                # Trova il team con questo ID
+                for team in teams_scores:
+                    if team['team_id'] == original_team_id:
+                        modification_team = team
+                        break
         
-        groups = [g.dict() for g in quiz_data.wall.groups]
+        # Se è una modifica, usa il team originale; altrimenti usa il team corrente
+        if is_modification:
+            current_team = modification_team
+        else:
+            current_team_index = game_state.get('current_team_index', 0)
+            current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None
+        
+        # Ottieni il tempo totale per il wall dal config
         total_time = config.DEFAULT_TIMERS.get('wall', 150)
         wall_colors = config.WALL_ROW_COLORS
         
         return render_template(
             "wall.html",
             groups=groups,
-            teams_scores=teams_scores,
+            symbol_id=symbol_id,
+            round_type='wall',
+            current_team=current_team,
             game_state=game_state,
+            teams_scores=teams_scores,
             total_time=total_time,
-            wall_colors=wall_colors
+            wall_colors=wall_colors,
+            is_modification=is_modification
         )
     
+    except QuizLoadError as e:
+        return f"Errore nel caricamento del quiz: {str(e)}", 500
     except Exception as e:
         return f"Errore: {str(e)}", 500
 
 
 @bp.route("/api/wall/complete", methods=["POST"])
 def wall_complete():
-    """Segna il round Muro come completato."""
+    """
+    Segna un simbolo del muro come completato.
+    Permette la modifica retroattiva: se un simbolo era già completato,
+    non alterna il team (solo salva i nuovi punti).
+    """
     try:
+        # Controlla se i punti sono stati assegnati
         game_state = get_game_state()
-        completed_rounds = game_state.get('completed_rounds', {})
-        completed_rounds['wall'] = True
-        game_state['completed_rounds'] = completed_rounds
+        if not game_state.get('points_assigned_for_current_question', False):
+            return jsonify({
+                "success": False, 
+                "error": "Devi assegnare i punti prima di tornare ai simboli"
+            }), 400
+        
+        data = request.get_json()
+        symbol_id = data.get("symbol_id")
+        
+        if not symbol_id:
+            return jsonify({"success": False, "error": "Parametri mancanti"}), 400
+        
+        # Inizializza completed_symbols nel game_state se non esiste
+        if 'completed_symbols' not in game_state:
+            game_state['completed_symbols'] = {}
+        if 'wall' not in game_state['completed_symbols']:
+            game_state['completed_symbols']['wall'] = []
+        
+        # Controlla se il simbolo era già completato (è una modifica retroattiva)
+        is_modification = symbol_id in game_state['completed_symbols']['wall']
+        
+        if not is_modification:  # Nuovo simbolo
+            game_state['completed_symbols']['wall'].append(symbol_id)
+            
+            # Alterna il team di turno solo se è la prima volta
+            teams_scores = game_state.get('teams_scores', [])
+            current_index = game_state.get('current_team_index', 0)
+            next_index = (current_index + 1) % len(teams_scores)
+            game_state['current_team_index'] = next_index
+            
+            # Controlla se il round è completato (tutti i 2 simboli)
+            if len(game_state['completed_symbols']['wall']) == 2:
+                completed_rounds = game_state.get('completed_rounds', {})
+                completed_rounds['wall'] = True
+                game_state['completed_rounds'] = completed_rounds
+        # Se è una modifica, NON alterniamo il team — solo salviamo i nuovi punti
+        
+        # Reset del flag per il prossimo simbolo
+        game_state['points_assigned_for_current_question'] = False
         session['game_state'] = game_state
         session.modified = True
         
@@ -684,30 +882,81 @@ def wall_complete():
 @bp.route("/api/wall/assign-points", methods=["POST"])
 def wall_assign_points():
     """
-    Assegna punti nel round Muro.
+    Assegna punti nel round Muro (0-8 punti).
+    I punti possono essere assegnati SOLO al team di turno.
     
     Richiesta JSON:
         {
-            "points": numero punti,
-            "team_id": "team-1"
+            "points": 0-8,
+            "team_id": "team-1"  (deve essere il team di turno attuale)
         }
     """
     try:
         data = request.get_json()
         points = data.get("points")
         team_id = data.get("team_id")
+        symbol_id = data.get("symbol_id")
         
         if points is None or team_id is None:
             return jsonify({"success": False, "error": "Parametri mancanti"}), 400
         
+        # Valida i punti: 0-8
+        if not isinstance(points, int) or points < 0 or points > 8:
+            return jsonify({"success": False, "error": "Punti devono essere tra 0 e 8"}), 400
+        
+        # Ottieni il game state
         game_state = get_game_state()
         teams_scores = game_state.get('teams_scores', [])
+        current_team_index = game_state.get('current_team_index', 0)
+        current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None
         
-        for team_score in teams_scores:
-            if team_score['team_id'] == team_id:
-                team_score['score'] += points
-                break
+        # I punti possono essere assegnati SOLO al team di turno
+        if current_team and team_id != current_team['team_id']:
+            return jsonify({
+                "success": False, 
+                "error": f"Punti assegnabili solo a {current_team['team_name']}"
+            }), 400
         
+        # Traccia la cronologia dei punteggi (per permettere modifiche retroattive)
+        symbol_points_history = game_state.get('symbol_points_history', {})
+        if symbol_id:
+            if 'wall' not in symbol_points_history:
+                symbol_points_history['wall'] = {}
+            
+            # Recupera i vecchi punti per questo simbolo (se esiste una modifica)
+            old_points_data = symbol_points_history['wall'].get(symbol_id, {})
+            old_points = old_points_data.get('points', 0)
+            old_team_id = old_points_data.get('team_id', None)
+            original_team_id = old_points_data.get('original_team_id', None)  # Team che ha giocato per primo
+            
+            # Se è una modifica, togli i vecchi punti
+            if old_points > 0 and old_team_id:
+                for team_score in teams_scores:
+                    if team_score['team_id'] == old_team_id:
+                        team_score['score'] -= old_points
+                        break
+            
+            # Se è la prima volta, registra il team che ha giocato
+            if not original_team_id:
+                original_team_id = team_id
+            
+            # Traccia i nuovi punti
+            symbol_points_history['wall'][symbol_id] = {
+                'points': points,
+                'team_id': team_id,
+                'original_team_id': original_team_id  # Team che ha giocato per primo
+            }
+            game_state['symbol_points_history'] = symbol_points_history
+        
+        # Assegna i nuovi punti al team di turno
+        if points > 0 and team_id:
+            for team_score in teams_scores:
+                if team_score['team_id'] == team_id:
+                    team_score['score'] += points
+                    break
+        
+        # Setta il flag
+        game_state['points_assigned_for_current_question'] = True
         session['game_state'] = game_state
         session.modified = True
         

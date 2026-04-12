@@ -16,6 +16,12 @@
     </div>
     {% endif %}
     
+    {% if current_team %}
+    <div class="current-team-banner">
+        <p>Di turno: <strong>{{ current_team.team_name }}</strong></p>
+    </div>
+    {% endif %}
+    
     <div class="round-header">
         <h1>Muro delle Connessioni</h1>
         <div class="timer-display" id="timer" data-total-time="{{ total_time }}"></div>
@@ -37,11 +43,6 @@
         <!-- Le celle verranno generate da JavaScript -->
     </div>
     
-    <!-- Bottone per confermare la selezione -->
-    <div class="wall-actions" id="wall-actions" style="display: none;">
-        <button class="btn btn-primary" id="submit-group-btn" disabled>Conferma Gruppo</button>
-    </div>
-    
     <!-- Carte delle connessioni (visibili a fine round) -->
     <div class="wall-connections" id="wall-connections" style="display: none;">
         <h2>Indovina le connessioni</h2>
@@ -51,21 +52,26 @@
     </div>
     
     <!-- Sezione Assegnazione Punti -->
-    {% if teams_scores %}
+    {% if current_team %}
     <div class="scoring-section" id="scoring-section" style="display: none;">
         <h3>Assegna i Punti</h3>
+        <div class="current-team-display">
+            <p>Team in turno: <strong>{{ current_team.team_name }}</strong></p>
+        </div>
         <div class="points-buttons">
-            {% for team in teams_scores %}
             <div class="points-group">
-                <p>{{ team.team_name }}:</p>
-                <button class="btn btn-success" onclick="wallAssignPoints(1, '{{ team.team_id }}')">+1</button>
-                <button class="btn btn-success" onclick="wallAssignPoints(2, '{{ team.team_id }}')">+2</button>
-                <button class="btn btn-success" onclick="wallAssignPoints(3, '{{ team.team_id }}')">+3</button>
-                <button class="btn btn-success" onclick="wallAssignPoints(4, '{{ team.team_id }}')">+4</button>
+                <p>Punti assegnabili (0-8):</p>
+                <button class="btn btn-success" onclick="wallAssignPoints(1, '{{ current_team.team_id }}')">+1</button>
+                <button class="btn btn-success" onclick="wallAssignPoints(2, '{{ current_team.team_id }}')">+2</button>
+                <button class="btn btn-success" onclick="wallAssignPoints(3, '{{ current_team.team_id }}')">+3</button>
+                <button class="btn btn-success" onclick="wallAssignPoints(4, '{{ current_team.team_id }}')">+4</button>
+                <button class="btn btn-warning" onclick="wallAssignPoints(5, '{{ current_team.team_id }}')">+5</button>
+                <button class="btn btn-warning" onclick="wallAssignPoints(6, '{{ current_team.team_id }}')">+6</button>
+                <button class="btn btn-warning" onclick="wallAssignPoints(7, '{{ current_team.team_id }}')">+7</button>
+                <button class="btn btn-warning" onclick="wallAssignPoints(8, '{{ current_team.team_id }}')">+8</button>
             </div>
-            {% endfor %}
             <div class="points-group">
-                <button class="btn btn-secondary" onclick="wallAssignPoints(0, null)">Nessun punto</button>
+                <button class="btn btn-secondary" onclick="wallAssignPoints(0, '{{ current_team.team_id }}')">Nessun punto</button>
             </div>
         </div>
         <div class="points-status" id="points-status" style="display: none;">
@@ -78,7 +84,11 @@
     {% endif %}
     
     <div class="nav-buttons">
-        <a href="/" class="btn btn-secondary">← Torna alla Home</a>
+        {% if symbol_id %}
+        <button class="btn btn-secondary" id="back-btn" onclick="backToSymbols()">← Torna ai Simboli</button>
+        {% else %}
+        <a href="/" class="btn btn-secondary">← Indietro</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
@@ -88,17 +98,19 @@
     // Dati del muro
     const groups = {{ groups | tojson }};
     const wallColors = {{ wall_colors | tojson }};
+    const symbolId = '{{ symbol_id }}';
+    const roundType = '{{ round_type }}';
     
     // Stato del gioco
-    let allItems = [];           // Tutti i 16 elementi mescolati
-    let selectedItems = [];      // Elementi attualmente selezionati
-    let solvedGroups = [];       // Gruppi già trovati (indice nel groups array)
-    let lives = 3;               // Tentativi rimasti (attivi dopo 2 gruppi trovati)
-    let livesActive = false;     // Le vite sono attive?
-    let roundTimer = null;       // Timer reference
-    let roundEnded = false;      // Round terminato?
+    let allItems = [];
+    let selectedItems = [];
+    let solvedGroups = [];
+    let lives = 3;
+    let livesActive = false;
+    let roundTimer = null;
+    let roundEnded = false;
+    let isAnimating = false;
     
-    // Prepara tutti i 16 elementi con riferimento al gruppo
     function initItems() {
         allItems = [];
         groups.forEach((group, groupIndex) => {
@@ -110,7 +122,6 @@
                 });
             });
         });
-        // Mescola
         shuffleArray(allItems);
     }
     
@@ -121,12 +132,11 @@
         }
     }
     
-    // Renderizza la griglia
     function renderGrid() {
         const grid = document.getElementById('wall-grid');
         grid.innerHTML = '';
         
-        // Prima: righe dei gruppi risolti (in ordine)
+        // Righe dei gruppi risolti (in ordine di risoluzione)
         solvedGroups.forEach((groupIndex, rowIndex) => {
             const group = groups[groupIndex];
             group.items.forEach(item => {
@@ -134,11 +144,12 @@
                 cell.className = 'wall-cell solved';
                 cell.style.backgroundColor = wallColors[rowIndex];
                 cell.textContent = item;
+                cell.dataset.text = item;
                 grid.appendChild(cell);
             });
         });
         
-        // Poi: elementi non risolti
+        // Elementi non risolti
         const unsolvedItems = allItems.filter(item => !item.solved);
         unsolvedItems.forEach(item => {
             const cell = document.createElement('div');
@@ -158,9 +169,8 @@
         });
     }
     
-    // Seleziona/deseleziona un elemento
     function toggleSelection(text) {
-        if (roundEnded) return;
+        if (roundEnded || isAnimating) return;
         
         const index = selectedItems.indexOf(text);
         if (index > -1) {
@@ -171,17 +181,21 @@
             }
         }
         
-        // Abilita/disabilita il bottone di conferma
-        document.getElementById('submit-group-btn').disabled = selectedItems.length !== 4;
-        
         renderGrid();
+        
+        // Auto-check quando sono selezionati 4 elementi
+        if (selectedItems.length === 4) {
+            isAnimating = true;
+            setTimeout(() => checkGroup(), 300);
+        }
     }
     
-    // Conferma la selezione
-    function submitGroup() {
-        if (selectedItems.length !== 4 || roundEnded) return;
+    function checkGroup() {
+        if (selectedItems.length !== 4 || roundEnded) {
+            isAnimating = false;
+            return;
+        }
         
-        // Verifica se i 4 elementi appartengono allo stesso gruppo
         const firstItem = allItems.find(i => i.text === selectedItems[0]);
         const targetGroup = firstItem.groupIndex;
         
@@ -191,10 +205,55 @@
         });
         
         if (allSameGroup) {
-            // Gruppo trovato!
-            solvedGroups.push(targetGroup);
+            animateSolvedGroup(targetGroup);
+        } else {
+            wrongGuessFlash();
             
-            // Segna gli elementi come risolti
+            if (livesActive) {
+                lives--;
+                document.getElementById('lives-count').textContent = lives;
+                
+                if (lives <= 0) {
+                    setTimeout(() => endRound(true), 600);
+                    return;
+                }
+            }
+            
+            selectedItems = [];
+            setTimeout(() => {
+                isAnimating = false;
+                renderGrid();
+            }, 600);
+        }
+    }
+    
+    function wrongGuessFlash() {
+        const grid = document.getElementById('wall-grid');
+        const cells = grid.querySelectorAll('.wall-cell.selected');
+        cells.forEach(cell => {
+            cell.classList.add('wrong');
+        });
+    }
+    
+    function animateSolvedGroup(targetGroup) {
+        const grid = document.getElementById('wall-grid');
+        const rowIndex = solvedGroups.length;
+        const color = wallColors[rowIndex];
+        
+        // Colora le celle selezionate
+        const cells = grid.querySelectorAll('.wall-cell.selected');
+        cells.forEach(cell => {
+            cell.classList.remove('selected');
+            cell.classList.add('solving');
+            cell.style.backgroundColor = color;
+            cell.style.color = '#fff';
+            cell.style.textShadow = '0 1px 3px rgba(0,0,0,0.4)';
+            cell.style.borderColor = color;
+        });
+        
+        // Dopo l'animazione di colore, aggiorna lo stato e ri-renderizza
+        setTimeout(() => {
+            solvedGroups.push(targetGroup);
             allItems.forEach(item => {
                 if (item.groupIndex === targetGroup) {
                     item.solved = true;
@@ -202,45 +261,26 @@
             });
             
             selectedItems = [];
-            document.getElementById('submit-group-btn').disabled = true;
             
-            // Dopo 2 gruppi trovati, attiva le vite
             if (solvedGroups.length === 2 && !livesActive) {
                 livesActive = true;
                 document.getElementById('wall-lives').style.display = '';
             }
             
-            // Tutti i 4 gruppi trovati?
             if (solvedGroups.length === 4) {
+                isAnimating = false;
                 endRound(false);
+                return;
             }
             
+            isAnimating = false;
             renderGrid();
-        } else {
-            // Tentativo sbagliato
-            if (livesActive) {
-                lives--;
-                document.getElementById('lives-count').textContent = lives;
-                
-                if (lives <= 0) {
-                    // Fine dei tentativi
-                    endRound(true);
-                    return;
-                }
-            }
-            
-            // Deseleziona
-            selectedItems = [];
-            document.getElementById('submit-group-btn').disabled = true;
-            renderGrid();
-        }
+        }, 600);
     }
     
-    // Fine del round (timeout o vite finite)
     function endRound(forced) {
         roundEnded = true;
         
-        // Ferma il timer visivo (portalo a 0 se forzato)
         if (roundTimer) {
             roundTimer._stopInterval();
             if (forced) {
@@ -250,7 +290,6 @@
             }
         }
         
-        // Risolvi automaticamente i gruppi non trovati
         groups.forEach((group, groupIndex) => {
             if (!solvedGroups.includes(groupIndex)) {
                 solvedGroups.push(groupIndex);
@@ -262,18 +301,11 @@
             }
         });
         
-        // Nascondi bottone conferma
-        document.getElementById('wall-actions').style.display = 'none';
         document.getElementById('wall-lives').style.display = 'none';
-        
-        // Renderizza la griglia completa con colori
         renderGrid();
-        
-        // Mostra le carte delle connessioni
         showConnectionCards();
     }
     
-    // Mostra le 4 carte cliccabili per le connessioni
     function showConnectionCards() {
         const container = document.getElementById('connection-cards');
         container.innerHTML = '';
@@ -288,7 +320,7 @@
             
             const itemsText = document.createElement('p');
             itemsText.className = 'wall-card-items';
-            itemsText.textContent = group.items.join(' — ');
+            itemsText.textContent = group.items.join(' \u2014 ');
             itemsText.style.color = wallColors[rowIndex];
             card.appendChild(itemsText);
             
@@ -309,24 +341,18 @@
         });
         
         document.getElementById('wall-connections').style.display = '';
-        
-        // Mostra la sezione punteggi
         document.getElementById('scoring-section').style.display = '';
     }
     
-    // Assegnazione punti
     function wallAssignPoints(points, teamId) {
-        if (points === 0) {
-            const statusEl = document.getElementById('points-status');
-            document.getElementById('status-text').textContent = '— Nessun punto assegnato';
-            statusEl.style.display = 'block';
-            return;
-        }
-        
         fetch('/api/wall/assign-points', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ points: points, team_id: teamId })
+            body: JSON.stringify({
+                points: points,
+                team_id: teamId,
+                symbol_id: symbolId
+            })
         })
         .then(response => response.json())
         .then(data => {
@@ -337,40 +363,45 @@
                 });
                 
                 const statusEl = document.getElementById('points-status');
-                document.getElementById('status-text').textContent = `✓ +${points} punto/i assegnato/i`;
+                document.getElementById('status-text').textContent = points === 0 
+                    ? '— Nessun punto assegnato'
+                    : `✓ +${points} punto/i assegnato/i`;
                 statusEl.style.display = 'block';
+            } else {
+                alert('Errore: ' + (data.error || 'Impossibile assegnare punti'));
             }
         })
         .catch(error => console.error('Errore:', error));
     }
     
-    // Termina il round
     function finishWall() {
         fetch('/api/wall/complete', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                symbol_id: symbolId
+            })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = '/';
+                window.location.href = '/round/wall/symbols';
             }
         })
         .catch(error => console.error('Errore:', error));
+    }
+    
+    function backToSymbols() {
+        window.location.href = '/round/wall/symbols';
     }
     
     // Inizializzazione
     initItems();
     
-    // Bottone conferma
-    document.getElementById('submit-group-btn').addEventListener('click', submitGroup);
-    
-    // Timer + Avvia Round
     const timerElement = document.getElementById('timer');
     const startRoundBtn = document.getElementById('start-round-btn');
     const startRoundSection = document.getElementById('start-round-section');
     const wallGrid = document.getElementById('wall-grid');
-    const wallActions = document.getElementById('wall-actions');
     
     if (timerElement && timerElement.dataset.totalTime) {
         const totalTime = parseInt(timerElement.dataset.totalTime);
@@ -399,7 +430,6 @@
         startRoundBtn.addEventListener('click', function() {
             startRoundSection.style.display = 'none';
             wallGrid.style.display = '';
-            wallActions.style.display = '';
             renderGrid();
             roundTimer.start();
         });

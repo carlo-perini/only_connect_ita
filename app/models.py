@@ -151,14 +151,37 @@ class WallGroup(BaseModel):
         return v
 
 
-class WallRound(BaseModel):
-    """Round Muro delle Connessioni con 4 gruppi da 4 elementi."""
-    groups: List[WallGroup] = Field(..., description="Lista di 4 gruppi")
+class WallQuestion(BaseModel):
+    """Una griglia del Muro delle Connessioni con 4 gruppi da 4 elementi."""
+    groups: List[WallGroup] = Field(..., description="Lista di 4 gruppi da 4 elementi")
     
     @validator("groups")
     def validate_groups_count(cls, v):
         if len(v) != 4:
             raise ValueError(f"Il muro deve avere 4 gruppi, ricevuti {len(v)}")
+        return v
+
+
+class WallRound(BaseModel):
+    """Round Muro delle Connessioni con 2 simboli e 2 griglie diverse."""
+    symbols: List[Symbol] = Field(..., description="Lista di 2 simboli")
+    questions: Dict[str, WallQuestion] = Field(
+        ..., 
+        description="Mapping symbol_id -> wall_question"
+    )
+    
+    @validator("symbols")
+    def validate_symbols_count(cls, v):
+        """Ci devono essere esattamente 2 simboli nel muro."""
+        if len(v) != 2:
+            raise ValueError(f"Il muro deve avere 2 simboli, ricevuti {len(v)}")
+        return v
+    
+    @validator("questions")
+    def validate_questions_mapping(cls, v):
+        """Tutti i symbol_id devono avere una griglia."""
+        if len(v) != 2:
+            raise ValueError(f"Il muro deve avere 2 griglie (una per simbolo), ricevute {len(v)}")
         return v
 
 

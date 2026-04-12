@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Only Connect - Muro delle Connessioni - Selezione{% endblock %}
+
+{% block content %}
+<div class="round-page symbols-page">
+    <!-- Scoreboard -->
+    {% if game_state %}
+    <div class="round-scoreboard">
+        {% for team in game_state.teams_scores %}
+        <div class="score-card">
+            <span class="team-name">{{ team.team_name }}</span>
+            <span class="team-score" id="score-{{ team.team_id }}">{{ team.score }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- Indica chi è di turno -->
+    {% if current_team %}
+    <div class="current-team-banner">
+        <p>Di turno: <strong>{{ current_team.team_name }}</strong></p>
+    </div>
+    {% endif %}
+    
+    <div class="round-header">
+        <h1>Muro delle Connessioni</h1>
+        <p class="round-subtitle">Scegli un muro per iniziare</p>
+    </div>
+    
+    <div class="symbols-grid wall-symbols-grid">
+        {% for symbol in symbols %}
+        <button 
+            class="symbol-button {% if symbol.id in completed_symbol_ids %}completed{% endif %}"
+            onclick="selectSymbol('{{ symbol.id }}')"
+            title="{{ symbol.label or symbol.display }}"
+        >
+            <span class="symbol-display">{{ symbol.display }}</span>
+            {% if symbol.id in completed_symbol_ids %}
+            <span class="symbol-check">✓</span>
+            {% endif %}
+        </button>
+        {% endfor %}
+    </div>
+    
+    <div class="nav-buttons">
+        <a href="/" class="btn btn-secondary">← Indietro</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function selectSymbol(symbolId) {
+        // Naviga verso il muro associato al simbolo
+        window.location.href = `/round/wall/${symbolId}`;
+    }
+</script>
+{% endblock %}

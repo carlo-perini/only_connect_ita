@@ -112,23 +112,51 @@
     ]
   },
   "wall": {
-    "groups": [
-      {
-        "connection": "Tipi di pasta",
-        "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+    "symbols": [
+      {"id": "wall-1", "display": "𓃭", "label": "Leone"},
+      {"id": "wall-2", "display": "𓈗", "label": "Acqua"}
+    ],
+    "questions": {
+      "wall-1": {
+        "groups": [
+          {
+            "connection": "Tipi di pasta",
+            "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+          },
+          {
+            "connection": "Capitali europee",
+            "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
+          },
+          {
+            "connection": "Pianeti del sistema solare",
+            "items": ["Marte", "Giove", "Saturno", "Venere"]
+          },
+          {
+            "connection": "Strumenti musicali a corde",
+            "items": ["Violino", "Chitarra", "Arpa", "Mandolino"]
+          }
+        ]
       },
-      {
-        "connection": "Capitali europee",
-        "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
-      },
-      {
-        "connection": "Pianeti del sistema solare",
-        "items": ["Marte", "Giove", "Saturno", "Venere"]
-      },
-      {
-        "connection": "Strumenti musicali a corde",
-        "items": ["Violino", "Chitarra", "Arpa", "Mandolino"]
+      "wall-2": {
+        "groups": [
+          {
+            "connection": "Colori primari",
+            "items": ["Rosso", "Blu", "Giallo", "Verde"]
+          },
+          {
+            "connection": "Frutta tropicale",
+            "items": ["Banana", "Ananas", "Mango", "Papaya"]
+          },
+          {
+            "connection": "Continenti",
+            "items": ["Africa", "Asia", "Europa", "America"]
+          },
+          {
+            "connection": "Lingue parlate",
+            "items": ["Italiano", "Spagnolo", "Francese", "Tedesco"]
+          }
+        ]
       }
-    ]
+    }
   }
 }
