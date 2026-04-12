@@ -22,7 +22,7 @@ class RoundTimer {
     
     setAudio(audioSrc) {
         this.audio = new Audio(audioSrc);
-        this.audio.loop = true;
+        this.audio.loop = false;
     }
     
     _stopInterval() {
