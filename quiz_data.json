@@ -2,12 +2,12 @@
   "teams": [
     {
       "id": "team-1",
-      "name": "Team 1",
+      "name": "I corvi astuti",
       "color": "#FF8C42"
     },
     {
       "id": "team-2",
-      "name": "Team 2",
+      "name": "I lupi saggi",
       "color": "#0066FF"
     }
   ],

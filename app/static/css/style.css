@@ -281,6 +281,18 @@ h1, h2, h3 {
     box-shadow: 0 0 15px rgba(106, 173, 219, 0.3);
 }
 
+.btn-lg {
+    font-size: 1.4rem;
+    padding: 1rem 2.5rem;
+}
+
+.start-round-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0;
+}
+
 .btn.disabled,
 .btn:disabled {
     opacity: 0.4;

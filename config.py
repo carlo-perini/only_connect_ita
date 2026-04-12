@@ -23,8 +23,8 @@ AUDIO_DIR = MEDIA_DIR / "audio"
 
 # Timeout default per i round (in secondi)
 DEFAULT_TIMERS = {
-    "connections": 45,
-    "sequence": 45,
+    "connections": 40,
+    "sequence": 40,
     "wall": 180,
     "missing_vowels": 180,
 }

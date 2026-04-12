@@ -28,12 +28,17 @@
         <div class="timer-display" id="timer" data-total-time="{{ total_time }}"></div>
     </div>
     
-    <div class="clues-container">
+    <!-- Bottone Avvia Round (nasconde gli indizi finché non si clicca) -->
+    <div id="start-round-section" class="start-round-section">
+        <button class="btn btn-primary btn-lg" id="start-round-btn">Avvia Round</button>
+    </div>
+
+    <div class="clues-container" id="clues-container" style="display: none;">
         <!-- I clue verranno renderizzati qui da JavaScript -->
         <div id="clues-area"></div>
     </div>
     
-    <div class="answer-section">
+    <div class="answer-section" id="answer-section" style="display: none;">
         <!-- Il conduttore rivela gli indizi progressivamente -->
         <button class="btn btn-secondary" id="next-clue-btn">Prossimo Indizio</button>
         <button class="btn btn-warning" id="show-answer-btn">Mostra Risposta Corretta</button>
@@ -284,6 +289,11 @@
     // Avvia il timer del round SOLO se è la prima volta
     if (!isModification) {
     const timerElement = document.getElementById('timer');
+    const startRoundBtn = document.getElementById('start-round-btn');
+    const startRoundSection = document.getElementById('start-round-section');
+    const cluesContainer = document.getElementById('clues-container');
+    const answerSection = document.getElementById('answer-section');
+    
     if (timerElement && timerElement.dataset.totalTime) {
         const totalTime = parseInt(timerElement.dataset.totalTime);
         const roundTimer = new RoundTimer(totalTime, 
@@ -304,8 +314,23 @@
                 console.log('⏰ Timer completato');
             }
         );
-        roundTimer.start();
+        
+        // Imposta l'audio del round
+        roundTimer.setAudio('/static/media/audio/connections_thinking.mp3');
+        
+        // Click su "Avvia Round": mostra indizi, avvia timer + audio
+        startRoundBtn.addEventListener('click', function() {
+            startRoundSection.style.display = 'none';
+            cluesContainer.style.display = '';
+            answerSection.style.display = '';
+            roundTimer.start();
+        });
     }
+    } else {
+        // In modalità modifica, mostra subito indizi e sezione risposta
+        document.getElementById('start-round-section').style.display = 'none';
+        document.getElementById('clues-container').style.display = '';
+        document.getElementById('answer-section').style.display = '';
     } // Fine del if (!isModification)
 </script>
 {% endblock %}

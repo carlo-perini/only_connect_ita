@@ -17,26 +17,47 @@ class RoundTimer {
         this.onTick = onTick;
         this.onComplete = onComplete;
         this.intervalId = null;
+        this.audio = null;
+    }
+    
+    setAudio(audioSrc) {
+        this.audio = new Audio(audioSrc);
+        this.audio.loop = true;
+    }
+    
+    _stopInterval() {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+            this.intervalId = null;
+        }
     }
     
     start() {
         if (this.intervalId) return; // Non avviare due volte
+        
+        // Avvia l'audio se impostato
+        if (this.audio) {
+            this.audio.currentTime = 0;
+            this.audio.play().catch(e => console.warn('Audio play bloccato:', e));
+        }
         
         this.intervalId = setInterval(() => {
             this.remainingSeconds--;
             this.onTick(this.remainingSeconds);
             
             if (this.remainingSeconds <= 0) {
-                this.stop();
+                this._stopInterval(); // Ferma solo il timer, non l'audio
                 this.onComplete();
             }
         }, 1000);
     }
     
     stop() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
+        this._stopInterval();
+        // Ferma l'audio
+        if (this.audio) {
+            this.audio.pause();
+            this.audio.currentTime = 0;
         }
     }
     
