@@ -385,8 +385,8 @@ pytest tests/ -v
 
 ### Fase 2 (TODO)
 - [ ] Round Muro delle Connessioni
-- [ ] Tabellone punteggi persistente
-- [ ] Sound effects (correct.mp3, wrong.mp3, etc) temporizzati
+- [ ] Sound effects temporizzati
+- [ ] nome edizione configurabile e visibile in alto o nella home 
 - [ ] Logo Only connect visibile
 - [ ] Editor web delle domande
 - [ ] Persistenza punteggi su database

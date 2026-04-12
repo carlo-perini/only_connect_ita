@@ -23,7 +23,7 @@
     "questions": {
       "sym-001": {
         "id": "conn-001",
-        "clues": [{"type": "text", "value": "Sono arancioni e rotondi", "label": "Indizio 1"}, {"type": "text", "value": "Vengono usate per fare il succo", "label": "Indizio 2"}, {"type": "text", "value": "Sono il colore del nostro sole", "label": "Indizio 3"}, {"type": "text", "value": "Il mio omonimo è un social network", "label": "Indizio 4"}],
+        "clues": [{"type": "image", "value": "images/MODIFICHE-WIKI.jpg", "label": "modifiche-wiki"}, {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 2"}, {"type": "text", "value": "Sono il colore del nostro sole", "label": "Indizio 3"}, {"type": "text", "value": "Il mio omonimo è un social network", "label": "Indizio 4"}],
         "answer": "Arancia",
         "explanation": "Tutte le piste portano al concetto di 'Arancia'. La quarta pista è un gioco di parole con Orange (il social network)."
       },
@@ -36,12 +36,12 @@
   },
   "sequence": {
     "symbols": [
-      {"id": "seq-sym-001", "display": "♪", "label": "Musica"},
-      {"id": "seq-sym-002", "display": "🎭", "label": "Teatro"},
-      {"id": "seq-sym-003", "display": "📚", "label": "Libro"},
-      {"id": "seq-sym-004", "display": "🎬", "label": "Film"},
-      {"id": "seq-sym-005", "display": "🎨", "label": "Arte"},
-      {"id": "seq-sym-006", "display": "🎪", "label": "Circo"}
+      {"id": "seq-sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "seq-sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "seq-sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "seq-sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "seq-sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "seq-sym-006", "display": "𓂀", "label": "Occhio di Horus"}
     ],
     "questions": {
       "seq-sym-001": {"id": "seq-001", "clues": [{"type": "text", "value": "Primo album Beatles (1963)", "label": "Album 1"}, {"type": "text", "value": "Secondo album Beatles (1964)", "label": "Album 2"}, {"type": "text", "value": "Terzo album Beatles (1965)", "label": "Album 3"}], "answer": "Help!", "sequence_rule": "Album Beatles in ordine cronologico", "explanation": "After Please Please Me, With the Beatles, A Hard Day's Night, arriva Help!"},

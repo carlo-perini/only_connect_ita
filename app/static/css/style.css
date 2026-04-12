@@ -630,6 +630,7 @@ h1, h2, h3 {
     display: flex;
     flex-direction: column;
     padding: 1.5rem 0;
+    overflow: visible;
 }
 
 .round-header {
@@ -661,6 +662,7 @@ h1, h2, h3 {
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
+    overflow-x: auto;
 }
 
 #clues-area {
@@ -672,15 +674,29 @@ h1, h2, h3 {
     width: 100%;
 }
 
+/* Sequenza: 3 indizi sempre su una riga */
+.sequence-page #clues-area {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.sequence-page .clue-card {
+    flex: 0 0 31%;
+}
+
+/* Connessioni: 2 indizi per riga */
+.connections-page .clue-card {
+    flex: 0 0 48%;
+}
+
 .clue-card {
     background: linear-gradient(150deg, var(--panel) 0%, var(--bg-3) 100%);
     border: 1px solid var(--panel-border);
     border-radius: var(--radius-lg);
-    padding: 1.5rem 1.75rem;
+    padding: 1rem 1rem;
     animation: clueReveal 0.4s ease-out;
-    flex: 1 1 auto;
-    min-width: 200px;
-    max-width: 300px;
+    flex: 0 0 48%;
+    max-width: none;
     box-shadow: var(--shadow-sm), var(--inner-highlight);
     position: relative;
 }
@@ -707,7 +723,7 @@ h1, h2, h3 {
 .clue-label { display: none; }
 
 .clue-content {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: var(--text);
     line-height: 1.7;
     position: relative;
@@ -715,11 +731,12 @@ h1, h2, h3 {
 }
 .clue-content p { margin: 0; }
 .clue-content img {
-    max-width: 100%;
-    max-height: 400px;
+    width: 100%;
+    height: auto;
     border-radius: var(--radius);
     object-fit: contain;
     border: 1px solid var(--panel-border);
+    display: block;
 }
 
 /* Audio player */
