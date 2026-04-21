@@ -91,7 +91,9 @@
     {% endif %}
     
     <div class="nav-buttons">
-        <a href="/" class="btn btn-secondary">← Torna alla home</a>
+        <button class="btn btn-secondary" id="home-btn" disabled onclick="window.location.href='/'">
+            ← Torna alla home
+        </button>
     </div>
 </div>
 {% endblock %}
@@ -283,6 +285,10 @@
                 timerElement.classList.remove('warning', 'critical');
                 console.log('⏰ Tempo scaduto!');
                 if (roundTimer) roundTimer.stop(); // Ferma l'audio quando il timer scade
+                
+                // Abilita il bottone "Torna alla home"
+                const homeBtn = document.getElementById('home-btn');
+                if (homeBtn) homeBtn.disabled = false;
                 
                 // Riproduci la traccia di vittoria quando il timer scade
                 playAudioSegment('/static/media/audio/only_connect_theme_tune.webm', 16.5, 21);
