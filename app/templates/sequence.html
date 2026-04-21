@@ -167,6 +167,7 @@
             const mediaPath = `/static/media/${clue.value}`;
             const startTime = parseStartTime(clue.start_time);
             content.innerHTML = `
+                <div class="audio-badge">♪</div>
                 <div class="audio-player">
                     <audio controls id="audio-${index}">
                         <source src="${mediaPath}" type="audio/mpeg" />
