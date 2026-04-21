@@ -125,11 +125,13 @@
         return questionData.clues.some(clue => clue.type === 'audio');
     }
     
-    // Funzione per fermare tutti gli audio
-    function stopAllAudio() {
+    // Funzione per fermare tutti gli audio TRANNE uno specifico
+    function stopAllAudio(excludeId = null) {
         document.querySelectorAll('audio').forEach(audio => {
-            audio.pause();
-            audio.currentTime = 0;
+            if (audio.id !== excludeId) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
         });
     }
     
@@ -168,6 +170,7 @@
         } else if (clue.type === 'audio') {
             const mediaPath = `/static/media/${clue.value}`;
             const startTime = parseStartTime(clue.start_time);
+            console.log(`🎵 Audio clue ${index}: startTime=${startTime}s, rawValue=${clue.start_time}`);
             
             // Mostra sempre il player (senza bottone di riproduzione)
             content.innerHTML = `
@@ -183,18 +186,43 @@
             // Autoplay: primo clue quando roundStarted, clue successivi quando appena mostrati
             setTimeout(() => {
                 const audioEl = document.getElementById(`audio-${index}`);
+                console.log(`⏱️ Before autoplay check - index=${index}, display=${clueEl.style.display}, readyState=${audioEl?.readyState}`);
+                
                 if (audioEl && clueEl.style.display !== 'none') {
                     // Condizioni per autoplay:
                     // 1. Primo clue (index === 0) e roundStarted è true
                     // 2. Clue appena mostrato (index === newlyRevealedClueIndex)
                     const shouldAutoplay = (index === 0 && roundStarted) || (index === newlyRevealedClueIndex);
+                    console.log(`🔍 shouldAutoplay=${shouldAutoplay}`);
                     
                     if (shouldAutoplay) {
-                        stopAllAudio();
-                        if (startTime > 0) {
-                            audioEl.currentTime = startTime;
+                        console.log(`▶️ Starting autoplay for audio-${index}`);
+                        // Ferma gli ALTRI audio (esclude questo)
+                        stopAllAudio(`audio-${index}`);
+                        
+                        // Funzione per riprodurre l'audio dal start_time
+                        const playAudio = () => {
+                            console.log(`🎬 playAudio called, currentTime before=${audioEl.currentTime}`);
+                            if (startTime > 0) {
+                                console.log(`⏩ Setting currentTime to ${startTime}`);
+                                audioEl.currentTime = startTime;
+                                console.log(`✅ currentTime after set=${audioEl.currentTime}`);
+                            }
+                            console.log(`▶️ Calling play()`);
+                            audioEl.play()
+                                .then(() => console.log(`✅ Play succeeded, current=${audioEl.currentTime}`))
+                                .catch(e => console.warn(`❌ Audio play bloccato:`, e));
+                        };
+                        
+                        // Aspetta che i metadati siano caricati prima di impostare currentTime
+                        if (audioEl.readyState >= 1) { // 1 = HAVE_METADATA
+                            console.log(`✓ Metadata already loaded (readyState=${audioEl.readyState})`);
+                            playAudio();
+                        } else {
+                            // Altrimenti aspetta l'evento loadedmetadata
+                            console.log(`⏳ Waiting for loadedmetadata (readyState=${audioEl.readyState})`);
+                            audioEl.addEventListener('loadedmetadata', playAudio, { once: true });
                         }
-                        audioEl.play().catch(e => console.warn('Audio play bloccato:', e));
                     }
                 }
             }, 100);

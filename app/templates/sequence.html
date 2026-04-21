@@ -124,11 +124,13 @@
         return questionData.clues.some(clue => clue.type === 'audio');
     }
     
-    // Funzione per fermare tutti gli audio
-    function stopAllAudio() {
+    // Funzione per fermare tutti gli audio TRANNE uno specifico
+    function stopAllAudio(excludeId = null) {
         document.querySelectorAll('audio').forEach(audio => {
-            audio.pause();
-            audio.currentTime = 0;
+            if (audio.id !== excludeId) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
         });
     }
     
@@ -190,11 +192,24 @@
                     const shouldAutoplay = (index === 0 && roundStarted) || (index === newlyRevealedClueIndex);
                     
                     if (shouldAutoplay) {
-                        stopAllAudio();
-                        if (startTime > 0) {
-                            audioEl.currentTime = startTime;
+                        // Ferma gli ALTRI audio (esclude questo)
+                        stopAllAudio(`audio-${index}`);
+                        
+                        // Funzione per riprodurre l'audio dal start_time
+                        const playAudio = () => {
+                            if (startTime > 0) {
+                                audioEl.currentTime = startTime;
+                            }
+                            audioEl.play().catch(e => console.warn('Audio play bloccato:', e));
+                        };
+                        
+                        // Aspetta che i metadati siano caricati prima di impostare currentTime
+                        if (audioEl.readyState >= 1) { // 1 = HAVE_METADATA
+                            playAudio();
+                        } else {
+                            // Altrimenti aspetta l'evento loadedmetadata
+                            audioEl.addEventListener('loadedmetadata', playAudio, { once: true });
                         }
-                        audioEl.play().catch(e => console.warn('Audio play bloccato:', e));
                     }
                 }
             }, 100);

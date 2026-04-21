@@ -23,12 +23,13 @@ class Clue(BaseModel):
     Un singolo indizio che può essere di tre tipi:
     - text: solo testo
     - image: immagine (jpg, png, webp)
-    - audio: file audio (mp3, wav, ogg)
+    - audio: file audio (mp3, wav, ogg) con start_time opzionale
     """
     type: str = Field(..., description="Tipo: 'text', 'image' o 'audio'")
     value: str = Field(..., description="Testo o percorso del file")
     label: Optional[str] = Field(None, description="Descrizione breve per accessibilità")
     credit: Optional[str] = Field(None, description="Credito o attribuzione")
+    start_time: Optional[int | str] = Field(None, description="Per audio: tempo di inizio (secondi o 'minuti:secondi')")
     
     @validator("type")
     def validate_type(cls, v):

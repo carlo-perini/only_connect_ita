@@ -46,10 +46,10 @@
       "sym-003": {
         "id": "conn-003", 
         "clues": [
-          {"type": "audio", "value": "audio/sweet_dreams.webm"}, 
-          {"type": "audio", "value": "audio/sweet_emotions.webm"}, 
-          {"type": "audio", "value": "audio/sweet_surrender.webm"}, 
-          {"type": "audio", "value": "audio/sweet_home_alabama.webm"}
+          {"type": "audio", "value": "audio/sweet_dreams.webm", "start_time": "1:00"}, 
+          {"type": "audio", "value": "audio/sweet_emotions.webm", "start_time": "0:30"}, 
+          {"type": "audio", "value": "audio/sweet_surrender.webm", "start_time": "0:45"}, 
+          {"type": "audio", "value": "audio/sweet_home_alabama.webm", "start_time": "0:50"}
         ], 
         "answer": "Sweet songs",
         "explanation": "Hanno la parola \"sweet\" nel titolo"
