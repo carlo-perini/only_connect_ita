@@ -117,10 +117,41 @@
     let currentClueIndex = 0; // Quale clue mostrare (0-indexed, massimo 2 per 3 clue)
     let pointsAssigned = gameState.points_assigned_for_current_question || false;
     
+    // Funzione per rilevare se i clue contengono audio
+    function hasAudioClues() {
+        return questionData.clues.some(clue => clue.type === 'audio');
+    }
+    
+    // Funzione per fermare tutti gli audio
+    function stopAllAudio() {
+        document.querySelectorAll('audio').forEach(audio => {
+            audio.pause();
+            audio.currentTime = 0;
+        });
+    }
+    
+    // Funzione per parsare start_time (accetta sia secondi che "minuti:secondi")
+    function parseStartTime(startTimeValue) {
+        if (!startTimeValue) return 0;
+        if (typeof startTimeValue === 'number') return startTimeValue;
+        if (typeof startTimeValue === 'string') {
+            const parts = startTimeValue.split(':');
+            if (parts.length === 2) {
+                const minutes = parseInt(parts[0], 10);
+                const seconds = parseInt(parts[1], 10);
+                return minutes * 60 + seconds;
+            }
+        }
+        return 0;
+    }
+    
     // Funzione per renderizzare un singolo clue
     function renderClue(clue, index) {
         const clueEl = document.createElement('div');
         clueEl.className = 'clue-card';
+        if (clue.type === 'audio') {
+            clueEl.classList.add('audio-clue');
+        }
         clueEl.id = `clue-${index}`;
         
 
@@ -134,14 +165,26 @@
             content.innerHTML = `<img src="${mediaPath}" alt="${clue.label || 'Elemento ' + (index + 1)}" />`;
         } else if (clue.type === 'audio') {
             const mediaPath = `/static/media/${clue.value}`;
+            const startTime = parseStartTime(clue.start_time);
             content.innerHTML = `
                 <div class="audio-player">
-                    <audio controls>
+                    <audio controls id="audio-${index}">
                         <source src="${mediaPath}" type="audio/mpeg" />
                         Il tuo browser non supporta l'audio HTML5.
                     </audio>
                 </div>
             `;
+            // Imposta il start_time quando il clue è mostrato
+            setTimeout(() => {
+                stopAllAudio(); // Ferma tutti gli audio precedenti
+                const audioEl = document.getElementById(`audio-${index}`);
+                if (audioEl) {
+                    if (startTime > 0) {
+                        audioEl.currentTime = startTime;
+                    }
+                    audioEl.play().catch(e => console.warn('Audio play bloccato:', e));
+                }
+            }, 100);
         }
         
         clueEl.appendChild(content);
@@ -319,8 +362,10 @@
             }
         );
         
-        // Imposta l'audio del round
-        roundTimer.setAudio('/static/media/audio/connections_thinking.mp3');
+        // Imposta l'audio del round SOLO se non ci sono clue audio
+        if (!hasAudioClues()) {
+            roundTimer.setAudio('/static/media/audio/sequence_thinking.mp3');
+        }
         
         // Click su "Avvia Round": mostra indizi, avvia timer + audio
         startRoundBtn.addEventListener('click', function() {

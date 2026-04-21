@@ -768,6 +768,27 @@ h1, h2, h3 {
     filter: brightness(0.9);
 }
 
+/* Audio clue badge */
+.audio-clue {
+    position: relative;
+}
+
+.audio-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-size: 1.5rem;
+    color: var(--cyan);
+    z-index: 10;
+    text-shadow: 0 0 8px rgba(94, 196, 230, 0.4);
+    animation: musicPulse 2s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
 /* Answer section (buttons row) */
 .answer-section {
     margin-bottom: 1.5rem;

@@ -46,10 +46,10 @@
       "sym-003": {
         "id": "conn-003", 
         "clues": [
-          {"type": "audio", "value": "audio/lira.mp3", "label": "Lira musicale"}, 
-          {"type": "text", "value": "Segno zodiacale", "label": "Astrologia"}, 
-          {"type": "text", "value": "Luogo di detenzione medievale", "label": "Architettura"}, 
-          {"type": "text", "value": "Tipo di scarpa da ginnastica vintage", "label": "Moda"}
+          {"type": "audio", "value": "audio/sweet_dreams.webm"}, 
+          {"type": "audio", "value": "audio/sweet_emotions.webm"}, 
+          {"type": "audio", "value": "audio/sweet_surrender.webm"}, 
+          {"type": "audio", "value": "audio/sweet_home_alabama.webm"}
         ], 
         "answer": "Lira", 
         "explanation": "Lira è la lira musicale, il segno zodiacale, una prigione medievale, e un brand di scarpe storiche."

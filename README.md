@@ -292,9 +292,25 @@ Nel JSON, referenzia i file con percorsi relativi:
 {
   "type": "audio",
   "value": "audio/canzone.mp3",  // relativo a app/static/media/
-  "label": "Ascolta questo brano"
+  "label": "Ascolta questo brano",
+  "start_time": 45  // Inizia al 45° secondo (opzionale)
 }
 ```
+
+**Esempio con audio (formato minuti:secondi):**
+```json
+{
+  "type": "audio",
+  "value": "audio/canzone.mp3",
+  "label": "Ascolta dal minuto 1:30",
+  "start_time": "1:30"  // Inizia al minuto 1 e 30 secondi (opzionale)
+}
+```
+
+**Nota su start_time:**
+- Puoi usare secondi come numero: `"start_time": 90` (90 secondi)
+- Oppure il formato minuti:secondi: `"start_time": "1:30"` (1 minuto e 30 secondi)
+- Se omesso, l'audio parte da 0 (inizio)
 
 **Esempio con testo:**
 ```json
@@ -304,6 +320,34 @@ Nel JSON, referenzia i file con percorsi relativi:
   "label": "Descrizione (opzionale)"
 }
 ```
+
+### 5b. Scaricare audio da YouTube con yt-dlp
+
+Puoi estrarre facilmente l'audio da YouTube direttamente nel progetto:
+
+**Passo 1: Installa yt-dlp** (attiva la venv prima)
+```powershell
+pip install yt-dlp
+```
+
+**Passo 2: Scarica l'audio dalla venv attiva**
+```powershell
+yt-dlp -f "ba/b" --extract-audio --audio-format mp3 -o "app/static/media/audio/%(title)s.mp3" "https://www.youtube.com/watch?v=VIDEO_ID"
+```
+
+**Breakdown del comando:**
+- `-f "ba/b"` — Scarica il migliore audio disponibile
+- `--extract-audio` — Estrae solo l'audio (scarta il video)
+- `--audio-format mp3` — Salva come mp3
+- `-o "path/%(title)s.mp3"` — Salva in `audio/` con il titolo del video
+- `"https://..."` — Sostituisci con il link YouTube vero
+
+**Esempio pratico:**
+```powershell
+yt-dlp -f "ba/b" --extract-audio --audio-format mp3 -o "app/static/media/audio/%(title)s.mp3" "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+```
+
+Il file audio sarà salvato direttamente in `app/static/media/audio/` pronto da usare nel JSON! 🎵
 
 ### 6. Validazione
 
