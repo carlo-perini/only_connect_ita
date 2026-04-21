@@ -67,5 +67,22 @@ class RoundTimer {
     }
 }
 
+// Funzione helper per riprodurre un audio da startTime a endTime
+function playAudioSegment(audioSrc, startTime, endTime) {
+    const audio = new Audio(audioSrc);
+    audio.currentTime = startTime;
+    
+    const checkEnd = () => {
+        if (audio.currentTime >= endTime) {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.removeEventListener('timeupdate', checkEnd);
+        }
+    };
+    
+    audio.addEventListener('timeupdate', checkEnd);
+    audio.play().catch(e => console.warn('Audio play bloccato:', e));
+}
+
 // Debug: log nel browser
 console.log('✓ main.js caricato');

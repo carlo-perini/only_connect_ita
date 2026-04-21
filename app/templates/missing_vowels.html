@@ -283,6 +283,9 @@
                 timerElement.classList.remove('warning', 'critical');
                 console.log('⏰ Tempo scaduto!');
                 if (roundTimer) roundTimer.stop(); // Ferma l'audio quando il timer scade
+                
+                // Riproduci la traccia di vittoria quando il timer scade
+                playAudioSegment('/static/media/audio/only_connect_theme_tune.webm', 16, 21);
             }
         );
         
