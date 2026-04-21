@@ -377,7 +377,7 @@ Ogni round ha **6 domande**, ognuna associata a un **simbolo Unicode** in una gr
 2. 🔤 **Selezione** — Clicca su un simbolo per vedere la domanda
 3. ❓ **Domanda** — Vede indizi (testo/immagini/audio)
 4. 💭 **Risposta** — Il conduttore verifica a voce
-5. ← **Ritorno** — Clicca "Torna ai Simboli"
+5. ← **Ritorno** — Clicca "Torna ai simboli"
 6. ✓ **Simbolo Completato** — Il simbolo è marcato e non più cliccabile
 7. 🔁 **Ripeti** — Fino a 6 domande completate
 

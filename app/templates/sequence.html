@@ -55,21 +55,20 @@
     <!-- Sezione Assegnazione Punti -->
     {% if current_team and game_state %}
     <div class="scoring-section" id="scoring-section">
-        <h3>Assegna i Punti</h3>
+        <h3>Assegnazione punti</h3>
         <div class="current-team-display">
             <p>Di turno: <strong>{{ current_team.team_name }}</strong></p>
         </div>
         
         <div class="points-buttons">
             <div class="points-group">
-                <p>Di turno:</p>
                 <button class="btn btn-success" onclick="assignPoints(5, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">5 punti (1° indizio)</button>
                 <button class="btn btn-success" onclick="assignPoints(3, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">3 punti (2° indizio)</button>
                 <button class="btn btn-success" onclick="assignPoints(2, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">2 punti (3° indizio)</button>
             </div>
             
             <div class="points-group">
-                <p>Bonus (altra squadra):</p>
+                <p>Bonus:</p>
                 {% if teams_scores and teams_scores|length > 1 %}
                     {% set other_team = teams_scores[1] if current_team.team_id == teams_scores[0].team_id else teams_scores[0] %}
                     <button class="btn btn-info" onclick="assignPoints(1, '{{ other_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">1 punto bonus ({{ other_team.team_name }})</button>
@@ -90,7 +89,7 @@
     
     <div class="nav-buttons">
         {% if symbol_id %}
-        <button class="btn btn-secondary" id="back-btn" onclick="backToSymbols()">← Torna ai Simboli</button>
+        <button class="btn btn-secondary" id="back-btn" onclick="backToSymbols()">← Torna ai simboli</button>
         {% else %}
         <a href="/" class="btn btn-secondary">← Indietro</a>
         {% endif %}
@@ -297,7 +296,7 @@
                 
                 // NON disabilitiamo i bottoni - permette la modifica retroattiva
                 
-                // Abilita il bottone "Torna ai Simboli"
+                // Abilita il bottone "Torna ai simboli"
                 if (document.getElementById('back-btn')) {
                     document.getElementById('back-btn').disabled = false;
                 }

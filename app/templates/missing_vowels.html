@@ -49,10 +49,10 @@
         </div>
     </div>
     
-    <!-- Bottone Prossima Parola (comparirà solo quando assegnati i punti) -->
+    <!-- Bottone Prossima parola (comparirà solo quando assegnati i punti) -->
     <div class="mv-nav-buttons" id="next-word-section" style="display: none;">
         <button class="btn btn-primary" id="next-word-btn" onclick="mvNextWord()">
-            Prossima Parola →
+            Prossima parola →
         </button>
     </div>
     
@@ -91,7 +91,7 @@
     {% endif %}
     
     <div class="nav-buttons">
-        <a href="/" class="btn btn-secondary">← Torna alla Home</a>
+        <a href="/" class="btn btn-secondary">← Torna alla home</a>
     </div>
 </div>
 {% endblock %}
@@ -105,6 +105,7 @@
     let currentCategoryIndex = 0;
     let currentWordIndex = 0;
     let roundFinished = false;
+    let roundTimer = null; // Dichiarato globalmente per accedervi ovunque
     
     // Mostra la parola corrente
     function updateDisplay() {
@@ -127,16 +128,16 @@
         // Nascondi lo status
         document.getElementById('points-status').style.display = 'none';
         
-        // Aggiorna il testo del bottone "prossima parola"
+        // Aggiorna il testo del bottone "Prossima parola"
         const isLastWord = currentCategoryIndex === categories.length - 1 && 
                           currentWordIndex === category.words.length - 1;
         const nextBtn = document.getElementById('next-word-btn');
         if (isLastWord) {
             nextBtn.textContent = 'Termina Round';
         } else if (currentWordIndex === category.words.length - 1) {
-            nextBtn.textContent = 'Prossima Categoria →';
+            nextBtn.textContent = 'Prossima categoria →';
         } else {
-            nextBtn.textContent = 'Prossima Parola →';
+            nextBtn.textContent = 'Prossima parola →';
         }
     }
     
@@ -184,7 +185,7 @@
                 }
                 statusEl.style.display = 'block';
                 
-                // Mostra il bottone "Prossima Parola"
+                // Mostra il bottone "Prossima parola"
                 document.getElementById('next-word-section').style.display = '';
             } else {
                 alert('Errore: ' + data.error);
@@ -206,11 +207,11 @@
         statusText.textContent = '— Nessun punto assegnato';
         statusEl.style.display = 'block';
         
-        // Mostra il bottone "Prossima Parola"
+        // Mostra il bottone "Prossima parola"
         document.getElementById('next-word-section').style.display = '';
     }
     
-    // Passa alla prossima parola o categoria
+    // Passa alla Prossima parola o categoria
     function mvNextWord() {
         const category = categories[currentCategoryIndex];
         
@@ -227,7 +228,7 @@
             return;
         }
         
-        // Nascondi il bottone "Prossima Parola"
+        // Nascondi il bottone "Prossima parola"
         document.getElementById('next-word-section').style.display = 'none';
         
         updateDisplay();
@@ -236,6 +237,9 @@
     // Termina il round
     function mvFinishRound() {
         roundFinished = true;
+        
+        // Ferma il timer e l'audio
+        if (roundTimer) roundTimer.stop();
         
         fetch('/api/missing-vowels/complete', {
             method: 'POST',
@@ -263,7 +267,7 @@
     
     if (timerElement && timerElement.dataset.totalTime) {
         const totalTime = parseInt(timerElement.dataset.totalTime);
-        const roundTimer = new RoundTimer(totalTime, 
+        roundTimer = new RoundTimer(totalTime, 
             function onTick(remainingSeconds) {
                 timerElement.textContent = formatTime(remainingSeconds);
                 
@@ -278,11 +282,12 @@
                 timerElement.textContent = '00:00';
                 timerElement.classList.remove('warning', 'critical');
                 console.log('⏰ Tempo scaduto!');
+                if (roundTimer) roundTimer.stop(); // Ferma l'audio quando il timer scade
             }
         );
         
         // Imposta l'audio del round
-        roundTimer.setAudio('/static/media/audio/connections_thinking.mp3');
+        roundTimer.setAudio('/static/media/audio/connecting_wall_thinking.webm');
         
         // Click su "Avvia Round": mostra contenuti, avvia timer + audio
         startRoundBtn.addEventListener('click', function() {

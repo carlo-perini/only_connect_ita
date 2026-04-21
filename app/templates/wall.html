@@ -54,7 +54,7 @@
     <!-- Sezione Assegnazione Punti -->
     {% if current_team %}
     <div class="scoring-section" id="scoring-section" style="display: none;">
-        <h3>Assegna i Punti</h3>
+        <h3>Assegnazione punti</h3>
         <div class="current-team-display">
             <p>Di turno: <strong>{{ current_team.team_name }}</strong></p>
         </div>
@@ -85,7 +85,7 @@
     
     <div class="nav-buttons">
         {% if symbol_id %}
-        <button class="btn btn-secondary" id="back-btn" onclick="backToSymbols()">← Torna ai Simboli</button>
+        <button class="btn btn-secondary" id="back-btn" onclick="backToSymbols()">← Torna ai simboli</button>
         {% else %}
         <a href="/" class="btn btn-secondary">← Indietro</a>
         {% endif %}
@@ -282,7 +282,7 @@
         roundEnded = true;
         
         if (roundTimer) {
-            roundTimer._stopInterval();
+            roundTimer.stop(); // Ferma il timer e l'audio
             if (forced) {
                 const timerEl = document.getElementById('timer');
                 timerEl.textContent = '00:00';
@@ -425,7 +425,7 @@
             }
         );
         
-        roundTimer.setAudio('/static/media/audio/connections_thinking.mp3');
+        roundTimer.setAudio('/static/media/audio/connecting_wall_thinking.webm');
         
         startRoundBtn.addEventListener('click', function() {
             startRoundSection.style.display = 'none';

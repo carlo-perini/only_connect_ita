@@ -28,7 +28,7 @@
     <div class="menu">
         <div class="menu-card {% if completed_rounds.get('connections') %}round-completed{% endif %}">
             <h2>Connessioni</h2>
-            <p>Indovina la connessione dai clue progressivi.</p>
+            <p>Indovina la connessione che lega i 4 elementi.</p>
             {% if completed_rounds.get('connections') %}
             <span class="completed-badge">✓ Completato</span>
             <a href="#" class="btn btn-primary disabled_custom" title="Round già completato">
@@ -58,7 +58,7 @@
         
         <div class="menu-card {% if completed_rounds.get('wall') %}round-completed{% endif %}">
             <h2>Muro delle Connessioni</h2>
-            <p>Trasforma il muro: raggruppa 4 elementi per ogni connessione.</p>
+            <p>Risolvi il muro trovando i 4 gruppi di 4 parole.</p>
             {% if completed_rounds.get('wall') %}
             <span class="completed-badge">✓ Completato</span>
             <a href="#" class="btn btn-primary disabled_custom" title="Round già completato">
@@ -73,7 +73,7 @@
         
         <div class="menu-card {% if completed_rounds.get('missing_vowels') %}round-completed{% endif %}">
             <h2>Vocali Mancanti</h2>
-            <p>Riconosci le frasi senza le vocali.</p>
+            <p>Completa le parole senza vocali per ogni categoria.</p>
             {% if completed_rounds.get('missing_vowels') %}
             <span class="completed-badge">✓ Completato</span>
             <a href="#" class="btn btn-primary disabled_custom" title="Round già completato">
