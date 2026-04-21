@@ -34,6 +34,61 @@ L'app sarà disponibile a `http://localhost:5000`
 
 Apri il browser all'indirizzo sopra. Vedrai il menu principale con i round disponibili.
 
+## 🎯 Usare Quiz Diversi
+
+### Opzione 1: Quiz Default (quiz_data.json)
+Avvia l'app normalmente:
+```bash
+python app.py
+```
+L'app caricherà il file `quiz_data.json` dalla radice del progetto.
+
+### Opzione 2: Quiz Personalizzati da Cartella
+
+Puoi preparare diversi quiz JSON e sceglierli dinamicamente tramite variabile d'ambiente:
+
+**Passo 1:** Crea una cartella `quiz_files/` nella radice del progetto:
+```
+only_connect_ita/
+├── quiz_files/
+│   ├── quiz_storia.json
+│   ├── quiz_geografia.json
+│   └── quiz_letteratura.json
+├── quiz_data.json
+├── app.py
+└── ...
+```
+
+**Passo 2:** Sposta i tuoi quiz personalizzati in `quiz_files/` o crea nuovi file seguendo la [struttura](#-come-personalizzare-il-quiz).
+
+**Passo 3:** Crea (o modifica) un file `.env` nella radice del progetto:
+```env
+QUIZ_DATA_FILE=quiz_files/quiz_storia.json
+```
+
+**Passo 4:** Avvia l'app:
+```bash
+python app.py
+```
+
+L'app caricherà il file specificato in `.env`.
+
+### Cambiare Quiz al Volo (PowerShell)
+
+Se non vuoi editare `.env` ogni volta, da PowerShell:
+```powershell
+# Attiva venv
+.\venv\Scripts\Activate.ps1
+
+# Imposta la variabile d'ambiente e avvia
+$env:QUIZ_DATA_FILE="quiz_files/quiz_geografia.json"
+python app.py
+```
+
+### Priorità di Caricamento
+1. Variabile d'ambiente `QUIZ_DATA_FILE` (da `.env` o PowerShell)
+2. File `quiz_data.json` nella radice (default)
+
 ## 📁 Struttura del progetto
 
 ```
@@ -41,7 +96,12 @@ only-connect-ita/
 ├── app.py                    # Entry point (avvia il server Flask)
 ├── config.py                 # Configurazioni globali
 ├── requirements.txt          # Dipendenze Python
-├── quiz_data.json            # I dati del quiz (PERSONALIZZABILE)
+├── .env                      # Variabili d'ambiente (non versionare)
+├── quiz_data.json            # I dati del quiz (default, PERSONALIZZABILE)
+├── quiz_files/               # Cartella con quiz personalizzati (opzionale)
+│   ├── quiz_storia.json
+│   ├── quiz_geografia.json
+│   └── quiz_letteratura.json
 ├── README.md                 # Questo file
 │
 ├── app/
@@ -218,10 +278,30 @@ I file media devono essere salvati in `app/static/media/`:
 
 Nel JSON, referenzia i file con percorsi relativi:
 
+**Esempio con immagine:**
 ```json
 {
   "type": "image",
-  "value": "images/my_image.jpg"  // relativo a app/static/media/
+  "value": "images/my_image.jpg",  // relativo a app/static/media/
+  "label": "Descrizione (opzionale)"
+}
+```
+
+**Esempio con audio:**
+```json
+{
+  "type": "audio",
+  "value": "audio/canzone.mp3",  // relativo a app/static/media/
+  "label": "Ascolta questo brano"
+}
+```
+
+**Esempio con testo:**
+```json
+{
+  "type": "text",
+  "value": "Testo dell'indizio",
+  "label": "Descrizione (opzionale)"
 }
 ```
 

@@ -57,12 +57,12 @@
     <div class="scoring-section" id="scoring-section">
         <h3>Assegna i punti</h3>
         <div class="current-team-display">
-            <p>Team in turno: <strong>{{ current_team.team_name }}</strong></p>
+            <p>Di turno: <strong>{{ current_team.team_name }}</strong></p>
         </div>
         
         <div class="points-buttons">
             <div class="points-group">
-                <p>Team in turno:</p>
+                <p>Di turno:</p>
                 <button class="btn btn-success" onclick="assignPoints(5, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">5 punti (1° indizio)</button>
                 <button class="btn btn-success" onclick="assignPoints(3, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">3 punti (2° indizio)</button>
                 <button class="btn btn-success" onclick="assignPoints(2, '{{ current_team.team_id }}', '{{ round_type }}', '{{ symbol_id }}')">2 punti (3° indizio)</button>

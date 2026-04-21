@@ -91,7 +91,8 @@ def home():
     return render_template(
         "home.html",
         teams_scores=teams_scores,
-        completed_rounds=completed_rounds
+        completed_rounds=completed_rounds,
+        quiz_file=config.QUIZ_DATA_FILE_DISPLAY
     )
 
 
@@ -259,7 +260,7 @@ def round_symbols(round_type):
         session['game_state'] = game_state
         session.modified = True
         
-        # Ottieni il team in turno
+        # Ottieni il team di turno
         current_team_index = game_state.get('current_team_index', 0)
         teams_scores = game_state.get('teams_scores', [])
         current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None
@@ -433,7 +434,7 @@ def assign_points():
     
     Richiesta JSON:
         {
-            "points": 5,  // 5, 3, 2, 1 per team in turno; 1 per bonus all'altra squadra; 0 per nessun punto
+            "points": 5,  // 5, 3, 2, 1 per team di turno; 1 per bonus all'altra squadra; 0 per nessun punto
             "team_id": "team-1",  // ID della squadra a cui assegnare i punti (non necessario se points=0)
             "round_type": "connections",  // Tipo di round (per storico)
             "symbol_id": "sym-001"  // ID del simbolo (per storico)
@@ -731,7 +732,7 @@ def wall_symbols():
         session['game_state'] = game_state
         session.modified = True
         
-        # Ottieni il team in turno
+        # Ottieni il team di turno
         current_team_index = game_state.get('current_team_index', 0)
         teams_scores = game_state.get('teams_scores', [])
         current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None

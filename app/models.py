@@ -72,7 +72,7 @@ class SequenceQuestion(BaseModel):
     """Domanda del round Sequenza."""
     id: str = Field(..., description="ID unico della domanda")
     clues: List[Clue] = Field(..., description="Lista di 3 clue della sequenza")
-    answer: str = Field(..., description="Quarto elemento della sequenza (risposta corretta)")
+    answer: str = Field(..., description="Quarto elemento (risposta corretta)")
     sequence_rule: str = Field(..., description="Descrizione della regola della sequenza")
     explanation: str = Field(..., description="Spiegazione della sequenza")
     

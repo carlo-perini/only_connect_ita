@@ -1,0 +1,191 @@
+{
+  "teams": [
+    {
+      "id": "team-1",
+      "name": "I corvi scemi",
+      "color": "#FF8C42"
+    },
+    {
+      "id": "team-2",
+      "name": "I lupi saggi",
+      "color": "#0066FF"
+    }
+  ],
+  "connections": {
+    "symbols": [
+      {"id": "sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "sym-006", "display": "𓂀", "label": "Occhio di Horus"}
+    ],
+    "questions": {
+      "sym-001": {
+        "id": "conn-001",
+        "clues": [
+          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg", "label": "modifiche-wiki"},
+          {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 2"}, 
+          {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 3"}, 
+          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg", "label": "modifiche-wiki"}
+        ],
+        "answer": "Arancia",
+        "explanation": "Tutte le piste portano al concetto di 'Arancia'. La quarta pista è un gioco di parole con Orange (il social network)."
+      },
+      "sym-002": {
+        "id": "conn-002", 
+        "clues": [
+          {"type": "text", "value": "Finlandia"}, 
+          {"type": "text", "value": "Baviera"}, 
+          {"type": "text", "value": "Grecia"}, 
+          {"type": "text", "value": "Scozia"}
+        ], 
+        "answer": "Hanno la bandiera di colore bianco e blu",
+        "explanation": ""
+      },
+      "sym-003": {
+        "id": "conn-003", 
+        "clues": [
+          {"type": "audio", "value": "audio/lira.mp3", "label": "Lira musicale"}, 
+          {"type": "text", "value": "Segno zodiacale", "label": "Astrologia"}, 
+          {"type": "text", "value": "Luogo di detenzione medievale", "label": "Architettura"}, 
+          {"type": "text", "value": "Tipo di scarpa da ginnastica vintage", "label": "Moda"}
+        ], 
+        "answer": "Lira", 
+        "explanation": "Lira è la lira musicale, il segno zodiacale, una prigione medievale, e un brand di scarpe storiche."
+      },
+      "sym-004": {"id": "conn-004", "clues": [{"type": "text", "value": "Tipo di formaggio olandese", "label": "Formaggio"}, {"type": "text", "value": "Regione spagnola", "label": "Geografia"}, {"type": "text", "value": "Piatto italiano con pasta", "label": "Cucina"}, {"type": "text", "value": "Nome di una dea romana", "label": "Mitologia"}], "answer": "Grana", "explanation": "Grana è un tipo di formaggio, una regione spagnola, un ingrediente di cucina italiana, e una divinità romana."},
+      "sym-005": {"id": "conn-005", "clues": [{"type": "text", "value": "Poeta italiano del Medioevo", "label": "Letteratura"}, {"type": "text", "value": "Moneta della lira italiana", "label": "Economia"}, {"type": "text", "value": "Unità di misura della lunghezza", "label": "Metrica"}, {"type": "text", "value": "Colore scuro", "label": "Colore"}], "answer": "Dante", "explanation": "Dante Alighieri è il poeta, una moneta storica, un'unità di misura, e un colore ricco."},
+      "sym-006": {"id": "conn-006", "clues": [{"type": "text", "value": "Giocattolo a molla", "label": "Giocattoli"}, {"type": "text", "value": "Elemento chimico Au", "label": "Chimica"}, {"type": "text", "value": "Colore caldo e prezioso", "label": "Colore"}, {"type": "text", "value": "Città californiana during la rush", "label": "Storia"}], "answer": "Oro", "explanation": "Oro è il giocattolo, l'elemento, il colore lusso, e riferimento alla corsa all'oro."}
+    }
+  },
+  "sequence": {
+    "symbols": [
+      {"id": "seq-sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "seq-sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "seq-sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "seq-sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "seq-sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "seq-sym-006", "display": "𓂀", "label": "Occhio di Horus"}
+    ],
+    "questions": {
+      "seq-sym-001": 
+      {"id": "seq-001", 
+          "clues": [
+            {"type": "image", "value": "images/MODIFICHE-WIKI.jpg", "label": "modifiche-wiki"},
+            {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 2"}, 
+            {"type": "image", "value": "images/immagine_test2.png", "label": "Indizio 3"}
+          ],
+          "answer": "Arancia",
+          "sequence_rule": "Oggetti che appaiono in un certo ordine",
+          "explanation": "La sequenza di indizi porta al concetto di 'Arancia', con un gioco di parole finale su Orange (il social network)."
+      },
+      "seq-sym-002": 
+      {"id": "seq-002",
+        "clues": [
+            {"type": "text", "value": "Puntare"}, 
+            {"type": "text", "value": "Insultare"}, 
+            {"type": "text", "value": "Portare un anello"}
+          ], 
+          "answer": "Azione che si può fare con il mignolo. Es. Berè il tè ostentando fare nobile", 
+          "sequence_rule": "Azioni con le dita della mano",
+          "explanation": "A partire dall'indice verso il mignolo"},
+      "seq-sym-003": {"id": "seq-003", "clues": [{"type": "text", "value": "2, 3, 5", "label": "Numeri 1-3"}, {"type": "text", "value": "7, 11, 13", "label": "Numeri 4-6"}, {"type": "text", "value": "17, 19, 23", "label": "Numeri 7-9"}], "answer": "29", "sequence_rule": "Numeri primi in ordine crescente", "explanation": "La sequenza di numeri primi continua: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29."},
+      "seq-sym-004": {"id": "seq-004", "clues": [{"type": "text", "value": "Primo imperatore romano", "label": "Sovrano 1"}, {"type": "text", "value": "Seconda generazione di imperatori", "label": "Sovrano 2"}, {"type": "text", "value": "Terza generazione di imperatori", "label": "Sovrano 3"}], "answer": "Caligola", "sequence_rule": "Imperatori romani primi tre", "explanation": "Augusto, Tiberio, Caligola sono i primi tre."},
+      "seq-sym-005": {"id": "seq-005", "clues": [{"type": "text", "value": "Rosso + Blu", "label": "Colore 1"}, {"type": "text", "value": "Rosso + Giallo", "label": "Colore 2"}, {"type": "text", "value": "Blu + Giallo", "label": "Colore 3"}], "answer": "Verde", "sequence_rule": "Colori secondari", "explanation": "Viola, Arancione, Verde seguono la miscelazione di colori primari."},
+      "seq-sym-006": {"id": "seq-006", "clues": [{"type": "text", "value": "1, 1", "label": "Termini 1-2"}, {"type": "text", "value": "2, 3", "label": "Termini 3-4"}, {"type": "text", "value": "5, 8", "label": "Termini 5-6"}], "answer": "13", "sequence_rule": "Sequenza di Fibonacci", "explanation": "1, 1, 2, 3, 5, 8, 13... è la sequenza Fibonacci."}
+    }
+  },
+  "missing_vowels": {
+    "categories": [
+      {
+        "id": "mv-cat-001",
+        "category_name": "Capitali europee",
+        "words": [
+          {"answer": "Londra", "display": "LN DR"},
+          {"answer": "Parigi", "display": "PR G"},
+          {"answer": "Berlino", "display": "BR LN"},
+          {"answer": "Madrid", "display": "MDR D"}
+        ]
+      },
+      {
+        "id": "mv-cat-002",
+        "category_name": "Animali domestici",
+        "words": [
+          {"answer": "Gatto", "display": "G TT"},
+          {"answer": "Cane", "display": "CN"},
+          {"answer": "Coniglio", "display": "CN GL"},
+          {"answer": "Criceto", "display": "CR CT"}
+        ]
+      },
+      {
+        "id": "mv-cat-003",
+        "category_name": "Piatti italiani",
+        "words": [
+          {"answer": "Carbonara", "display": "CR BN R"},
+          {"answer": "Lasagna", "display": "LS GN"},
+          {"answer": "Tiramisù", "display": "TR MS"},
+          {"answer": "Risotto", "display": "RS TT"}
+        ]
+      },
+      {
+        "id": "mv-cat-004",
+        "category_name": "Pianeti del sistema solare",
+        "words": [
+          {"answer": "Mercurio", "display": "MR CR"},
+          {"answer": "Giove", "display": "GV"},
+          {"answer": "Saturno", "display": "ST RN"},
+          {"answer": "Nettuno", "display": "NT TN"}
+        ]
+      }
+    ]
+  },
+  "wall": {
+    "symbols": [
+      {"id": "wall-1", "display": "𓃭", "label": "Leone"},
+      {"id": "wall-2", "display": "𓈗", "label": "Acqua"}
+    ],
+    "questions": {
+      "wall-1": {
+        "groups": [
+          {
+            "connection": "Tipi di pasta",
+            "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+          },
+          {
+            "connection": "Capitali europee",
+            "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
+          },
+          {
+            "connection": "Pianeti del sistema solare",
+            "items": ["Marte", "Giove", "Saturno", "Venere"]
+          },
+          {
+            "connection": "Strumenti musicali a corde",
+            "items": ["Violino", "Chitarra", "Arpa", "Mandolino"]
+          }
+        ]
+      },
+      "wall-2": {
+        "groups": [
+          {
+            "connection": "Colori primari",
+            "items": ["Rosso", "Blu", "Giallo", "Verde"]
+          },
+          {
+            "connection": "Frutta tropicale",
+            "items": ["Banana", "Ananas", "Mango", "Papaya"]
+          },
+          {
+            "connection": "Continenti",
+            "items": ["Africa", "Asia", "Europa", "America"]
+          },
+          {
+            "connection": "Lingue parlate",
+            "items": ["Italiano", "Spagnolo", "Francese", "Tedesco"]
+          }
+        ]
+      }
+    }
+  }
+}

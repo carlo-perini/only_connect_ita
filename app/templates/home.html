@@ -17,9 +17,12 @@
     {% endif %}
     
     <div class="header">
-        <span class="kicker">Quiz Show</span>
+        <span class="kicker">Diventa una persona meglio con... </span>
         <h1>Only Connect</h1>
         <p class="subtitle">Edizione italiana</p>
+        {% if quiz_file %}
+        <p class="quiz-file-info">📄 Quiz: <strong>{{ quiz_file }}</strong></p>
+        {% endif %}
     </div>
     
     <div class="menu">
@@ -85,7 +88,7 @@
     </div>
     
     <div class="footer-info">
-        <p>Carica le domande da <code>quiz_data.json</code></p>
+        <p>Github: <a href="https://github.com/carlo-perini/only_connect_ita.git" target="_blank">only_connect_ita</a></p>
     </div>
 </div>
 {% endblock %}
