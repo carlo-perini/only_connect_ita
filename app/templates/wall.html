@@ -267,6 +267,42 @@
                 document.getElementById('wall-lives').style.display = '';
             }
             
+            // Quando rimangono solo 2 gruppi e uno viene risolto, risolvere automaticamente l'ultimo
+            if (solvedGroups.length === 3) {
+                // Trova il gruppo non ancora risolto
+                const lastGroupIndex = groups.findIndex((_, idx) => !solvedGroups.includes(idx));
+                
+                // Aggiungi il gruppo rimasto
+                solvedGroups.push(lastGroupIndex);
+                allItems.forEach(item => {
+                    if (item.groupIndex === lastGroupIndex) {
+                        item.solved = true;
+                    }
+                });
+                
+                // Anima le ultime 4 celle con il colore del 4° gruppo
+                const grid = document.getElementById('wall-grid');
+                const cells = Array.from(grid.querySelectorAll('.wall-cell')).filter(
+                    cell => !cell.classList.contains('solved')
+                );
+                const lastColor = wallColors[3];
+                
+                cells.forEach(cell => {
+                    cell.classList.add('solving');
+                    cell.style.backgroundColor = lastColor;
+                    cell.style.color = '#fff';
+                    cell.style.textShadow = '0 1px 3px rgba(0,0,0,0.4)';
+                    cell.style.borderColor = lastColor;
+                });
+                
+                // Dopo l'animazione, termina il round
+                setTimeout(() => {
+                    isAnimating = false;
+                    endRound(false);
+                }, 600);
+                return;
+            }
+            
             if (solvedGroups.length === 4) {
                 isAnimating = false;
                 endRound(false);
