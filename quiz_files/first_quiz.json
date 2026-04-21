@@ -51,8 +51,8 @@
           {"type": "audio", "value": "audio/sweet_surrender.webm"}, 
           {"type": "audio", "value": "audio/sweet_home_alabama.webm"}
         ], 
-        "answer": "Lira", 
-        "explanation": "Lira è la lira musicale, il segno zodiacale, una prigione medievale, e un brand di scarpe storiche."
+        "answer": "Sweet songs",
+        "explanation": "Hanno la parola \"sweet\" nel titolo"
       },
       "sym-004": {"id": "conn-004", "clues": [{"type": "text", "value": "Tipo di formaggio olandese", "label": "Formaggio"}, {"type": "text", "value": "Regione spagnola", "label": "Geografia"}, {"type": "text", "value": "Piatto italiano con pasta", "label": "Cucina"}, {"type": "text", "value": "Nome di una dea romana", "label": "Mitologia"}], "answer": "Grana", "explanation": "Grana è un tipo di formaggio, una regione spagnola, un ingrediente di cucina italiana, e una divinità romana."},
       "sym-005": {"id": "conn-005", "clues": [{"type": "text", "value": "Poeta italiano del Medioevo", "label": "Letteratura"}, {"type": "text", "value": "Moneta della lira italiana", "label": "Economia"}, {"type": "text", "value": "Unità di misura della lunghezza", "label": "Metrica"}, {"type": "text", "value": "Colore scuro", "label": "Colore"}], "answer": "Dante", "explanation": "Dante Alighieri è il poeta, una moneta storica, un'unità di misura, e un colore ricco."},

@@ -87,6 +87,10 @@
         </div>
     </div>
     
+    <div class="reset-section">
+        <button class="btn btn-danger" onclick="resetGame()">🔄 Resetta Gioco</button>
+    </div>
+    
     <div class="footer-info">
         <p>Github: <a href="https://github.com/carlo-perini/only_connect_ita.git" target="_blank">only_connect_ita</a></p>
     </div>
@@ -98,6 +102,19 @@
     function startRound(roundType) {
         // Naviga alla pagina di scelta team
         window.location.href = `/round/${roundType}/choose-team`;
+    }
+    
+    function resetGame() {
+        if (confirm('Sei sicuro di voler resettare il gioco? Tutti i progressi verranno cancellati.')) {
+            fetch('/reset-game', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    }
+                })
+                .catch(error => console.error('Errore:', error));
+        }
     }
 </script>
 {% endblock %}

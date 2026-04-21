@@ -115,7 +115,9 @@
     const isModification = {{ 'true' if is_modification else 'false' }};
     
     let currentClueIndex = 0; // Quale clue mostrare (0-indexed, massimo 2 per 3 clue)
+    let newlyRevealedClueIndex = -1; // Indice del clue appena mostrato (per autoplay)
     let pointsAssigned = gameState.points_assigned_for_current_question || false;
+    let roundStarted = false; // Flag per sapere se il round è stato avviato
     
     // Funzione per rilevare se i clue contengono audio
     function hasAudioClues() {
@@ -166,6 +168,8 @@
         } else if (clue.type === 'audio') {
             const mediaPath = `/static/media/${clue.value}`;
             const startTime = parseStartTime(clue.start_time);
+            
+            // Mostra sempre il player (senza bottone di riproduzione)
             content.innerHTML = `
                 <div class="audio-badge">♪</div>
                 <div class="audio-player">
@@ -175,15 +179,23 @@
                     </audio>
                 </div>
             `;
-            // Imposta il start_time quando il clue è mostrato
+            
+            // Autoplay: primo clue quando roundStarted, clue successivi quando appena mostrati
             setTimeout(() => {
-                stopAllAudio(); // Ferma tutti gli audio precedenti
                 const audioEl = document.getElementById(`audio-${index}`);
-                if (audioEl) {
-                    if (startTime > 0) {
-                        audioEl.currentTime = startTime;
+                if (audioEl && clueEl.style.display !== 'none') {
+                    // Condizioni per autoplay:
+                    // 1. Primo clue (index === 0) e roundStarted è true
+                    // 2. Clue appena mostrato (index === newlyRevealedClueIndex)
+                    const shouldAutoplay = (index === 0 && roundStarted) || (index === newlyRevealedClueIndex);
+                    
+                    if (shouldAutoplay) {
+                        stopAllAudio();
+                        if (startTime > 0) {
+                            audioEl.currentTime = startTime;
+                        }
+                        audioEl.play().catch(e => console.warn('Audio play bloccato:', e));
                     }
-                    audioEl.play().catch(e => console.warn('Audio play bloccato:', e));
                 }
             }, 100);
         }
@@ -209,8 +221,20 @@
     // Bottone "Prossimo Indizio" - rivela indizi uno per uno
     document.getElementById('next-clue-btn').addEventListener('click', function() {
         if (currentClueIndex < questionData.clues.length - 1) {
+            // Ferma tutti gli audio prima di mostrare il prossimo clue
+            stopAllAudio();
+            
+            // Incrementa l'indice
             currentClueIndex++;
+            newlyRevealedClueIndex = currentClueIndex;
+            
+            // Aggiorna la visualizzazione dei clue
             updateCluesDisplay();
+            
+            // Resetta il flag dopo il render
+            setTimeout(() => {
+                newlyRevealedClueIndex = -1;
+            }, 150);
         }
         
         // Disabilita il bottone quando sono visibili tutti gli indizi
@@ -370,10 +394,13 @@
         
         // Click su "Avvia Round": mostra indizi, avvia timer + audio
         startRoundBtn.addEventListener('click', function() {
+            roundStarted = true; // Marca che il round è iniziato
             startRoundSection.style.display = 'none';
             cluesContainer.style.display = '';
             answerSection.style.display = '';
             roundTimer.start();
+            // Aggiorna la visualizzazione dei clue per attivare l'autoplay audio
+            updateCluesDisplay();
         });
     }
     } else {

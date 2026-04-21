@@ -96,6 +96,15 @@ def home():
     )
 
 
+@bp.route("/reset-game", methods=["POST"])
+def reset_game():
+    """Resetta il game state (punteggi e round completati)."""
+    if 'game_state' in session:
+        session.clear()
+        session.modified = True
+    return jsonify({"success": True, "message": "Gioco resettato"})
+
+
 @bp.route("/round/<round_type>/choose-team")
 def choose_team(round_type):
     """
