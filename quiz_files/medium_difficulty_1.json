@@ -1,0 +1,262 @@
+{
+  "teams": [
+    {
+      "id": "team-1",
+      "name": "I corvi scemi",
+      "color": "#FF8C42"
+    },
+    {
+      "id": "team-2",
+      "name": "I lupi saggi",
+      "color": "#0066FF"
+    }
+  ],
+  "connections": {
+    "symbols": [
+      {"id": "sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "sym-006", "display": "𓂀", "label": "Occhio di Horus"}
+    ],
+    "questions": {
+      "sym-001": {
+        "id": "conn-001",
+        "clues": [
+          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg"},
+          {"type": "image", "value": "images/immagine_test2.png"}, 
+          {"type": "image", "value": "images/immagine_test2.png"}, 
+          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg"}
+        ],
+        "answer": "Arancia",
+        "explanation": "Tutte le piste portano al concetto di 'Arancia'. La quarta pista è un gioco di parole con Orange (il social network)."
+      },
+      "sym-002": {
+        "id": "conn-002", 
+        "clues": [
+          {"type": "text", "value": "Finlandia"}, 
+          {"type": "text", "value": "Baviera"}, 
+          {"type": "text", "value": "Grecia"}, 
+          {"type": "text", "value": "Scozia"}
+        ], 
+        "answer": "Hanno la bandiera di colore bianco e blu",
+        "explanation": ""
+      },
+      "sym-003": {
+        "id": "conn-003", 
+        "clues": [
+          {"type": "audio", "value": "audio/sweet_dreams.webm", "start_time": "1:00"}, 
+          {"type": "audio", "value": "audio/sweet_emotions.webm", "start_time": "0:30"}, 
+          {"type": "audio", "value": "audio/sweet_surrender.webm", "start_time": "0:45"}, 
+          {"type": "audio", "value": "audio/sweet_home_alabama.webm", "start_time": "0:50"}
+        ], 
+        "answer": "Sweet songs",
+        "explanation": "Hanno la parola \"sweet\" nel titolo"
+      },
+      "sym-004": {
+        "id": "conn-004", 
+        "clues": [
+          {"type": "text", "value": "Auto a San Marino"}, 
+          {"type": "text", "value": "Mucche in Uruguay"}, 
+          {"type": "text", "value": "Biciclette in Olanda"}, 
+          {"type": "text", "value": "Pecore in Nuova Zelanda"}
+        ], 
+        "answer": "Superano la popolazione", 
+        "explanation": "10-12 milioni di bovini a fronte di 3,4 milioni di abitanti in Uruguay, 1.263 auto ogni 1.000 abitanti a San Marino, 20 milioni di pecore a fronte di 5 milioni di abitanti in Nuova Zelanda, 23 milioni di biciclette a fronte di 17 milioni di abitanti in Olanda."
+      },
+      "sym-005": {
+        "id": "conn-005", 
+        "clues": [
+          {"type": "text", "value": "Devil May Cry"}, 
+          {"type": "text", "value": "2 €"},
+          {"type": "text", "value": "Ghibellin fuggiasco"}, 
+          {"type": "text", "value": "Durante"}
+        ], 
+        "answer": "Dante", 
+        "explanation": "Il protagonista di Devil May Cry è Dante. Per le sue simpatie imperiali: «E tu prima, Firenze, udivi il carme Che allegrò l’ira al Ghibellin fuggiasco.»(Ugo Foscolo, Dei sepolcri, vv. 173-174)"
+      },
+      "sym-006": {
+        "id": "conn-006", 
+        "clues": [
+          {"type": "text", "value": "Perpetua"}, 
+          {"type": "text", "value": "Coriolano Paparazzo"}, 
+          {"type": "text", "value": "Jacques de La Palisse"}, 
+          {"type": "text", "value": "Marchese De Sade"}
+        ], 
+        "answer": "Da loro derivano esempi di deonomastica: aggettivi o sostantivi che derivano da nomi propri", 
+        "explanation": "Perpetua (Promessi Sposi) che diventa indicazione per le domestiche dei sacerdoti; Coriolano Paparazzo è un fotografo d'assalto ne La dolce vita di Fellini; lapalissiano nel significato di «ovvio, scontato» è legato alla sconfitta dei francesi nella battaglia di Pavia (1525). I soldati agli ordini del maresciallo La Palice, morto nell'assedio della città, per rendere onore al coraggio del loro comandante avrebbero composto e intonato la seguente strofa, introducendovi una grossolana ovvietà: «se non fosse morto, sarebbe ancora in vita»; il sadismo deriva dalla assenza di morale comune in favore del piacere che emerge dagli scritti erotici di Sade."
+      }
+    }
+  },
+  "sequence": {
+    "symbols": [
+      {"id": "seq-sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "seq-sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "seq-sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "seq-sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "seq-sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "seq-sym-006", "display": "𓂀", "label": "Occhio di Horus"}
+    ],
+    "questions": {
+      "seq-sym-001": {
+        "id": "seq-001", 
+          "clues": [
+            {"type": "image", "value": "images/io_robot.jpg"},
+            {"type": "image", "value": "images/v_for_vendetta.jpg"}, 
+            {"type": "image", "value": "images/x_men.webp"}
+          ],
+          "answer": "Un film che inizia per L",
+          "sequence_rule": "i.e. La La Land. Film che iniziano per I, V, X (numeri romani) in ordine crescente ",
+          "explanation": ""
+      },
+      "seq-sym-002": {
+        "id": "seq-002",
+        "clues": [
+            {"type": "text", "value": "Puntare"}, 
+            {"type": "text", "value": "Insultare"}, 
+            {"type": "text", "value": "Portare un anello"}
+          ], 
+          "answer": "Azione che si può fare con il mignolo.", 
+          "sequence_rule": "Azioni con le dita della mano. Es. berè il tè ostentando fare nobile",
+          "explanation": "Da indice verso mignolo"
+      },
+      "seq-sym-003": {
+        "id": "seq-003", 
+        "clues": [
+          {"type": "text", "value": ""}, 
+          {"type": "text", "value": ""}, 
+          {"type": "text", "value": ""}
+        ], 
+        "answer": "", 
+        "sequence_rule": "Numeri primi in ordine crescente", 
+        "explanation": "La sequenza di numeri primi continua: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29."
+      },
+      "seq-sym-004": {
+        "id": "seq-004", 
+        "clues": [
+          {"type": "text", "value": "Dora l'esploratrice"}, 
+          {"type": "text", "value": "Re leone"}, 
+          {"type": "text", "value": "Mila e shiro"}
+        ], 
+        "answer": "un cartone animato che inizi per Fa Es. Fantasia, Fantaghirò", 
+        "sequence_rule": "La prima sillaba del titolo di un cartone animato in sequenza con le note musicali", 
+        "explanation": ""
+      },
+      "seq-sym-005": {
+        "id": "seq-005", 
+        "clues": [
+          {"type": "text", "value": "5832 Ve"}, 
+          {"type": "text", "value": "1408 Me"}, 
+          {"type": "text", "value": "24,62 Ma"}
+        ], 
+        "answer": "24 Te", 
+        "sequence_rule": "Durata giorno in h per i pianeti del sistema solare in ordine decrescente", 
+        "explanation": "Su Venere il giorno (243 gg) dura più di un anno (225 gg). Seguono Urano ~17 h, Nettuno ~16 h, Giove e Saturno con ~10 h"
+      },
+      "seq-sym-006": {
+        "id": "seq-006", 
+        "clues": [
+          {"type": "text", "value": ""}, 
+          {"type": "text", "value": ""}, 
+          {"type": "text", "value": ""}
+        ], 
+        "answer": "", 
+        "sequence_rule": "", 
+        "explanation": ""
+      }
+    }
+  },
+  "missing_vowels": {
+    "categories": [
+      {
+        "id": "mv-cat-001",
+        "category_name": "Città europee",
+        "words": [
+          {"answer": "Helsinki", "display": " HLSK NK"},
+          {"answer": "San Pietroburgo", "display": "S NPT RB RG"},
+          {"answer": "Siviglia", "display": "SVG L"},
+          {"answer": "Belgrado", "display": "B L G RD"}
+        ]
+      },
+      {
+        "id": "mv-cat-002",
+        "category_name": "Film italiani celebri",
+        "words": [
+                {"answer": "La vita è bella",        "display": "LV TBLL"},
+                {"answer": "Il postino",             "display": "LP STN"},
+                {"answer": "Nuovo cinema Paradiso",  "display": "N VCN MP RDS"},
+                {"answer": "La grande bellezza",     "display": "LGR N DBL LZ Z"}
+              ]
+      },
+      {
+        "id": "mv-cat-003",
+        "category_name": "Sono \"grandiosi\"",
+        "words": [
+          {"answer": "Gran Canyon", "display": "GRNCNYN"},
+          {"answer": "Gran Canaria", "display": "G R NCN R"},
+          {"answer": "Grand Budapest Hotel", "display": "G RN DB D PSTH TL"},
+          {"answer": "Grand rift valley", "display": "GR NDR FTVL LY"}
+        ]
+      },
+      {
+        "id": "mv-cat-004",
+        "category_name": "da fare",
+        "words": [
+          {"answer": "Mercurio", "display": "MR CR"},
+          {"answer": "Giove", "display": "GV"},
+          {"answer": "Saturno", "display": "ST RN"},
+          {"answer": "Nettuno", "display": "NT TN"}
+        ]
+      }
+    ]
+  },
+  "wall": {
+    "symbols": [
+      {"id": "wall-1", "display": "𓃭", "label": "Leone"},
+      {"id": "wall-2", "display": "𓈗", "label": "Acqua"}
+    ],
+    "questions": {
+      "wall-1": {
+        "groups": [
+          {
+            "connection": "Tipi di pasta",
+            "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+          },
+          {
+            "connection": "Capitali europee",
+            "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
+          },
+          {
+            "connection": "Pianeti del sistema solare",
+            "items": ["Marte", "Giove", "Saturno", "Venere"]
+          },
+          {
+            "connection": "Strumenti musicali a corde",
+            "items": ["Violino", "Chitarra", "Arpa", "Mandolino"]
+          }
+        ]
+      },
+      "wall-2": {
+        "groups": [
+          {
+            "connection": "Colori primari",
+            "items": ["Rosso", "Blu", "Giallo", "Verde"]
+          },
+          {
+            "connection": "Frutta tropicale",
+            "items": ["Banana", "Ananas", "Mango", "Papaya"]
+          },
+          {
+            "connection": "Continenti",
+            "items": ["Africa", "Asia", "Europa", "America"]
+          },
+          {
+            "connection": "Lingue parlate",
+            "items": ["Italiano", "Spagnolo", "Francese", "Tedesco"]
+          }
+        ]
+      }
+    }
+  }
+}
