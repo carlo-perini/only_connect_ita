@@ -748,6 +748,9 @@ h1, h2, h3 {
     box-shadow: var(--shadow-sm), var(--inner-highlight);
     position: relative;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .clue-card::before {
     content: '';
