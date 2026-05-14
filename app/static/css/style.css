@@ -729,7 +729,7 @@ h1, h2, h3 {
 }
 
 .sequence-page .clue-card {
-    flex: 0 0 31%;
+    flex: 1 1 0;
 }
 
 /* Connessioni: 4 indizi in fila */

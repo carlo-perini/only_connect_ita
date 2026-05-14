@@ -238,6 +238,18 @@
         for (let i = 0; i <= currentClueIndex && i < questionData.clues.length; i++) {
             cluesArea.appendChild(renderClue(questionData.clues[i], i));
         }
+        
+        // Quando tutti e 3 gli indizi sono mostrati, aggiungi la card "?"
+        if (currentClueIndex >= questionData.clues.length - 1) {
+            const mysteryCard = document.createElement('div');
+            mysteryCard.className = 'clue-card';
+            mysteryCard.id = 'clue-mystery';
+            const content = document.createElement('div');
+            content.className = 'clue-content';
+            content.innerHTML = '<p>?</p>';
+            mysteryCard.appendChild(content);
+            cluesArea.appendChild(mysteryCard);
+        }
     }
 
      // Disabilita il pulsante "Mostra risposta corretta" inizialmente

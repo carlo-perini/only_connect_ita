@@ -52,7 +52,7 @@
           {"type": "audio", "value": "audio/sweet_home_alabama.webm", "start_time": "0:50"}
         ], 
         "answer": "Sweet songs",
-        "explanation": "Hanno la parola \"sweet\" nel titolo"
+        "explanation": ""
       },
       "sym-004": {
         "id": "conn-004", 
@@ -84,8 +84,8 @@
           {"type": "text", "value": "Jacques de La Palisse"}, 
           {"type": "text", "value": "Marchese De Sade"}
         ], 
-        "answer": "Da loro derivano esempi di deonomastica: aggettivi o sostantivi che derivano da nomi propri", 
-        "explanation": "Perpetua (Promessi Sposi) che diventa indicazione per le domestiche dei sacerdoti; Coriolano Paparazzo è un fotografo d'assalto ne La dolce vita di Fellini; lapalissiano nel significato di «ovvio, scontato» è legato alla sconfitta dei francesi nella battaglia di Pavia (1525). I soldati agli ordini del maresciallo La Palice, morto nell'assedio della città, per rendere onore al coraggio del loro comandante avrebbero composto e intonato la seguente strofa, introducendovi una grossolana ovvietà: «se non fosse morto, sarebbe ancora in vita»; il sadismo deriva dalla assenza di morale comune in favore del piacere che emerge dagli scritti erotici di Sade."
+        "answer": "Da loro derivano esempi di deonomastica", 
+        "explanation": "Aggettivi o sostantivi che derivano da nomi propri. Perpetua (Promessi Sposi) che diventa indicazione per le domestiche dei sacerdoti; Coriolano Paparazzo è un fotografo d'assalto ne La dolce vita di Fellini; lapalissiano nel significato di «ovvio, scontato» è legato alla sconfitta dei francesi nella battaglia di Pavia (1525). I soldati agli ordini del maresciallo La Palice, morto nell'assedio della città, per rendere onore al coraggio del loro comandante avrebbero composto e intonato la seguente strofa, introducendovi una grossolana ovvietà: «se non fosse morto, sarebbe ancora in vita»; il sadismo deriva dalla assenza di morale comune in favore del piacere che emerge dagli scritti erotici di Sade."
       }
     }
   },
