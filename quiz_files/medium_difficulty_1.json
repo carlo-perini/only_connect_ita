@@ -85,7 +85,7 @@
           {"type": "text", "value": "Marchese De Sade"}
         ], 
         "answer": "Da loro derivano esempi di deonomastica", 
-        "explanation": "Aggettivi o sostantivi che derivano da nomi propri. Perpetua (Promessi Sposi) che diventa indicazione per le domestiche dei sacerdoti; Coriolano Paparazzo è un fotografo d'assalto ne La dolce vita di Fellini; lapalissiano nel significato di «ovvio, scontato» è legato alla sconfitta dei francesi nella battaglia di Pavia (1525). I soldati agli ordini del maresciallo La Palice, morto nell'assedio della città, per rendere onore al coraggio del loro comandante avrebbero composto e intonato la seguente strofa, introducendovi una grossolana ovvietà: «se non fosse morto, sarebbe ancora in vita»; il sadismo deriva dalla assenza di morale comune in favore del piacere che emerge dagli scritti erotici di Sade."
+        "explanation": "Aggettivi o sostantivi che derivano da nomi propri. Perpetua (Promessi Sposi) che diventa indicazione per le domestiche dei sacerdoti; Coriolano Paparazzo è un fotografo di assalto ne La dolce vita di Fellini; lapalissiano nel significato di «ovvio, scontato» è legato alla sconfitta dei francesi nella battaglia di Pavia (1525). I soldati agli ordini del maresciallo La Palice, morto in battaglia, per rendere onore al coraggio del loro comandante avrebbero composto e intonato la seguente strofa, introducendovi una grossolana ovvietà: «se non fosse morto, sarebbe ancora in vita»; il sadismo deriva dalla assenza di morale comune in favore del piacere che emerge dagli scritti erotici di Sade."
       }
     }
   },
@@ -106,8 +106,8 @@
             {"type": "image", "value": "images/v_for_vendetta.jpg"}, 
             {"type": "image", "value": "images/x_men.webp"}
           ],
-          "answer": "Un film che inizia per L",
-          "sequence_rule": "i.e. La La Land. Film che iniziano per I, V, X (numeri romani) in ordine crescente ",
+          "answer": "e.g. La La Land",
+          "sequence_rule": "Film che iniziano per I, V, X (numeri romani) in ordine crescente",
           "explanation": ""
       },
       "seq-sym-002": {
@@ -117,20 +117,20 @@
             {"type": "text", "value": "Insultare"}, 
             {"type": "text", "value": "Portare un anello"}
           ], 
-          "answer": "Azione che si può fare con il mignolo.", 
-          "sequence_rule": "Azioni con le dita della mano. Es. berè il tè ostentando fare nobile",
+          "answer": "e.g. Berè il tè ostentando fare nobile", 
+          "sequence_rule": "Azioni con le dita della mano partendo dall'indice",
           "explanation": "Da indice verso mignolo"
       },
       "seq-sym-003": {
         "id": "seq-003", 
         "clues": [
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}
+          {"type": "text", "value": "4: fermata"}, 
+          {"type": "text", "value": "3: Fronte di Ferro"}, 
+          {"type": "text", "value": "2: piano cartesiano"}
         ], 
-        "answer": "", 
-        "sequence_rule": "Numeri primi in ordine crescente", 
-        "explanation": "La sequenza di numeri primi continua: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29."
+        "answer": " e.g. 1: freccia del mouse", 
+        "sequence_rule": "Associati a un numero di frecce in ordine decrescente", 
+        "explanation": "Simbolo inventato dal ricercatore Sergei Tschachotin e utilizzato dal 16 dicembre 1931 dal Fronte di Ferro, organizzazione paramilitare tedesca di ispirazione socialdemocratica. Nei manifesti di propaganda elettorale del Fronte di ferro, le tre frecce colpivano i simboli dei tre nemici della socialdemocrazia: comunismo, nazismo e conservatorismo."
       },
       "seq-sym-004": {
         "id": "seq-004", 
@@ -139,8 +139,8 @@
           {"type": "text", "value": "Re leone"}, 
           {"type": "text", "value": "Mila e shiro"}
         ], 
-        "answer": "un cartone animato che inizi per Fa Es. Fantasia, Fantaghirò", 
-        "sequence_rule": "La prima sillaba del titolo di un cartone animato in sequenza con le note musicali", 
+        "answer": "e.g. FA-ntasia, FA-ntaghirò", 
+        "sequence_rule": "La prima sillaba del titolo di un cartone animato in sequenza con le note musicali DO RE MI FA", 
         "explanation": ""
       },
       "seq-sym-005": {
@@ -157,12 +157,12 @@
       "seq-sym-006": {
         "id": "seq-006", 
         "clues": [
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}
+          {"type": "text", "value": "la camera di fuoco"}, 
+          {"type": "text", "value": "il prigioniero della fenice"}, 
+          {"type": "text", "value": "il calice mezzosangue"}
         ], 
-        "answer": "", 
-        "sequence_rule": "", 
+        "answer": "l'ordine della morte", 
+        "sequence_rule": "Romanzi di Harry Potter in ordine di pubblicazione unendo i titoli del secondo con il quarto, il terzo con il quinto etc.", 
         "explanation": ""
       }
     }
@@ -191,7 +191,7 @@
       },
       {
         "id": "mv-cat-003",
-        "category_name": "Sono \"grandiosi\"",
+        "category_name": "Sono grandiosi",
         "words": [
           {"answer": "Gran Canyon", "display": "GRNCNYN"},
           {"answer": "Gran Canaria", "display": "G R NCN R"},
@@ -201,12 +201,12 @@
       },
       {
         "id": "mv-cat-004",
-        "category_name": "da fare",
+        "category_name": "Con pietre o sassi",
         "words": [
-          {"answer": "Mercurio", "display": "MR CR"},
-          {"answer": "Giove", "display": "GV"},
-          {"answer": "Saturno", "display": "ST RN"},
-          {"answer": "Nettuno", "display": "NT TN"}
+          {"answer": "curling", "display": "CRLNG"},
+          {"answer": "rene/i", "display": "GV"},
+          {"answer": "gioiello/i", "display": "G LL"},
+          {"answer": "matera", "display": "MTR"}
         ]
       }
     ]

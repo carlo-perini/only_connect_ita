@@ -46,6 +46,7 @@
         <div class="answer-box">
             <h2>Quarto elemento</h2>
             <p class="answer-text" id="answer-text"></p>
+            <p class="sequence-rule-text" id="sequence-rule-text"></p>
             <p class="explanation-text" id="explanation-text"></p>
         </div>
     </div>
@@ -102,7 +103,8 @@
         id: "{{ question.id }}",
         clues: {{ question.clues | tojson }},
         answer: "{{ question.answer }}",
-        explanation: "{{ question.explanation }}"
+        explanation: "{{ question.explanation }}",
+        sequence_rule: "{{ question.sequence_rule }}"
     };
     
     const symbolId = "{{ symbol_id or '' }}";
@@ -286,6 +288,7 @@
     document.getElementById('show-answer-btn').addEventListener('click', function() {
         const answerArea = document.getElementById('answer-area');
         document.getElementById('answer-text').textContent = questionData.answer;
+        document.getElementById('sequence-rule-text').textContent = questionData.sequence_rule;
         document.getElementById('explanation-text').textContent = questionData.explanation;
         answerArea.style.display = 'block';
     });
@@ -386,6 +389,7 @@
         // Mostra la risposta subito
         const answerArea = document.getElementById('answer-area');
         document.getElementById('answer-text').textContent = questionData.answer;
+        document.getElementById('sequence-rule-text').textContent = questionData.sequence_rule;
         document.getElementById('explanation-text').textContent = questionData.explanation;
         answerArea.style.display = 'block';
         
