@@ -25,18 +25,16 @@
     
     <div class="round-header">
         <h1>Connessioni</h1>
+        <div class="answer-section header-buttons" id="answer-section" style="display: none;">
+            <button class="btn btn-secondary" id="reveal-btn">Prossimo indizio</button>
+            <button class="btn btn-warning" id="show-answer-btn">Mostra risposta corretta</button>
+        </div>
         <div class="timer-display" id="timer" data-total-time="{{ total_time }}"></div>
     </div>
     
     <!-- Bottone Avvia Round (nasconde gli indizi finché non si clicca) -->
     <div id="start-round-section" class="start-round-section">
         <button class="btn btn-primary btn-lg" id="start-round-btn">Avvia Round</button>
-    </div>
-
-    <div class="answer-section" id="answer-section" style="display: none;">
-        <!-- Il conduttore controlla manualmente la risposta -->
-        <button class="btn btn-secondary" id="reveal-btn">Prossimo indizio</button>
-        <button class="btn btn-warning" id="show-answer-btn">Mostra risposta corretta</button>
     </div>
 
     <div class="clues-container" id="clues-container" style="display: none;">
