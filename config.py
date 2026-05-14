@@ -30,7 +30,7 @@ if quiz_file_env:
         QUIZ_DATA_FILE = quiz_file_path
         QUIZ_DATA_FILE_DISPLAY = str(quiz_file_path)  # Mostra il percorso assoluto
 else:
-    QUIZ_DATA_FILE = BASE_DIR / "quiz_data.json"
+    QUIZ_DATA_FILE = BASE_DIR / "quiz_files" / "medium_difficulty_1.json"
     QUIZ_DATA_FILE_DISPLAY = "quiz_data.json (default)"
 
 # Cartelle statiche (dove i template cercheranno i media)

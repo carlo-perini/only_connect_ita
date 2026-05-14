@@ -2,12 +2,12 @@
   "teams": [
     {
       "id": "team-1",
-      "name": "I corvi scemi",
+      "name": "Team 1",
       "color": "#FF8C42"
     },
     {
       "id": "team-2",
-      "name": "I lupi saggi",
+      "name": "Team 2",
       "color": "#0066FF"
     }
   ],
@@ -24,13 +24,13 @@
       "sym-001": {
         "id": "conn-001",
         "clues": [
-          {"type": "image", "value": "images/cinnamon.jpg"},
-          {"type": "image", "value": "images/blue_whale.jpg"}, 
-          {"type": "image", "value": "images/bottle_flip.jpg"}, 
-          {"type": "image", "value": "images/ice-bucket.webp"}
+          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg"},
+          {"type": "image", "value": "images/immagine_test2.png"}, 
+          {"type": "image", "value": "images/immagine_test2.png"}, 
+          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg"}
         ],
-        "answer": "Internet challenges",
-        "explanation": "Blue whale sarebbe un presunto schema in 50 prove che si riferisce ai comportamenti apparentemente immotivati di spiaggiamento e morte di questi cetacei, predeverebbe infatti il suicidio come ultimo atto."
+        "answer": "Arancia",
+        "explanation": "Tutte le piste portano al concetto di 'Arancia'. La quarta pista è un gioco di parole con Orange (il social network)."
       },
       "sym-002": {
         "id": "conn-002", 
@@ -69,12 +69,12 @@
         "id": "conn-005", 
         "clues": [
           {"type": "text", "value": "Devil May Cry"}, 
-          {"type": "text", "value": "Ghibellin fuggiasco"},
-          {"type": "text", "value": "Durante"}, 
-          {"type": "text", "value": "2 €"}
+          {"type": "text", "value": "2 €"},
+          {"type": "text", "value": "Ghibellin fuggiasco"}, 
+          {"type": "text", "value": "Durante"}
         ], 
         "answer": "Dante", 
-        "explanation": "Dante è il nome del protagonista del gioco Devil May Cry. Per le sue simpatie imperiali: «E tu prima, Firenze, udivi il carme Che allegrò l’ira al Ghibellin fuggiasco.» (Ugo Foscolo, Dei sepolcri, vv. 173-174). Durante è il nome originale di Dante Alighieri, e 2 € è la moneta che raffigura il poeta."
+        "explanation": "Il protagonista di Devil May Cry è Dante. Per le sue simpatie imperiali: «E tu prima, Firenze, udivi il carme Che allegrò l’ira al Ghibellin fuggiasco.»(Ugo Foscolo, Dei sepolcri, vv. 173-174)"
       },
       "sym-006": {
         "id": "conn-006", 
