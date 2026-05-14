@@ -341,6 +341,10 @@ def round_question(round_type, symbol_id):
         # Se è una modifica, usa il team originale; altrimenti usa il team alternato
         if is_modification:
             current_team = modification_team
+            # Fallback: se il team originale non è stato trovato, usa il team corrente
+            if current_team is None and teams_scores:
+                current_team_index = game_state.get('current_team_index', 0)
+                current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else teams_scores[0]
         else:
             current_team_index = game_state.get('current_team_index', 0)
             current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None
@@ -386,11 +390,6 @@ def mark_symbol_complete():
     try:
         # Controlla se i punti sono stati assegnati
         game_state = get_game_state()
-        if not game_state.get('points_assigned_for_current_question', False):
-            return jsonify({
-                "success": False, 
-                "error": "Devi assegnare i punti prima di tornare ai simboli"
-            }), 400
         
         data = request.get_json()
         round_type = data.get("round_type")
@@ -407,6 +406,13 @@ def mark_symbol_complete():
         
         # Controlla se il simbolo era già completato (è una modifica retroattiva)
         is_modification = symbol_id in game_state['completed_symbols'][round_type]
+        
+        # Controlla se i punti sono stati assegnati (solo per nuovi simboli)
+        if not is_modification and not game_state.get('points_assigned_for_current_question', False):
+            return jsonify({
+                "success": False, 
+                "error": "Devi assegnare i punti prima di tornare ai simboli"
+            }), 400
         
         if not is_modification:  # Nuovo simbolo
             game_state['completed_symbols'][round_type].append(symbol_id)
@@ -804,6 +810,10 @@ def wall_question(symbol_id):
         # Se è una modifica, usa il team originale; altrimenti usa il team corrente
         if is_modification:
             current_team = modification_team
+            # Fallback: se il team originale non è stato trovato, usa il team corrente
+            if current_team is None and teams_scores:
+                current_team_index = game_state.get('current_team_index', 0)
+                current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else teams_scores[0]
         else:
             current_team_index = game_state.get('current_team_index', 0)
             current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None

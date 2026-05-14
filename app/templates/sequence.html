@@ -323,12 +323,17 @@
     
     // Torna ai simboli e marca il simbolo come completato
     function backToSymbols() {
-        if (!pointsAssigned) {
+        if (!pointsAssigned && !isModification) {
             alert('Devi assegnare i punti prima di tornare ai simboli!');
             return;
         }
         
         if (symbolId) {
+            // Se è una modifica senza nuovi punti assegnati, torna direttamente
+            if (isModification && !pointsAssigned) {
+                window.location.href = `/round/${roundType}/symbols`;
+                return;
+            }
             // Segna il simbolo come completato
             fetch('/api/mark-symbol-complete', {
                 method: 'POST',
@@ -356,7 +361,7 @@
     function updateBackButtonState() {
         const backBtn = document.getElementById('back-btn');
         if (backBtn) {
-            backBtn.disabled = !pointsAssigned;
+            backBtn.disabled = !(pointsAssigned || isModification);
         }
     }
     
@@ -364,6 +369,7 @@
     if (isModification) {
         // Se è una modifica: mostra tutti gli indizi e la risposta
         currentClueIndex = questionData.clues.length - 1;
+        pointsAssigned = true;
         
         // Mostra la risposta subito
         const answerArea = document.getElementById('answer-area');
