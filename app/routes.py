@@ -927,12 +927,13 @@ def wall_complete():
 def wall_assign_points():
     """
     Assegna punti nel round Muro (0-8 punti).
-    I punti possono essere assegnati SOLO al team di turno.
+    I punti possono essere assegnati al team di turno, oppure al team originale
+    se si tratta di una modifica retroattiva.
     
     Richiesta JSON:
         {
             "points": 0-8,
-            "team_id": "team-1"  (deve essere il team di turno attuale)
+            "team_id": "team-1"
         }
     """
     try:
@@ -954,12 +955,29 @@ def wall_assign_points():
         current_team_index = game_state.get('current_team_index', 0)
         current_team = teams_scores[current_team_index] if current_team_index < len(teams_scores) else None
         
-        # I punti possono essere assegnati SOLO al team di turno
-        if current_team and team_id != current_team['team_id']:
-            return jsonify({
-                "success": False, 
-                "error": f"Punti assegnabili solo a {current_team['team_name']}"
-            }), 400
+        # Controlla se è una modifica retroattiva (il simbolo è già completato)
+        completed_symbols = game_state.get('completed_symbols', {})
+        is_modification = 'wall' in completed_symbols and symbol_id in completed_symbols.get('wall', [])
+        
+        if is_modification:
+            # In caso di modifica, accetta il team originale che ha giocato il muro
+            symbol_points_history = game_state.get('symbol_points_history', {})
+            original_team_id = None
+            if 'wall' in symbol_points_history and symbol_id in symbol_points_history['wall']:
+                original_team_id = symbol_points_history['wall'][symbol_id].get('original_team_id')
+            
+            if original_team_id and team_id != original_team_id:
+                return jsonify({
+                    "success": False, 
+                    "error": "Punti assegnabili solo al team che ha giocato questo muro"
+                }), 400
+        else:
+            # I punti possono essere assegnati SOLO al team di turno
+            if current_team and team_id != current_team['team_id']:
+                return jsonify({
+                    "success": False, 
+                    "error": f"Punti assegnabili solo a {current_team['team_name']}"
+                }), 400
         
         # Traccia la cronologia dei punteggi (per permettere modifiche retroattive)
         symbol_points_history = game_state.get('symbol_points_history', {})
