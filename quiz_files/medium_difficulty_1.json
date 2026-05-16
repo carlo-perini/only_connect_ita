@@ -124,13 +124,13 @@
       "seq-sym-003": {
         "id": "seq-003", 
         "clues": [
-          {"type": "text", "value": "4: fermata"}, 
-          {"type": "text", "value": "3: Fronte di Ferro"}, 
-          {"type": "text", "value": "2: piano cartesiano"}
+          {"type": "text", "value": "4: sosta temporanea"}, 
+          {"type": "text", "value": "3: base ortogonale nello spazio"}, 
+          {"type": "text", "value": "2: reazione chimica"}
         ], 
         "answer": " e.g. 1: freccia del mouse", 
         "sequence_rule": "Associati a un numero di frecce in ordine decrescente", 
-        "explanation": "Simbolo inventato dal ricercatore Sergei Tschachotin e utilizzato dal 16 dicembre 1931 dal Fronte di Ferro, organizzazione paramilitare tedesca di ispirazione socialdemocratica. Nei manifesti di propaganda elettorale del Fronte di ferro, le tre frecce colpivano i simboli dei tre nemici della socialdemocrazia: comunismo, nazismo e conservatorismo."
+        "explanation": ""
       },
       "seq-sym-004": {
         "id": "seq-004", 
@@ -157,11 +157,11 @@
       "seq-sym-006": {
         "id": "seq-006", 
         "clues": [
-          {"type": "text", "value": "la camera di fuoco"}, 
-          {"type": "text", "value": "il prigioniero della fenice"}, 
-          {"type": "text", "value": "il calice mezzosangue"}
+          {"type": "text", "value": "La camera di fuoco"}, 
+          {"type": "text", "value": "Il prigioniero della fenice"}, 
+          {"type": "text", "value": "Il calice mezzosangue"}
         ], 
-        "answer": "l'ordine della morte", 
+        "answer": "L'ordine della morte", 
         "sequence_rule": "Romanzi di Harry Potter in ordine di pubblicazione unendo i titoli del secondo con il quarto, il terzo con il quinto etc.", 
         "explanation": ""
       }
@@ -204,9 +204,19 @@
         "category_name": "Con pietre o sassi",
         "words": [
           {"answer": "curling", "display": "CRLNG"},
-          {"answer": "rene/i", "display": "GV"},
+          {"answer": "rene/i", "display": "RN"},
           {"answer": "gioiello/i", "display": "G LL"},
           {"answer": "matera", "display": "MTR"}
+        ]
+      },
+      {
+        "id": "mv-cat-005",
+        "category_name": "Personaggi e il cibo che amano",
+        "words": [
+          {"answer": "tartarughe ninja e pizza/e", "display": "TRTRG H N NJ PZZ"},
+          {"answer": "winnie the pooh e miele", "display": "WNNT HP HM L"},
+          {"answer": "bugs bunny e carota/e", "display": "B GS B N NY CRT"},
+          {"answer": "obelix e cinghiale/i", "display": "BLX C NGH L"}
         ]
       }
     ]

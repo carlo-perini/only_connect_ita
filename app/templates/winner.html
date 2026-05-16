@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Only Connect - Vincitore{% endblock %}
+
+{% block content %}
+<div class="winner-page">
+    <!-- Canvas per i coriandoli -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="winner-content">
+        <p class="winner-label">Il vincitore è</p>
+        <h1 class="winner-name">{{ winner.team_name }}</h1>
+        <div class="winner-score-display">
+            <span class="winner-score-value">{{ winner.score }}</span>
+            <span class="winner-score-label">punti</span>
+        </div>
+
+        {% if is_tie %}
+        <p class="winner-tie-note">Pareggio!</p>
+        {% endif %}
+
+        <!-- Punteggi di tutte le squadre -->
+        <div class="winner-all-scores">
+            {% for team in teams_scores %}
+            <div class="winner-team-row {% if team.team_id == winner.team_id %}winner-highlight{% endif %}">
+                <span class="winner-team-name">{{ team.team_name }}</span>
+                <span class="winner-team-score">{{ team.score }}</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="nav-buttons" style="margin-top: 2rem;">
+            <button class="btn btn-primary btn-lg" onclick="window.location.href='/'">
+                Torna alla Home
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Animazione coriandoli
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
+    const colors = ['#9edcff', '#5ad8a6', '#e6a84d', '#e85d5d', '#5ec4e6', '#f4f1e8', '#c084fc', '#fbbf24'];
+    const confettiCount = 150;
+    const confetti = [];
+
+    for (let i = 0; i < confettiCount; i++) {
+        confetti.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            w: Math.random() * 10 + 5,
+            h: Math.random() * 6 + 3,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            speed: Math.random() * 3 + 1.5,
+            angle: Math.random() * Math.PI * 2,
+            spin: (Math.random() - 0.5) * 0.1,
+            drift: (Math.random() - 0.5) * 1.5,
+            opacity: Math.random() * 0.5 + 0.5
+        });
+    }
+
+    function drawConfetti() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        confetti.forEach(c => {
+            ctx.save();
+            ctx.translate(c.x + c.w / 2, c.y + c.h / 2);
+            ctx.rotate(c.angle);
+            ctx.globalAlpha = c.opacity;
+            ctx.fillStyle = c.color;
+            ctx.fillRect(-c.w / 2, -c.h / 2, c.w, c.h);
+            ctx.restore();
+
+            c.y += c.speed;
+            c.x += c.drift;
+            c.angle += c.spin;
+
+            // Ricicla i coriandoli che escono dallo schermo
+            if (c.y > canvas.height + 20) {
+                c.y = -20;
+                c.x = Math.random() * canvas.width;
+            }
+        });
+
+        requestAnimationFrame(drawConfetti);
+    }
+
+    drawConfetti();
+
+    // Riproduci la traccia di vittoria
+    playAudioSegment('/static/media/audio/only_connect_theme_tune.webm', 16.5, 21);
+</script>
+{% endblock %}

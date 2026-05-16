@@ -43,7 +43,7 @@ DEFAULT_TIMERS = {
     "connections": 40,
     "sequence": 40,
     "wall": 150,
-    "missing_vowels": 180,
+    "missing_vowels": 30, # 180
 }
 
 # Colori per le righe del Muro delle Connessioni (riga 1, 2, 3, 4)

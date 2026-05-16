@@ -14,6 +14,12 @@
         </div>
         {% endfor %}
     </div>
+    <!-- Bottone Vincitore (appare dopo che il round è completato) -->
+    <div id="winner-btn-section" style="display: none; text-align: center; margin-bottom: 1rem;">
+        <button class="btn btn-primary btn-lg" onclick="window.location.href='/winner'">
+            🏆 Decreta il vincitore
+        </button>
+    </div>
     {% endif %}
     
     <div class="round-header">
@@ -49,26 +55,26 @@
         </div>
     </div>
     
-    <!-- Bottone Prossima parola (comparirà solo quando assegnati i punti) -->
-    <div class="mv-nav-buttons" id="next-word-section" style="display: none;">
-        <button class="btn btn-primary" id="next-word-btn" onclick="mvNextWord()">
-            Prossima parola →
-        </button>
-    </div>
-    
-    <!-- Sezione Assegnazione Punti -->
+    <!-- Bottone Prossima parola + Sezione Assegnazione Punti -->
     {% if teams_scores %}
     <div class="scoring-section mv-scoring" id="scoring-section" style="display: none;">
-        <div class="points-buttons mv-points-buttons">
+        <!-- Bottone Prossima parola (in cima alla sezione punti) -->
+        <div class="mv-nav-buttons" id="next-word-section" style="display: none;">
+            <button class="btn btn-primary" id="next-word-btn" onclick="mvNextWord()">
+                Prossima parola →
+            </button>
+        </div>
+        
+        <div class="points-buttons mv-points-buttons" id="points-buttons-area">
             <!-- Punti positivi -->
             <div class="points-group">
                 <p>Punto diretto:</p>
                 {% for team in teams_scores %}
-                <button class="btn btn-success mv-btn" onclick="mvAssignPoints(1, '{{ team.team_id }}')">
+                <button class="btn btn-success mv-btn scoring-btn scoring-btn-positive" disabled data-team-id="{{ team.team_id }}" onclick="mvAssignPoints(1, '{{ team.team_id }}')">
                     +1 {{ team.team_name }}
                 </button>
                 {% endfor %}
-                <button class="btn btn-secondary mv-btn" onclick="mvNoPoints()">
+                <button class="btn btn-secondary mv-btn scoring-btn scoring-btn-nopoints" disabled onclick="mvNoPoints()">
                     Nessun punto
                 </button>
             </div>
@@ -77,7 +83,7 @@
             <div class="points-group">
                 <p>Penalità (risposta sbagliata):</p>
                 {% for team in teams_scores %}
-                <button class="btn btn-danger mv-btn" onclick="mvAssignPoints(-1, '{{ team.team_id }}')">
+                <button class="btn btn-danger mv-btn scoring-btn scoring-btn-penalty" disabled data-team-id="{{ team.team_id }}" onclick="mvAssignPoints(-1, '{{ team.team_id }}')">
                     -1 {{ team.team_name }}
                 </button>
                 {% endfor %}
@@ -91,8 +97,8 @@
     {% endif %}
     
     <div class="nav-buttons">
-        <button class="btn btn-secondary" id="home-btn" disabled onclick="window.location.href='/'">
-            ← Torna alla home
+        <button class="btn btn-secondary" id="home-btn" onclick="window.location.href='/'">
+            ← Indietro
         </button>
     </div>
 </div>
@@ -108,16 +114,86 @@
     let currentWordIndex = 0;
     let roundFinished = false;
     let roundTimer = null; // Dichiarato globalmente per accedervi ovunque
+    let wordShown = false; // Traccia se la parola corrente è stata mostrata
+    let pointsAssignedForCurrentWord = false; // Traccia se i punti sono stati assegnati per la parola corrente
+    let positiveGiven = false; // Traccia se è stato dato un punto positivo per la parola corrente
+    let penaltyTeamId = null; // Traccia a quale team è stata data la penalità per la parola corrente
+    
+    // Abilita/disabilita i pulsanti di assegnazione punti
+    function setScoringButtonsEnabled(enabled) {
+        document.querySelectorAll('.scoring-btn').forEach(btn => {
+            btn.disabled = !enabled;
+        });
+    }
+    
+    // Aggiorna lo stato dei pulsanti in base alle azioni già fatte per la parola corrente
+    function updateScoringButtons() {
+        // Pulsanti positivi (+1)
+        document.querySelectorAll('.scoring-btn-positive').forEach(btn => {
+            const teamId = btn.dataset.teamId;
+            // Disabilita se: già dato un punto positivo, oppure questa squadra ha già la penalità
+            btn.disabled = positiveGiven || teamId === penaltyTeamId;
+        });
+        
+        // Pulsanti penalità (-1)
+        document.querySelectorAll('.scoring-btn-penalty').forEach(btn => {
+            // Disabilita se è già stata data una penalità o se è già stato dato un punto positivo
+            btn.disabled = penaltyTeamId !== null || positiveGiven;
+        });
+        
+        // Pulsante "Nessun punto": disabilita se è già stato dato un punto positivo
+        const noPtsBtn = document.querySelector('.scoring-btn-nopoints');
+        if (noPtsBtn) {
+            noPtsBtn.disabled = positiveGiven;
+        }
+    }
+    
+    // Mostra solo la categoria (senza la parola)
+    function updateDisplay() {
+        if (roundFinished) return;
+        
+        const category = categories[currentCategoryIndex];
+        
+        // Aggiorna categoria e progresso
+        document.getElementById('category-name').textContent = category.category_name;
+        document.getElementById('progress-text').textContent = 
+            `Categoria ${currentCategoryIndex + 1}/${categories.length}`;
+        
+        // Nascondi la parola senza vocali
+        document.getElementById('word-display').textContent = '';
+        
+        // Nascondi la risposta
+        document.getElementById('answer-area').style.display = 'none';
+        
+        // Nascondi lo status
+        document.getElementById('points-status').style.display = 'none';
+        
+        // MOSTRA il bottone "Prossima parola" per permettere di rivelare la parola
+        document.getElementById('next-word-section').style.display = '';
+        
+        // Aggiorna il testo del bottone
+        const nextBtn = document.getElementById('next-word-btn');
+        nextBtn.textContent = 'Prossima parola →';
+        nextBtn.disabled = false; // Abilita il bottone quando si mostra la categoria
+        
+        // Resetta lo stato della parola
+        wordShown = false;
+        pointsAssignedForCurrentWord = false;
+        positiveGiven = false;
+        penaltyTeamId = null;
+        
+        // Disabilita i pulsanti di punteggio finché la parola non è mostrata
+        setScoringButtonsEnabled(false);
+    }
     
     // Mostra la parola corrente
-    function updateDisplay() {
+    function showCurrentWord() {
         if (roundFinished) return;
         
         const category = categories[currentCategoryIndex];
         const word = category.words[currentWordIndex];
         
-        // Aggiorna categoria e progresso
-        document.getElementById('category-name').textContent = category.category_name;
+        // Aggiorna il progresso con il numero della parola
         document.getElementById('progress-text').textContent = 
             `Categoria ${currentCategoryIndex + 1}/${categories.length} — Parola ${currentWordIndex + 1}/${category.words.length}`;
         
@@ -141,6 +217,20 @@
         } else {
             nextBtn.textContent = 'Prossima parola →';
         }
+        
+        // Mostra il bottone "Prossima parola" ma DISABILITATO
+        const nextWordBtn = document.getElementById('next-word-btn');
+        document.getElementById('next-word-section').style.display = '';
+        nextWordBtn.disabled = true; // Disabilita finché non vengono assegnati i punti
+        
+        // Setta lo stato della parola come mostrata
+        wordShown = true;
+        pointsAssignedForCurrentWord = false;
+        positiveGiven = false;
+        penaltyTeamId = null;
+        
+        // Abilita i pulsanti di punteggio
+        setScoringButtonsEnabled(true);
     }
     
     // Mostra la risposta corretta automaticamente
@@ -174,6 +264,9 @@
                 // Mostra la risposta automaticamente se è un punto positivo
                 if (points > 0) {
                     showAnswerAutomatically();
+                    positiveGiven = true;
+                } else if (points < 0) {
+                    penaltyTeamId = teamId;
                 }
                 
                 // Mostra status
@@ -187,8 +280,15 @@
                 }
                 statusEl.style.display = 'block';
                 
-                // Mostra il bottone "Prossima parola"
-                document.getElementById('next-word-section').style.display = '';
+                // Aggiorna lo stato dei pulsanti di punteggio
+                updateScoringButtons();
+                
+                // Abilita il bottone "Prossima parola" se è stato dato un punto positivo o "nessun punto"
+                if (positiveGiven) {
+                    const nextWordBtn = document.getElementById('next-word-btn');
+                    nextWordBtn.disabled = false;
+                    pointsAssignedForCurrentWord = true;
+                }
             } else {
                 alert('Errore: ' + data.error);
             }
@@ -209,31 +309,42 @@
         statusText.textContent = '— Nessun punto assegnato';
         statusEl.style.display = 'block';
         
-        // Mostra il bottone "Prossima parola"
-        document.getElementById('next-word-section').style.display = '';
+        // Disabilita tutti i pulsanti di punteggio
+        setScoringButtonsEnabled(false);
+        
+        // Abilita il bottone "Prossima parola" dopo aver assegnato (o deciso di non assegnare) i punti
+        const nextWordBtn = document.getElementById('next-word-btn');
+        nextWordBtn.disabled = false;
+        pointsAssignedForCurrentWord = true;
     }
     
     // Passa alla Prossima parola o categoria
     function mvNextWord() {
+        // Se la parola non è stata ancora mostrata, mostrarla
+        if (!wordShown) {
+            showCurrentWord();
+            return;
+        }
+        
+        // Altrimenti, passa alla prossima parola/categoria
         const category = categories[currentCategoryIndex];
         
         if (currentWordIndex < category.words.length - 1) {
-            // Prossima parola nella stessa categoria
+            // Prossima parola nella stessa categoria: mostra subito la parola
             currentWordIndex++;
+            wordShown = false;
+            pointsAssignedForCurrentWord = false;
+            showCurrentWord();
         } else if (currentCategoryIndex < categories.length - 1) {
-            // Prossima categoria
+            // Prossima categoria: mostra solo la categoria (serve un altro click per la parola)
             currentCategoryIndex++;
             currentWordIndex = 0;
+            updateDisplay();
         } else {
             // Round terminato!
             mvFinishRound();
             return;
         }
-        
-        // Nascondi il bottone "Prossima parola"
-        document.getElementById('next-word-section').style.display = 'none';
-        
-        updateDisplay();
     }
     
     // Termina il round
@@ -250,7 +361,15 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = '/';
+                // Nascondi le sezioni del round
+                document.getElementById('category-display').style.display = 'none';
+                document.getElementById('clue-answer-wrapper').style.display = 'none';
+                document.getElementById('scoring-section').style.display = 'none';
+                document.getElementById('next-word-section').style.display = 'none';
+                
+                // Mostra il bottone vincitore
+                const winnerBtn = document.getElementById('winner-btn-section');
+                if (winnerBtn) winnerBtn.style.display = '';
             }
         })
         .catch(error => console.error('Errore:', error));
@@ -286,9 +405,20 @@
                 console.log('⏰ Tempo scaduto!');
                 if (roundTimer) roundTimer.stop(); // Ferma l'audio quando il timer scade
                 
-                // Abilita il bottone "Torna alla home"
-                const homeBtn = document.getElementById('home-btn');
-                if (homeBtn) homeBtn.disabled = false;
+                // Segna il round come completato e mostra il bottone vincitore
+                fetch('/api/missing-vowels/complete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Mostra il bottone vincitore (senza nascondere le sezioni del round)
+                        const winnerBtn = document.getElementById('winner-btn-section');
+                        if (winnerBtn) winnerBtn.style.display = '';
+                    }
+                })
+                .catch(error => console.error('Errore:', error));
                 
                 // Riproduci la traccia di vittoria quando il timer scade
                 playAudioSegment('/static/media/audio/only_connect_theme_tune.webm', 16.5, 21);

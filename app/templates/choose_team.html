@@ -12,9 +12,11 @@
     
     <div class="round-name">
         {% if round_type == 'connections' %}
-            <p>Round: <strong>Connessioni</strong></p>
+            <p> <strong>Connessioni</strong></p>
         {% elif round_type == 'sequence' %}
-            <p>Round: <strong>Sequenza</strong></p>
+            <p> <strong>Sequenza</strong></p>
+        {% elif round_type == 'wall' %}
+            <p> <strong>Muro delle connessioni</strong></p>
         {% endif %}
     </div>
     

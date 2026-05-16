@@ -97,6 +97,7 @@
     const wallColors = {{ wall_colors | tojson }};
     const symbolId = '{{ symbol_id }}';
     const roundType = '{{ round_type }}';
+    const isModification = {{ is_modification | tojson }};
     
     // Stato del gioco
     let allItems = [];
@@ -338,8 +339,8 @@
         renderGrid();
         showConnectionCards();
         
-        // Se il muro è completamente risolto, riproduci la traccia di vittoria
-        if (solvedGroups.length === 4) {
+        // Se il muro è completamente risolto e non è una modifica, riproduci la traccia di vittoria
+        if (solvedGroups.length === 4 && !isModification) {
             playAudioSegment('/static/media/audio/only_connect_theme_tune.webm', 16.5, 21);
         }
     }
@@ -430,7 +431,22 @@
     }
     
     function backToSymbols() {
-        window.location.href = '/round/wall/symbols';
+        // Se i punti sono stati assegnati, segna il muro come completato prima di tornare
+        fetch('/api/wall/complete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                symbol_id: symbolId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            window.location.href = '/round/wall/symbols';
+        })
+        .catch(error => {
+            // Torna comunque ai simboli anche in caso di errore
+            window.location.href = '/round/wall/symbols';
+        });
     }
     
     // Inizializzazione
@@ -471,6 +487,18 @@
             renderGrid();
             roundTimer.start();
         });
+    }
+    
+    // Se è una modifica (re-ingresso in un muro già giocato), mostra direttamente il muro completato
+    if (isModification) {
+        // Nascondi "Avvia Round"
+        document.getElementById('start-round-section').style.display = 'none';
+        // Nascondi il timer
+        document.getElementById('timer').style.display = 'none';
+        // Segna il round come finito
+        roundEnded = true;
+        // Risolvi tutti i gruppi e mostra connessioni + punti
+        endRound(true);
     }
 </script>
 {% endblock %}

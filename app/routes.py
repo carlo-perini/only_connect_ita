@@ -112,9 +112,9 @@ def choose_team(round_type):
     Verifica se il round è già completato o già iniziato.
     
     Args:
-        round_type: 'connections' o 'sequence'
+        round_type: 'connections' o 'sequence' o 'wall'
     """
-    if round_type not in ['connections', 'sequence']:
+    if round_type not in ['connections', 'sequence','wall']:
         return "Round non valido", 404
     
     try:
@@ -635,6 +635,30 @@ def mv_complete():
     
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+
+
+@bp.route("/winner")
+def winner():
+    """Pagina del vincitore del quiz."""
+    game_state = get_game_state()
+    teams_scores = game_state.get('teams_scores', [])
+    
+    if not teams_scores:
+        return redirect("/")
+    
+    # Trova il team con il punteggio più alto
+    winner_team = max(teams_scores, key=lambda t: t['score'])
+    max_score = winner_team['score']
+    
+    # Controlla se c'è un pareggio
+    is_tie = sum(1 for t in teams_scores if t['score'] == max_score) > 1
+    
+    return render_template(
+        "winner.html",
+        winner=winner_team,
+        teams_scores=teams_scores,
+        is_tie=is_tie
+    )
 
 
 # ==================== ROUND MURO DELLE CONNESSIONI ====================

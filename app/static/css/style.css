@@ -602,6 +602,11 @@ h1, h2, h3 {
     box-shadow: var(--shadow-lg), var(--inner-highlight);
 }
 
+.symbols-grid.wall-symbols-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 360px;
+}
+
 .symbol-button {
     aspect-ratio: 1;
     border: 2px solid rgba(158, 220, 255, 0.2);
@@ -1157,6 +1162,7 @@ h1, h2, h3 {
    ---------------------------------------------------------- */
 .missing-vowels-page {
     max-width: 800px;
+    width: 800px;
     margin: 0 auto;
 }
 
@@ -1185,7 +1191,7 @@ h1, h2, h3 {
     border: 1px solid var(--panel-border);
     border-radius: var(--radius-lg);
     padding: 2rem 3rem;
-    min-width: 380px;
+    width: 100%;
     text-align: center;
     box-shadow: var(--shadow-md), var(--glow-soft);
 }
@@ -1227,6 +1233,8 @@ h1, h2, h3 {
 
 .mv-nav-buttons {
     display: flex;
+    justify-content: center;
+    margin-bottom: 0.75rem;
 }
 
 /* Vocali Mancanti: parola e risposta sulla stessa riga */
@@ -1236,18 +1244,23 @@ h1, h2, h3 {
     gap: 1.5rem;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-bottom: 1.5rem;
+    width: 100%;
 }
 
 .mv-clue-answer-wrapper .mv-word-display {
     display: flex;
     margin: 0;
+    flex: 1;
+    min-width: 0;
 }
 
 .mv-clue-answer-wrapper .answer-display {
     display: flex;
     margin: 0;
+    flex: 1;
+    min-width: 0;
 }
     gap: 0.75rem;
     justify-content: center;
@@ -1422,6 +1435,127 @@ h1, h2, h3 {
     font-weight: 600;
     font-size: 1.1rem;
     margin: 0 0 0.5rem 0;
+}
+
+/* ----------------------------------------------------------
+   WINNER PAGE
+   ---------------------------------------------------------- */
+.winner-page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+}
+
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.winner-content {
+    position: relative;
+    z-index: 1;
+}
+
+.winner-label {
+    font-family: var(--font-ui);
+    font-size: 1.2rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+}
+
+.winner-name {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--ice);
+    text-shadow: 0 0 30px rgba(158, 220, 255, 0.4);
+    margin: 0.5rem 0 1.5rem;
+    animation: winnerPulse 2s ease-in-out infinite;
+}
+
+@keyframes winnerPulse {
+    0%, 100% { text-shadow: 0 0 30px rgba(158, 220, 255, 0.4); }
+    50% { text-shadow: 0 0 50px rgba(158, 220, 255, 0.7), 0 0 80px rgba(158, 220, 255, 0.3); }
+}
+
+.winner-score-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 2rem;
+}
+
+.winner-score-value {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--success);
+    line-height: 1;
+}
+
+.winner-score-label {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.winner-tie-note {
+    font-family: var(--font-ui);
+    font-size: 1.3rem;
+    color: var(--warning);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.winner-all-scores {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+.winner-team-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+}
+
+.winner-team-row.winner-highlight {
+    border-color: var(--ice);
+    background: var(--ice-soft);
+    box-shadow: 0 0 15px rgba(158, 220, 255, 0.15);
+}
+
+.winner-team-name {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    color: var(--text);
+}
+
+.winner-team-score {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--ice);
 }
 
 .wall-card-connection {

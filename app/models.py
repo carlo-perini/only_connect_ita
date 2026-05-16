@@ -129,14 +129,14 @@ class MissingVowelsCategory(BaseModel):
 
 
 class MissingVowelsRound(BaseModel):
-    """Round Vocali Mancanti con 4 categorie."""
-    categories: List[MissingVowelsCategory] = Field(..., description="Lista di 4 categorie")
+    """Round Vocali Mancanti con 4-5 categorie."""
+    categories: List[MissingVowelsCategory] = Field(..., description="Lista di 4-5 categorie")
     
     @validator("categories")
     def validate_categories_count(cls, v):
-        """Devono esserci esattamente 4 categorie."""
-        if len(v) != 4:
-            raise ValueError(f"Vocali Mancanti: devono esserci 4 categorie, ricevute {len(v)}")
+        """Devono esserci tra 4 e 5 categorie."""
+        if len(v) < 4 or len(v) > 5:
+            raise ValueError(f"Vocali Mancanti: devono esserci 4-5 categorie, ricevute {len(v)}")
         return v
 
 
