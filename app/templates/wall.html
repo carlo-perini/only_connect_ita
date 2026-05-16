@@ -147,24 +147,32 @@
             });
         });
         
-        // Elementi non risolti
+        // Elementi non risolti: mantieni l'ordine originale delle colonne
+        // Ricostruisci la griglia riga per riga con le posizioni originali
         const unsolvedItems = allItems.filter(item => !item.solved);
-        unsolvedItems.forEach(item => {
-            const cell = document.createElement('div');
-            cell.className = 'wall-cell';
-            cell.textContent = item.text;
-            cell.dataset.text = item.text;
-            
-            if (selectedItems.includes(item.text)) {
-                cell.classList.add('selected');
+        const numRows = unsolvedItems.length / 4;
+        
+        for (let row = 0; row < numRows; row++) {
+            for (let col = 0; col < 4; col++) {
+                const idx = row * 4 + col;
+                if (idx >= unsolvedItems.length) break;
+                const item = unsolvedItems[idx];
+                const cell = document.createElement('div');
+                cell.className = 'wall-cell';
+                cell.textContent = item.text;
+                cell.dataset.text = item.text;
+                
+                if (selectedItems.includes(item.text)) {
+                    cell.classList.add('selected');
+                }
+                
+                if (!roundEnded) {
+                    cell.addEventListener('click', () => toggleSelection(item.text));
+                }
+                
+                grid.appendChild(cell);
             }
-            
-            if (!roundEnded) {
-                cell.addEventListener('click', () => toggleSelection(item.text));
-            }
-            
-            grid.appendChild(cell);
-        });
+        }
     }
     
     function toggleSelection(text) {
