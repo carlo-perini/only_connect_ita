@@ -1763,6 +1763,11 @@ h1, h2, h3 {
     animation: fadeInUp 0.8s ease-out 0.55s both;
 }
 
+.landing-subtitle em {
+    font-style: italic;
+    color: rgba(158, 220, 255, 0.75);
+}
+
 .landing-btn {
     display: inline-block;
     margin-top: 2.5rem;
