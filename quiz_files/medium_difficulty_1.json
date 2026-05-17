@@ -230,32 +230,32 @@
       "wall-1": {
         "groups": [
           {
-            "connection": "Tipi di pasta",
-            "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+            "connection": "Contengono un morbo (asma, rabbia, peste, gotta)",
+            "items": ["Miasma", "Arrabbiarsi", "Tempeste", "Bigotta"]
           },
           {
-            "connection": "Capitali europee",
-            "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
+            "connection": "Personaggi con nome di animali",
+            "items": ["Caproni", "Leopardi", "Tortora", "Grillo"]
           },
           {
-            "connection": "Pianeti del sistema solare",
-            "items": ["Marte", "Giove", "Saturno", "Venere"]
+            "connection": "Rappresentazioni dell'ira nel fumetto",
+            "items": ["Fulmini", "Fumo", "Fuoco", "Vene pulsanti" ]
           },
           {
-            "connection": "Strumenti musicali a corde",
-            "items": ["Violino", "Chitarra", "Arpa", "Mandolino"]
+            "connection": "Animali presenti in Pinocchio",
+            "items": ["Volpe", "Pesce-cane", "Somari", "Tonno"]
           }
         ]
       },
       "wall-2": {
         "groups": [
           {
-            "connection": "Colori primari",
-            "items": ["Rosso", "Blu", "Giallo", "Verde"]
+            "connection": "Parole che contengono numeri",
+            "items": ["Duello", "Strega", "Orsacchiotto", "Novembre"]
           },
           {
-            "connection": "Frutta tropicale",
-            "items": ["Banana", "Ananas", "Mango", "Papaya"]
+            "connection": "",
+            "items": ["Kiriku", "Il signore degli anelli", "Pollicino", "Ratatouille"]
           },
           {
             "connection": "Continenti",

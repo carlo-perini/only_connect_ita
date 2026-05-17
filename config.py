@@ -42,7 +42,7 @@ AUDIO_DIR = MEDIA_DIR / "audio"
 DEFAULT_TIMERS = {
     "connections": 40,
     "sequence": 40,
-    "wall": 150,
+    "wall": 10, # 150
     "missing_vowels": 30, # 180
 }
 

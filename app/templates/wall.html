@@ -108,6 +108,7 @@
     let roundTimer = null;
     let roundEnded = false;
     let isAnimating = false;
+    let wallPointsAssigned = false;
     
     function initItems() {
         allItems = [];
@@ -409,6 +410,10 @@
                     if (scoreEl) scoreEl.textContent = team.score;
                 });
                 
+                wallPointsAssigned = true;
+                const backBtn = document.getElementById('back-btn');
+                if (backBtn) backBtn.disabled = false;
+                
                 const statusEl = document.getElementById('points-status');
                 document.getElementById('status-text').textContent = points === 0 
                     ? '— Nessun punto assegnato'
@@ -439,6 +444,10 @@
     }
     
     function backToSymbols() {
+        if (!wallPointsAssigned && !isModification) {
+            alert('Devi assegnare i punti prima di tornare ai simboli!');
+            return;
+        }
         // Se i punti sono stati assegnati, segna il muro come completato prima di tornare
         fetch('/api/wall/complete', {
             method: 'POST',
@@ -455,6 +464,12 @@
             // Torna comunque ai simboli anche in caso di errore
             window.location.href = '/round/wall/symbols';
         });
+    }
+    
+    // Disabilita "Torna ai simboli" finché non vengono assegnati punti
+    const backBtnInit = document.getElementById('back-btn');
+    if (backBtnInit && !isModification) {
+        backBtnInit.disabled = true;
     }
     
     // Inizializzazione

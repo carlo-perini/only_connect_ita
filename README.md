@@ -560,14 +560,14 @@ pytest tests/ -v
 ## 📌 Roadmap
 
 ### Fase 1 ✅
-- [x] Scheletro Flask funzionante
-- [x] Caricamento JSON con validazione
-- [x] Round Connessioni + Sequenza
-- [x] UI base con CSS scuro
+- [x] Flask funzionante
+- [x] Caricamento JSON quiz
+- [x] Round Connessioni e sequenza
+- [x] UI base con CSS
 - [x] Modifica retroattiva punteggi
 - [x] Persistenza simboli completati nella sessione di gioco
-- [x] Round Vocali Mancanti
-- [x] Round Muro delle Connessioni (2 simboli, 2 griglie diverse, alternanza team, punti 0-8)
+- [x] Round vocali e immagini
+- [x] Round Muro delle connessioni
 
 ### Fase 2 (In progress)
 - [x] Landing page
@@ -578,6 +578,8 @@ pytest tests/ -v
 
 
 ### Fase 3
+- [ ] Show automatico di tutti i clue a risposta team di turno errata
+- [ ] Possibilità di prenotarsi per rispondere in missing vowels
 - [ ] Replay e statistiche degli ultimi round
 - [ ] Persistenza punteggi
 - [ ] Editor web delle domande
