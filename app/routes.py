@@ -80,8 +80,17 @@ def get_game_state():
     return session.get('game_state', {})
 
 @bp.route("/")
+def landing():
+    """Pagina iniziale con titolo e pulsante di avvio."""
+    return render_template(
+        "landing.html",
+        subtitle=config.LANDING_SUBTITLE
+    )
+
+
+@bp.route("/home")
 def home():
-    """Home page dell'app."""
+    """Home page dell'app con il menu dei round."""
     # Ottieni il game state (con punteggio globale accumulato)
     # I simboli completati rimangono tracciati nella sessione di gioco
     game_state = get_game_state()
@@ -644,7 +653,7 @@ def winner():
     teams_scores = game_state.get('teams_scores', [])
     
     if not teams_scores:
-        return redirect("/")
+        return redirect("/home")
     
     # Trova il team con il punteggio più alto
     winner_team = max(teams_scores, key=lambda t: t['score'])

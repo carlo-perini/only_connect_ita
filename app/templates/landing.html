@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Only Connect - Italia{% endblock %}
+
+{% block content %}
+<div class="landing-page">
+    <div class="landing-content">
+        <span class="landing-kicker">Diventa una persona meglio con...</span>
+        <h1 class="landing-title">Only Connect</h1>
+        <p class="landing-edition">Edizione italiana</p>
+        {% if subtitle %}
+        <p class="landing-subtitle">{{ subtitle }}</p>
+        {% endif %}
+        <a href="/home" class="btn btn-primary btn-lg landing-btn">Inizia il quiz</a>
+    </div>
+</div>
+{% endblock %}

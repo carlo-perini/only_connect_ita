@@ -570,19 +570,17 @@ pytest tests/ -v
 - [x] Round Muro delle Connessioni (2 simboli, 2 griglie diverse, alternanza team, punti 0-8)
 
 ### Fase 2 (In progress)
-- [ ] Sound effects temporizzati
-- [ ] Test round musicale
+- [x] Landing page
+- [x] Sound effects temporizzati
 - [ ] Logo e tema visibile nella home
-- [ ] Edizione personalizzabile visibile nella home
-- [ ] Musiche per ogni round + sigla inziale
+- [ ] Deploy su server remoto per multiplayer
+- [x] Musiche per ogni round + sigla inziale
 
 
 ### Fase 3
 - [ ] Replay e statistiche degli ultimi round
+- [ ] Persistenza punteggi
 - [ ] Editor web delle domande
-- [ ] Multiplayer LAN
-- [ ] Deploy su server remoto
-- [ ] Persistenza punteggi su database
 
 ## 🎨 Design
 

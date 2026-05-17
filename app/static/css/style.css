@@ -1695,7 +1695,84 @@ h1, h2, h3 {
 }
 
 /* ----------------------------------------------------------
-   15. REDUCED MOTION
+   15. LANDING PAGE
+   ---------------------------------------------------------- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(1.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.landing-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 2rem;
+}
+
+.landing-content {
+    text-align: center;
+    animation: fadeInUp 1s ease-out both;
+}
+
+.landing-kicker {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    color: var(--ice);
+    opacity: 0.7;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+    animation: fadeInUp 0.8s ease-out 0.1s both;
+}
+
+.landing-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.04em;
+    margin: 0;
+    text-shadow: 0 0 40px rgba(158, 220, 255, 0.25);
+    animation: fadeInUp 0.8s ease-out 0.25s both;
+}
+
+.landing-edition {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 400;
+    color: var(--ice);
+    opacity: 0.85;
+    margin: 0.25rem 0 0;
+    letter-spacing: 0.08em;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.landing-subtitle {
+    font-family: var(--font-ui);
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 1.5rem 0 0;
+    animation: fadeInUp 0.8s ease-out 0.55s both;
+}
+
+.landing-btn {
+    display: inline-block;
+    margin-top: 2.5rem;
+    padding: 1rem 3rem;
+    font-size: 1.15rem;
+    animation: fadeInUp 0.8s ease-out 0.7s both;
+}
+
+/* ----------------------------------------------------------
+   16. REDUCED MOTION
    ---------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

@@ -54,6 +54,9 @@ WALL_ROW_COLORS = [
     "#FFCA3A",   # Giallo
 ]
 
+# Frase di benvenuto nella pagina iniziale
+LANDING_SUBTITLE = "Benevenuti a Only connect. Se i quiz fossero ostacoli da superare, le domande che potete trovare in quiz prima di cena sarebbero lo scalino prima del portone. Le domande di Only connect la cordigliera delle Ande. Per il lungo."
+
 # Modalità debug
 DEBUG = os.getenv("FLASK_ENV") == "development"
 
