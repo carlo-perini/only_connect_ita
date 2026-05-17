@@ -270,6 +270,13 @@
             // Aggiorna la visualizzazione dei clue
             updateCluesDisplay();
             
+            // Se il clue appena rivelato è un'immagine, mostrala in overlay
+            const revealedClue = questionData.clues[currentClueIndex];
+            if (revealedClue && revealedClue.type === 'image') {
+                const mediaPath = `/static/media/${revealedClue.value}`;
+                showImageOverlay(mediaPath);
+            }
+            
             // Resetta il flag dopo il render
             setTimeout(() => {
                 newlyRevealedClueIndex = -1;
@@ -448,6 +455,12 @@
             roundTimer.start();
             // Aggiorna la visualizzazione dei clue per attivare l'autoplay audio
             updateCluesDisplay();
+            // Se il primo clue è un'immagine, mostrala in overlay
+            const firstClue = questionData.clues[0];
+            if (firstClue && firstClue.type === 'image') {
+                const mediaPath = `/static/media/${firstClue.value}`;
+                showImageOverlay(mediaPath);
+            }
         });
     }
     } else {

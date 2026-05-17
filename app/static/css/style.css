@@ -1777,7 +1777,51 @@ h1, h2, h3 {
 }
 
 /* ----------------------------------------------------------
-   16. REDUCED MOTION
+   16. IMAGE CLUE OVERLAY (fullscreen on reveal)
+   ---------------------------------------------------------- */
+.image-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(6, 10, 31, 0.92);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    animation: overlayFadeIn 0.3s ease-out;
+    padding: 2rem;
+}
+.image-overlay img {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--panel-border);
+    box-shadow: var(--shadow-lg), 0 0 60px rgba(158, 220, 255, 0.12);
+}
+.image-overlay .overlay-hint {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    animation: overlayHintPulse 2s ease-in-out infinite;
+}
+@keyframes overlayFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes overlayFadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+@keyframes overlayHintPulse {
+    0%, 100% { opacity: 0.5; }
+    50%      { opacity: 1; }
+}
+
+/* ----------------------------------------------------------
+   17. REDUCED MOTION
    ---------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

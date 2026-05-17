@@ -86,3 +86,34 @@ function playAudioSegment(audioSrc, startTime, endTime) {
 
 // Debug: log nel browser
 console.log('✓ main.js caricato');
+
+/**
+ * Mostra un'immagine in overlay fullscreen.
+ * L'overlay si chiude al click e risolve la Promise restituita.
+ */
+function showImageOverlay(imageSrc) {
+    return new Promise(resolve => {
+        const overlay = document.createElement('div');
+        overlay.className = 'image-overlay';
+
+        const img = document.createElement('img');
+        img.src = imageSrc;
+        img.alt = 'Indizio immagine';
+
+        const hint = document.createElement('div');
+        hint.className = 'overlay-hint';
+        hint.textContent = 'Clicca per continuare';
+
+        overlay.appendChild(img);
+        overlay.appendChild(hint);
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener('click', function dismiss() {
+            overlay.style.animation = 'overlayFadeOut 0.25s ease-in forwards';
+            overlay.addEventListener('animationend', () => {
+                overlay.remove();
+                resolve();
+            }, { once: true });
+        }, { once: true });
+    });
+}
