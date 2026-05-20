@@ -98,6 +98,7 @@
     const symbolId = '{{ symbol_id }}';
     const roundType = '{{ round_type }}';
     const isModification = {{ is_modification | tojson }};
+    const isTutorial = {{ 'true' if is_tutorial|default(false) else 'false' }};
     
     // Stato del gioco
     let allItems = [];
@@ -393,6 +394,20 @@
     }
     
     function wallAssignPoints(points, teamId) {
+        if (isTutorial) {
+            // In tutorial mode, just update UI locally
+            wallPointsAssigned = true;
+            const backBtn = document.getElementById('back-btn');
+            if (backBtn) backBtn.disabled = false;
+            
+            const statusEl = document.getElementById('points-status');
+            document.getElementById('status-text').textContent = points === 0 
+                ? '— Nessun punto assegnato (tutorial)'
+                : `✓ +${points} punto/i (tutorial)`;
+            statusEl.style.display = 'block';
+            return;
+        }
+        
         fetch('/api/wall/assign-points', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -444,6 +459,11 @@
     }
     
     function backToSymbols() {
+        if (isTutorial) {
+            window.location.href = '/home';
+            return;
+        }
+        
         if (!wallPointsAssigned && !isModification) {
             alert('Devi assegnare i punti prima di tornare ai simboli!');
             return;
@@ -468,7 +488,7 @@
     
     // Disabilita "Torna ai simboli" finché non vengono assegnati punti
     const backBtnInit = document.getElementById('back-btn');
-    if (backBtnInit && !isModification) {
+    if (backBtnInit && !isModification && !isTutorial) {
         backBtnInit.disabled = true;
     }
     

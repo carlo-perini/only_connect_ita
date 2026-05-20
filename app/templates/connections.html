@@ -111,6 +111,7 @@
     const gameState = {{ game_state | tojson }};
     const currentTeamId = "{{ current_team.team_id if current_team else '' }}";
     const isModification = {{ 'true' if is_modification else 'false' }};
+    const isTutorial = {{ 'true' if is_tutorial|default(false) else 'false' }};
     
     let currentClueIndex = 0; // Quale clue mostrare (0-indexed)
     let newlyRevealedClueIndex = -1; // Indice del clue appena mostrato (per autoplay)
@@ -326,6 +327,11 @@
     
     // Torna ai simboli e marca il simbolo come completato
     function backToSymbols() {
+        if (isTutorial) {
+            window.location.href = '/home';
+            return;
+        }
+        
         if (!pointsAssigned && !isModification) {
             alert('Devi assegnare i punti prima di tornare ai simboli!');
             return;
@@ -364,7 +370,7 @@
     function updateBackButtonState() {
         const backBtn = document.getElementById('back-btn');
         if (backBtn) {
-            backBtn.disabled = !(pointsAssigned || isModification);
+            backBtn.disabled = !(pointsAssigned || isModification || isTutorial);
         }
     }
     

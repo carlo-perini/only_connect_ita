@@ -1038,3 +1038,89 @@ def wall_assign_points():
     
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+
+
+# ==================== TUTORIAL ====================
+
+@bp.route("/tutorial/<round_type>")
+def tutorial(round_type):
+    """
+    Mostra il round tutorial per il tipo specificato.
+    Usa gli stessi template dei round normali ma con dati dal config.
+    Non influenza il game state della partita.
+    
+    Args:
+        round_type: 'connections', 'sequence', 'wall', 'missing_vowels'
+    """
+    if round_type not in ['connections', 'sequence', 'wall', 'missing_vowels']:
+        return "Round non valido", 404
+
+    # Timer dal config (stesso del round normale)
+    total_time = config.DEFAULT_TIMERS.get(round_type, 45)
+
+    # Team fittizi per il tutorial
+    tutorial_teams = [
+        {"team_id": "tutorial-team-1", "team_name": "Squadra A", "score": 0},
+        {"team_id": "tutorial-team-2", "team_name": "Squadra B", "score": 0},
+    ]
+    current_team = tutorial_teams[0]
+
+    if round_type == 'connections':
+        question_dict = config.TUTORIAL_CONNECTIONS
+        return render_template(
+            "connections.html",
+            question=question_dict,
+            symbol_id="tutorial",
+            round_type="connections",
+            current_team=current_team,
+            game_state={},
+            teams_scores=tutorial_teams,
+            total_time=total_time,
+            is_modification=False,
+            is_tutorial=True
+        )
+    
+    elif round_type == 'sequence':
+        question_dict = config.TUTORIAL_SEQUENCE
+        return render_template(
+            "sequence.html",
+            question=question_dict,
+            symbol_id="tutorial",
+            round_type="sequence",
+            current_team=current_team,
+            game_state={},
+            teams_scores=tutorial_teams,
+            total_time=total_time,
+            is_modification=False,
+            is_tutorial=True
+        )
+    
+    elif round_type == 'wall':
+        wall_data = config.TUTORIAL_WALL
+        groups = wall_data["groups"]
+        wall_colors = config.WALL_ROW_COLORS
+        return render_template(
+            "wall.html",
+            groups=groups,
+            symbol_id="tutorial",
+            round_type="wall",
+            current_team=current_team,
+            game_state={},
+            teams_scores=tutorial_teams,
+            total_time=total_time,
+            wall_colors=wall_colors,
+            is_modification=False,
+            is_tutorial=True
+        )
+    
+    elif round_type == 'missing_vowels':
+        categories = config.TUTORIAL_MISSING_VOWELS["categories"]
+        return render_template(
+            "missing_vowels.html",
+            categories=categories,
+            teams_scores=tutorial_teams,
+            game_state={},
+            total_time=total_time,
+            is_tutorial=True
+        )
+

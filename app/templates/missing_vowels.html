@@ -109,6 +109,7 @@
     // Dati del round (passati dal template)
     const categories = {{ categories | tojson }};
     const gameState = {{ game_state | tojson }};
+    const isTutorial = {{ 'true' if is_tutorial|default(false) else 'false' }};
     
     let currentCategoryIndex = 0;
     let currentWordIndex = 0;
@@ -244,6 +245,34 @@
     
     // Assegna punti (+1 o -1)
     function mvAssignPoints(points, teamId) {
+        if (isTutorial) {
+            // In tutorial mode, aggiorna solo la UI localmente
+            if (points > 0) {
+                showAnswerAutomatically();
+                positiveGiven = true;
+            } else if (points < 0) {
+                penaltyTeamId = teamId;
+            }
+            
+            const statusEl = document.getElementById('points-status');
+            const statusText = document.getElementById('status-text');
+            if (points > 0) {
+                statusText.textContent = `✓ +${points} punto (tutorial)`;
+            } else {
+                statusText.textContent = `✗ ${points} punto (tutorial)`;
+            }
+            statusEl.style.display = 'block';
+            
+            updateScoringButtons();
+            
+            if (positiveGiven) {
+                const nextWordBtn = document.getElementById('next-word-btn');
+                nextWordBtn.disabled = false;
+                pointsAssignedForCurrentWord = true;
+            }
+            return;
+        }
+        
         fetch('/api/missing-vowels/assign-points', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -354,6 +383,12 @@
         // Ferma il timer e l'audio
         if (roundTimer) roundTimer.stop();
         
+        if (isTutorial) {
+            // In tutorial mode, torna alla home
+            window.location.href = '/home';
+            return;
+        }
+        
         fetch('/api/missing-vowels/complete', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
@@ -404,6 +439,11 @@
                 timerElement.classList.remove('warning', 'critical');
                 console.log('⏰ Tempo scaduto!');
                 if (roundTimer) roundTimer.stop(); // Ferma l'audio quando il timer scade
+                
+                if (isTutorial) {
+                    // In tutorial mode, mostra solo un messaggio e permetti di tornare alla home
+                    return;
+                }
                 
                 // Segna il round come completato e mostra il bottone vincitore
                 fetch('/api/missing-vowels/complete', {

@@ -57,6 +57,57 @@ WALL_ROW_COLORS = [
 # Frase di benvenuto nella pagina iniziale
 LANDING_SUBTITLE = "Se i quiz fossero ostacoli da superare, le domande che potete trovare in un quiz orario pre-cena sarebbero lo scalino prima del portone di casa. Le domande di Only connect, invece, la cordigliera delle Ande. Per il lungo."
 
+# ==================== TUTORIAL ====================
+# Dati di esempio per i tutorial (un round per tipo di gioco)
+
+TUTORIAL_CONNECTIONS = {
+    "id": "tutorial-conn",
+    "clues": [
+        {"type": "text", "value": "Ago"},
+        {"type": "text", "value": "Volante"},
+        {"type": "text", "value": "Pagliaccio"},
+        {"type": "text", "value": "Palla"}
+    ],
+    "answer": "Pesce ___",
+    "explanation": "Sono diverse specie di pesce"
+}
+
+TUTORIAL_SEQUENCE = {
+    "id": "tutorial-seq",
+    "clues": [
+        {"type": "text", "value": "7 marzo 2021"},
+        {"type": "text", "value": "3 luglio 2021"},
+        {"type": "text", "value": "22 gennaio 2022"}
+    ],
+    "answer": "11 febbraio 2022",
+    "sequence_rule": "Date come moltiplicazione",
+    "explanation": "7 marzo 2021 --> 7 x 3 = 21, 3 luglio 2021 --> 3 x 7 = 21, 22 gennaio 2022 --> 22 x 1 = 22; la prossima combinazione è 11 x 2 = 22"
+}
+
+TUTORIAL_WALL = {
+    "groups": [
+        {"connection": "Composte da opposti", "items": ["Agrodolce", "Pianoforte", "Chiaroscuro", "Saliscendi"]},
+        {"connection": "Mosse nello scacchi", "items": ["Arrocco", "Barbiere", "Difesa olandese", "Apertura"]},
+        {"connection": "Nei segnali stradali", "items": ["Pedone", "Punto esclamativo", "Bicicletta", "Freccia"]},
+        {"connection": "Elementi di scrittura musicale", "items": ["Legatura", "Chiave", "Battuta", "Scala"]}
+    ]
+}
+
+TUTORIAL_MISSING_VOWELS = {
+    "categories": [
+        {
+            "id": "tut-mv-1",
+            "category_name": "Puoi trovare in bagno...",
+            "words": [
+                {"answer": "Saponetta", "display": "SP NTT"},
+                {"answer": "Spazzolino", "display": "S PZ ZLN"},
+                {"answer": "Telefono", "display": "TLFN"},
+                {"answer": "Rasoio", "display": "R S"}
+            ]
+        }
+    ]
+}
+
 # Modalità debug
 DEBUG = os.getenv("FLASK_ENV") == "development"
 

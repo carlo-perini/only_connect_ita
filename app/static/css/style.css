@@ -446,6 +446,13 @@ h1, h2, h3 {
     border: 1px solid rgba(90, 216, 166, 0.2);
 }
 
+.btn-tutorial {
+    margin-top: 0.75rem;
+    margin-left: 0.5rem;
+    font-size: 0.82rem;
+    padding: 0.4rem 1rem;
+}
+
 /* Reset game button section */
 .reset-section {
     display: flex;

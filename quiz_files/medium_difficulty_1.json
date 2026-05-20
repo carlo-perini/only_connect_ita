@@ -234,8 +234,8 @@
             "items": ["Miasma", "Arrabbiarsi", "Tempeste", "Bigotta"]
           },
           {
-            "connection": "Personaggi con nome di animali",
-            "items": ["Caproni", "Leopardi", "Tortora", "Grillo"]
+            "connection": "Celebri con cognome animale",
+            "items": ["Tasso", "Leopardi", "Tortora", "Grillo"]
           },
           {
             "connection": "Rappresentazioni dell'ira nel fumetto",
@@ -250,21 +250,21 @@
       "wall-2": {
         "groups": [
           {
-            "connection": "Parole che contengono numeri",
-            "items": ["Duello", "Strega", "Orsacchiotto", "Novembre"]
+            "connection": "Contengono numeri",
+            "items": ["Duello", "Stregone", "Orsacchiotto", "Novembre"]
           },
           {
-            "connection": "",
-            "items": ["Kiriku", "Il signore degli anelli", "Pollicino", "Ratatouille"]
+            "connection": "Protagonisti piccini",
+            "items": ["Kiriku", "Frodo", "Pollicino", "Remy"]
           },
           {
-            "connection": "Continenti",
-            "items": ["Africa", "Asia", "Europa", "America"]
+            "connection": "Francesismi",
+            "items": ["Pelouche", "Panne", "Camion", "Chef"]
           },
           {
-            "connection": "Lingue parlate",
-            "items": ["Italiano", "Spagnolo", "Francese", "Tedesco"]
-          }
+            "connection": "Bianco",
+            "items": ["Gandalf", "Cioccolato", "Natale", "Spino"]
+          } 
         ]
       }
     }
