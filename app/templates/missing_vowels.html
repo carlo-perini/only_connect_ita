@@ -55,8 +55,8 @@
         </div>
     </div>
     
-    <!-- Bottone Prossima parola + Sezione Assegnazione Punti -->
-    {% if teams_scores %}
+    <!-- Sezione Assegnazione Punti (solo per gioco normale) -->
+    {% if teams_scores and not is_tutorial|default(false) %}
     <div class="scoring-section mv-scoring" id="scoring-section" style="display: none;">
         <!-- Bottone Prossima parola (in cima alla sezione punti) -->
         <div class="mv-nav-buttons" id="next-word-section" style="display: none;">
@@ -96,6 +96,15 @@
     </div>
     {% endif %}
     
+    <!-- Sezione Bottone Prossima Parola (solo per tutorial) -->
+    {% if is_tutorial|default(false) %}
+    <div class="mv-nav-buttons" id="next-word-section" style="display: none;">
+        <button class="btn btn-primary" id="next-word-btn" onclick="mvNextWord()">
+            Prossima parola →
+        </button>
+    </div>
+    {% endif %}
+    
     <div class="nav-buttons">
         <button class="btn btn-secondary" id="home-btn" onclick="window.location.href='/home'">
             ← Indietro
@@ -122,9 +131,12 @@
     
     // Abilita/disabilita i pulsanti di assegnazione punti
     function setScoringButtonsEnabled(enabled) {
-        document.querySelectorAll('.scoring-btn').forEach(btn => {
-            btn.disabled = !enabled;
-        });
+        const buttons = document.querySelectorAll('.scoring-btn');
+        if (buttons.length > 0) {
+            buttons.forEach(btn => {
+                btn.disabled = !enabled;
+            });
+        }
     }
     
     // Aggiorna lo stato dei pulsanti in base alle azioni già fatte per la parola corrente
@@ -167,7 +179,8 @@
         document.getElementById('answer-area').style.display = 'none';
         
         // Nascondi lo status
-        document.getElementById('points-status').style.display = 'none';
+        const pointsStatus = document.getElementById('points-status');
+        if (pointsStatus) pointsStatus.style.display = 'none';
         
         // MOSTRA il bottone "Prossima parola" per permettere di rivelare la parola
         document.getElementById('next-word-section').style.display = '';
@@ -183,8 +196,10 @@
         positiveGiven = false;
         penaltyTeamId = null;
         
-        // Disabilita i pulsanti di punteggio finché la parola non è mostrata
-        setScoringButtonsEnabled(false);
+        // Disabilita i pulsanti di punteggio finché la parola non è mostrata (solo se esistono)
+        if (!isTutorial) {
+            setScoringButtonsEnabled(false);
+        }
     }
     
     // Mostra la parola corrente
@@ -205,7 +220,8 @@
         document.getElementById('answer-area').style.display = 'none';
         
         // Nascondi lo status
-        document.getElementById('points-status').style.display = 'none';
+        const pointsStatusEl = document.getElementById('points-status');
+        if (pointsStatusEl) pointsStatusEl.style.display = 'none';
         
         // Aggiorna il testo del bottone "Prossima parola"
         const isLastWord = currentCategoryIndex === categories.length - 1 && 
@@ -219,10 +235,10 @@
             nextBtn.textContent = 'Prossima parola →';
         }
         
-        // Mostra il bottone "Prossima parola" ma DISABILITATO
+        // Mostra il bottone "Prossima parola" ma DISABILITATO (nel gioco normale)
         const nextWordBtn = document.getElementById('next-word-btn');
         document.getElementById('next-word-section').style.display = '';
-        nextWordBtn.disabled = true; // Disabilita finché non vengono assegnati i punti
+        nextWordBtn.disabled = !isTutorial; // Nel tutorial, sempre abilitato; nel gioco, disabilitato finché non assegni punti 
         
         // Setta lo stato della parola come mostrata
         wordShown = true;
@@ -397,10 +413,15 @@
         .then(data => {
             if (data.success) {
                 // Nascondi le sezioni del round
-                document.getElementById('category-display').style.display = 'none';
-                document.getElementById('clue-answer-wrapper').style.display = 'none';
-                document.getElementById('scoring-section').style.display = 'none';
-                document.getElementById('next-word-section').style.display = 'none';
+                const categoryDisplay = document.getElementById('category-display');
+                const clueAnswerWrapper = document.getElementById('clue-answer-wrapper');
+                const scoringSection = document.getElementById('scoring-section');
+                const nextWordSection = document.getElementById('next-word-section');
+                
+                if (categoryDisplay) categoryDisplay.style.display = 'none';
+                if (clueAnswerWrapper) clueAnswerWrapper.style.display = 'none';
+                if (scoringSection) scoringSection.style.display = 'none';
+                if (nextWordSection) nextWordSection.style.display = 'none';
                 
                 // Mostra il bottone vincitore
                 const winnerBtn = document.getElementById('winner-btn-section');
@@ -473,7 +494,7 @@
             startRoundSection.style.display = 'none';
             categoryDisplay.style.display = '';
             clueAnswerWrapper.style.display = '';
-            scoringSection.style.display = '';
+            if (scoringSection) scoringSection.style.display = '';
             updateDisplay();
             roundTimer.start();
         });

@@ -100,7 +100,7 @@
     ],
     "questions": {
       "seq-sym-001": {
-        "id": "seq-001", 
+        "id": "seq-001",
           "clues": [
             {"type": "image", "value": "images/io_robot.jpg"},
             {"type": "image", "value": "images/v_for_vendetta.jpg"}, 
@@ -157,11 +157,11 @@
       "seq-sym-006": {
         "id": "seq-006", 
         "clues": [
-          {"type": "text", "value": "La camera di fuoco"}, 
-          {"type": "text", "value": "Il prigioniero della fenice"}, 
-          {"type": "text", "value": "Il calice mezzosangue"}
+          {"type": "text", "value": "OSTILE"}, 
+          {"type": "text", "value": "N\nA\nN\nT\nE\nS"}, 
+          {"type": "text", "value": "ONILLEMRE"}
         ], 
-        "answer": "L'ordine della morte", 
+        "answer": "", 
         "sequence_rule": "Romanzi di Harry Potter in ordine di pubblicazione unendo i titoli del secondo con il quarto, il terzo con il quinto etc.", 
         "explanation": ""
       }

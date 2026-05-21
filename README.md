@@ -560,7 +560,7 @@ pytest tests/ -v
 ## 📌 Roadmap
 
 ### Fase 1 ✅
-- [x] Flask funzionante
+- [x] Flask
 - [x] Caricamento JSON quiz
 - [x] Round Connessioni e sequenza
 - [x] UI base con CSS
@@ -569,17 +569,20 @@ pytest tests/ -v
 - [x] Round vocali e immagini
 - [x] Round Muro delle connessioni
 
-### Fase 2 (In progress)
-- [x] Landing page
+### Fase 2
+- [x] Landing e victory pages
+- [x] Musiche per ogni round + sigla inziale
 - [x] Sound effects temporizzati
 - [ ] Logo e tema visibile nella home
+- [ ] Punteggi scritti sopra le clue card in sequenze e connessioni come nel bbc
 - [ ] Deploy su server remoto per multiplayer
-- [x] Musiche per ogni round + sigla inziale
+
 
 
 ### Fase 3
 - [ ] Show automatico di tutti i clue a risposta team di turno errata
 - [ ] Possibilità di prenotarsi per rispondere in missing vowels
+- [ ] Ruoli a scelta per la parita (giocatore/master)
 - [ ] Replay e statistiche degli ultimi round
 - [ ] Persistenza punteggi
 - [ ] Editor web delle domande

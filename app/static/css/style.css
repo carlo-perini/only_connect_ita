@@ -450,7 +450,7 @@ h1, h2, h3 {
     margin-top: 0.75rem;
     margin-left: 0.5rem;
     font-size: 0.82rem;
-    padding: 0.4rem 1rem;
+    padding: 0.7rem 1rem;
 }
 
 /* Reset game button section */
@@ -794,7 +794,7 @@ h1, h2, h3 {
     z-index: 1;
     text-align: center;
 }
-.clue-content p { margin: 0; }
+.clue-content p { margin: 0; white-space: pre-line; }
 .clue-content img {
     width: 100%;
     height: auto;
