@@ -161,12 +161,12 @@
           {"type": "text", "value": "N\nA\nN\nT\nE\nS"}, 
           {"type": "text", "value": "ONILLEMRE"}
         ], 
-        "answer": "", 
-        "sequence_rule": "Romanzi di Harry Potter in ordine di pubblicazione unendo i titoli del secondo con il quarto, il terzo con il quinto etc.", 
-        "explanation": ""
+        "answer": "N\nO\nU\nS", 
+        "sequence_rule": "Parole su una bussola", 
+        "explanation": "Le parole vanno da Ovest a Est, da Nord a Sud, da Est a Ovest e da Sud a Nord. Le iniziali indicano i punti cardinali"
       }
     }
-  },
+  }, 
   "missing_vowels": {
     "categories": [
       {
@@ -234,7 +234,7 @@
             "items": ["Miasma", "Arrabbiarsi", "Tempeste", "Bigotta"]
           },
           {
-            "connection": "Celebri con cognome animale",
+            "connection": "Persone celebri con cognome di animale",
             "items": ["Tasso", "Leopardi", "Tortora", "Grillo"]
           },
           {

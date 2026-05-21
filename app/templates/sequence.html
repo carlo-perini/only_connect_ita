@@ -102,9 +102,9 @@
     const questionData = {
         id: "{{ question.id }}",
         clues: {{ question.clues | tojson }},
-        answer: "{{ question.answer }}",
-        explanation: "{{ question.explanation }}",
-        sequence_rule: "{{ question.sequence_rule }}"
+        answer: {{ question.answer | tojson }},
+        explanation: {{ question.explanation | tojson }},
+        sequence_rule: {{ question.sequence_rule | tojson }}
     };
     
     const symbolId = "{{ symbol_id or '' }}";
