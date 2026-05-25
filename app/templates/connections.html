@@ -28,6 +28,7 @@
         <div class="answer-section header-buttons" id="answer-section" style="display: none;">
             <button class="btn btn-secondary" id="reveal-btn">Prossimo indizio</button>
             <button class="btn btn-warning" id="show-answer-btn">Mostra risposta corretta</button>
+            <button class="btn btn-danger" id="buzz-btn">🔔 Prenotazione</button>
         </div>
         <div class="timer-display" id="timer" data-total-time="{{ total_time }}"></div>
     </div>
@@ -117,6 +118,7 @@
     let newlyRevealedClueIndex = -1; // Indice del clue appena mostrato (per autoplay)
     let pointsAssigned = gameState.points_assigned_for_current_question || false;
     let roundStarted = false; // Flag per sapere se il round è stato avviato
+    let roundTimer = null; // Riferimento al timer del round (per buzz)
     
     // Funzione per rilevare se i clue contengono audio
     function hasAudioClues() {
@@ -282,6 +284,38 @@
         answerArea.style.display = 'block';
     });
     
+    // Buzz: prenotazione risposta - ferma timer, ferma musica, suona buzz
+    document.getElementById('buzz-btn').addEventListener('click', function() {
+        // Ferma il timer del round
+        if (roundTimer) {
+            roundTimer._stopInterval();
+            // Ferma l'audio di background del timer
+            if (roundTimer.audio) {
+                roundTimer.audio.pause();
+            }
+        }
+        // Ferma tutti gli audio nella pagina (clue audio)
+        stopAllAudio();
+        // Riproduci il suono di prenotazione dal secondo 18
+        const buzzAudio = new Audio('/static/media/audio/missing_vowel_with_buzz_team_sounds.mp3');
+        const playBuzz = () => {
+            buzzAudio.currentTime = 18;
+            buzzAudio.play().catch(e => console.warn('Buzz audio bloccato:', e));
+            // Ferma il buzz audio dopo 0.3 secondi
+            setTimeout(() => {
+                buzzAudio.pause();
+                buzzAudio.currentTime = 0;
+            }, 640);
+        };
+        if (buzzAudio.readyState >= 1) {
+            playBuzz();
+        } else {
+            buzzAudio.addEventListener('loadedmetadata', playBuzz, { once: true });
+        }
+        // Disabilita il bottone dopo il primo click
+        this.disabled = true;
+    });
+    
     // Assegna i punti a una squadra
     function assignPoints(points, teamId, roundType, symbolId) {
         fetch('/api/assign-points', {
@@ -408,7 +442,7 @@
     
     if (timerElement && timerElement.dataset.totalTime) {
         const totalTime = parseInt(timerElement.dataset.totalTime);
-        const roundTimer = new RoundTimer(totalTime, 
+        roundTimer = new RoundTimer(totalTime, 
             function onTick(remainingSeconds) {
                 timerElement.textContent = formatTime(remainingSeconds);
                 
