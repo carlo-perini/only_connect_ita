@@ -2,12 +2,12 @@
   "teams": [
     {
       "id": "team-1",
-      "name": "I corvi scemi",
+      "name": "Gli spakkoni",
       "color": "#FF8C42"
     },
     {
       "id": "team-2",
-      "name": "I lupi saggi",
+      "name": "Le canterine",
       "color": "#0066FF"
     }
   ],

@@ -371,6 +371,12 @@
             return;
         }
         
+        // Nel tutorial, mostra prima la risposta se non è già visibile
+        if (isTutorial && document.getElementById('answer-area').style.display === 'none') {
+            showAnswerAutomatically();
+            return;
+        }
+        
         // Altrimenti, passa alla prossima parola/categoria
         const category = categories[currentCategoryIndex];
         
