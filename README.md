@@ -573,19 +573,16 @@ pytest tests/ -v
 - [x] Landing e victory pages
 - [x] Musiche per ogni round + sigla inziale
 - [x] Sound effects temporizzati
-- [ ] Logo e tema visibile nella home
+- [ ] Immagine come answer da poter inserire nei round di immagini
 - [ ] Punteggi scritti sopra le clue card in sequenze e connessioni come nel bbc
-- [ ] Deploy su server remoto per multiplayer
-
-
 
 ### Fase 3
 - [ ] Show automatico di tutti i clue a risposta team di turno errata
 - [ ] Possibilità di prenotarsi per rispondere in missing vowels
 - [ ] Ruoli a scelta per la parita (giocatore/master)
-- [ ] Replay e statistiche degli ultimi round
-- [ ] Persistenza punteggi
+- [ ] Persistenza punteggi su qualche file/DB (non in debug)
 - [ ] Editor web delle domande
+- [ ] Deploy su server remoto per multiplayer
 
 ## 🎨 Design
 

@@ -30,8 +30,8 @@ if quiz_file_env:
         QUIZ_DATA_FILE = quiz_file_path
         QUIZ_DATA_FILE_DISPLAY = str(quiz_file_path)  # Mostra il percorso assoluto
 else:
-    QUIZ_DATA_FILE = BASE_DIR / "quiz_files" / "medium_difficulty_1.json"
-    QUIZ_DATA_FILE_DISPLAY = "quiz_data.json (default)"
+    QUIZ_DATA_FILE = BASE_DIR / "quiz_data.json" # Default quiz file
+    QUIZ_DATA_FILE_DISPLAY = "quiz_data.json (default)" # Mostra il percorso di default
 
 # Cartelle statiche (dove i template cercheranno i media)
 MEDIA_DIR = BASE_DIR / "app" / "static" / "media"
@@ -55,7 +55,7 @@ WALL_ROW_COLORS = [
 ]
 
 # Frase di benvenuto nella pagina iniziale
-LANDING_SUBTITLE = "Se i quiz fossero ostacoli da superare, le domande che potete trovare in un quiz orario pre-cena sarebbero lo scalino prima del portone di casa. Le domande di Only connect, invece, la cordigliera delle Ande. Per il lungo."
+LANDING_SUBTITLE = "Si dovrebbe istituire un'ora a settimana di Only Connect fin dalle scuole elementari. - Daniela Santanchè"
 
 # ==================== TUTORIAL ====================
 # Dati di esempio per i tutorial (un round per tipo di gioco)

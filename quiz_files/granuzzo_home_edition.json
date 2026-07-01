@@ -2,12 +2,12 @@
   "teams": [
     {
       "id": "team-1",
-      "name": "Team 1",
+      "name": "La figa",
       "color": "#FF8C42"
     },
     {
       "id": "team-2",
-      "name": "Team 2",
+      "name": "I linux",
       "color": "#0066FF"
     }
   ],
@@ -24,13 +24,13 @@
       "sym-001": {
         "id": "conn-001",
         "clues": [
-          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg"},
-          {"type": "image", "value": "images/immagine_test2.png"}, 
-          {"type": "image", "value": "images/immagine_test2.png"}, 
-          {"type": "image", "value": "images/MODIFICHE-WIKI.jpg"}
+          {"type": "image", "value": "images/david-donatello-i.jpg"},
+          {"type": "image", "value": "images/leonardo.webp"}, 
+          {"type": "image", "value": "images/raffaello_sposalizio.webp"}, 
+          {"type": "image", "value": "images/adamo_michelangelo.jpg"}
         ],
-        "answer": "Arancia",
-        "explanation": "Tutte le piste portano al concetto di 'Arancia'. La quarta pista è un gioco di parole con Orange (il social network)."
+        "answer": "Pittori ninja",
+        "explanation": "I nomi degli autori sono le tartarughe ninja: David di Donatello, Uomo vitruviano di Leonardo da Vinci, Sposalizio della vergine di Raffaello Sanzio, Creazione di Adamo di Michelangelo Buonarroti"
       },
       "sym-002": {
         "id": "conn-002", 
@@ -52,7 +52,7 @@
           {"type": "audio", "value": "audio/sweet_home_alabama.webm", "start_time": "0:50"}
         ], 
         "answer": "Sweet songs",
-        "explanation": "Hanno la parola \"sweet\" nel titolo"
+        "explanation": "Sweet dreams - Eurithmics, Sweet emotions - Aerosmith, Sweet surrender - Wet wet wet, Sweet home Alabama - Lynyrd Skynyrd"
       },
       "sym-004": {
         "id": "conn-004", 
@@ -68,24 +68,24 @@
       "sym-005": {
         "id": "conn-005", 
         "clues": [
-          {"type": "text", "value": "Devil May Cry"}, 
-          {"type": "text", "value": "2 €"},
-          {"type": "text", "value": "Ghibellin fuggiasco"}, 
-          {"type": "text", "value": "Durante"}
+          {"type": "text", "value": "Cuore"}, 
+          {"type": "text", "value": "Piano separato da 2 rette perpendicolari"},
+          {"type": "text", "value": "Berlino dopo la 2a guerra mondiale"}, 
+          {"type": "text", "value": "Questa domanda"}
         ], 
-        "answer": "Dante", 
-        "explanation": "Il protagonista di Devil May Cry è Dante. Per le sue simpatie imperiali: «E tu prima, Firenze, udivi il carme Che allegrò l’ira al Ghibellin fuggiasco.»(Ugo Foscolo, Dei sepolcri, vv. 173-174)"
+        "answer": "Divise in 4 parti", 
+        "explanation": ""
       },
       "sym-006": {
         "id": "conn-006", 
         "clues": [
-          {"type": "text", "value": "Perpetua"}, 
-          {"type": "text", "value": "Coriolano Paparazzo"}, 
-          {"type": "text", "value": "Jacques de La Palisse"}, 
-          {"type": "text", "value": "Marchese De Sade"}
+          {"type": "text", "value": "Lingue"}, 
+          {"type": "text", "value": "Ditali"}, 
+          {"type": "text", "value": "Orecchie"}, 
+          {"type": "text", "value": "Penne"}
         ], 
-        "answer": "Da loro derivano esempi di deonomastica: aggettivi o sostantivi che derivano da nomi propri", 
-        "explanation": "Perpetua (Promessi Sposi) che diventa indicazione per le domestiche dei sacerdoti; Coriolano Paparazzo è un fotografo d'assalto ne La dolce vita di Fellini; lapalissiano nel significato di «ovvio, scontato» è legato alla sconfitta dei francesi nella battaglia di Pavia (1525). I soldati agli ordini del maresciallo La Palice, morto nell'assedio della città, per rendere onore al coraggio del loro comandante avrebbero composto e intonato la seguente strofa, introducendovi una grossolana ovvietà: «se non fosse morto, sarebbe ancora in vita»; il sadismo deriva dalla assenza di morale comune in favore del piacere che emerge dagli scritti erotici di Sade."
+        "answer": "I loro diminutivi sono nomi di pasta", 
+        "explanation": "Linguine, ditalini, orecchiette, pennette"
       }
     }
   },
@@ -100,14 +100,14 @@
     ],
     "questions": {
       "seq-sym-001": {
-        "id": "seq-001", 
+        "id": "seq-001",
           "clues": [
-            {"type": "image", "value": "images/io_robot.jpg"},
-            {"type": "image", "value": "images/v_for_vendetta.jpg"}, 
-            {"type": "image", "value": "images/x_men.webp"}
+            {"type": "image", "value": "images/oreo.jpg"},
+            {"type": "image", "value": "images/ore.jpg"}, 
+            {"type": "image", "value": "images/or.png"}
           ],
-          "answer": "Un film che inizia per L",
-          "sequence_rule": "i.e. La La Land. Film che iniziano per I, V, X (numeri romani) in ordine crescente ",
+          "answer": "lettera O",
+          "sequence_rule": "Da Oreo togliendo una lettera alla volta, partendo da destra",
           "explanation": ""
       },
       "seq-sym-002": {
@@ -117,30 +117,30 @@
             {"type": "text", "value": "Insultare"}, 
             {"type": "text", "value": "Portare un anello"}
           ], 
-          "answer": "Azione che si può fare con il mignolo.", 
-          "sequence_rule": "Azioni con le dita della mano. Es. berè il tè ostentando fare nobile",
+          "answer": "e.g. Berè il tè ostentando fare nobile", 
+          "sequence_rule": "Azioni con le dita della mano partendo dall'indice",
           "explanation": "Da indice verso mignolo"
       },
       "seq-sym-003": {
         "id": "seq-003", 
         "clues": [
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}
+          {"type": "text", "value": "4: rallentamento improvviso"}, 
+          {"type": "text", "value": "3: segnale rotatoria"}, 
+          {"type": "text", "value": "2: linea di quotatura in un disegno tecnico"}
         ], 
-        "answer": "", 
-        "sequence_rule": "Numeri primi in ordine crescente", 
-        "explanation": "La sequenza di numeri primi continua: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29."
+        "answer": " e.g. 1: senso unico", 
+        "sequence_rule": "Associati a un numero di frecce in ordine decrescente", 
+        "explanation": ""
       },
       "seq-sym-004": {
         "id": "seq-004", 
         "clues": [
-          {"type": "text", "value": "Dora l'esploratrice"}, 
-          {"type": "text", "value": "Re leone"}, 
-          {"type": "text", "value": "Mila e shiro"}
+          {"type": "text", "value": "ZXC"}, 
+          {"type": "text", "value": "ASD"}, 
+          {"type": "text", "value": "QWE"}
         ], 
-        "answer": "un cartone animato che inizi per Fa Es. Fantasia, Fantaghirò", 
-        "sequence_rule": "La prima sillaba del titolo di un cartone animato in sequenza con le note musicali", 
+        "answer": "123", 
+        "sequence_rule": "Righe della tastiera QWERTY dal basso verso l’alto", 
         "explanation": ""
       },
       "seq-sym-005": {
@@ -157,26 +157,26 @@
       "seq-sym-006": {
         "id": "seq-006", 
         "clues": [
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}
+          {"type": "text", "value": "OSTILE"}, 
+          {"type": "text", "value": "N\nA\nN\nT\nE\nS"}, 
+          {"type": "text", "value": "ONILLEMRE"}
         ], 
-        "answer": "", 
-        "sequence_rule": "", 
-        "explanation": ""
+        "answer": "N\nA\nT\nI\nE\nS", 
+        "sequence_rule": "Parole su una bussola", 
+        "explanation": "Le parole vanno da Ovest a Est, da Nord a Sud, da Est a Ovest e da Sud a Nord. Le iniziali indicano i punti cardinali"
       }
     }
-  },
+  }, 
   "missing_vowels": {
     "categories": [
       {
         "id": "mv-cat-001",
         "category_name": "Città europee",
         "words": [
-          {"answer": "Helsinki", "display": " HLSK NK"},
+          {"answer": "Helsinki", "display": " H LSKNK"},
           {"answer": "San Pietroburgo", "display": "S NPT RB RG"},
-          {"answer": "Siviglia", "display": "SVG L"},
-          {"answer": "Belgrado", "display": "B L G RD"}
+          {"answer": "Siviglia", "display": "SV G L"},
+          {"answer": "Belgrado", "display": "B LG R D"}
         ]
       },
       {
@@ -191,7 +191,7 @@
       },
       {
         "id": "mv-cat-003",
-        "category_name": "Sono \"grandiosi\"",
+        "category_name": "Sono grandiosi",
         "words": [
           {"answer": "Gran Canyon", "display": "GRNCNYN"},
           {"answer": "Gran Canaria", "display": "G R NCN R"},
@@ -201,12 +201,22 @@
       },
       {
         "id": "mv-cat-004",
-        "category_name": "da fare",
+        "category_name": "Con pietre o sassi",
         "words": [
-          {"answer": "Mercurio", "display": "MR CR"},
-          {"answer": "Giove", "display": "GV"},
-          {"answer": "Saturno", "display": "ST RN"},
-          {"answer": "Nettuno", "display": "NT TN"}
+          {"answer": "curling", "display": "C RLN G"},
+          {"answer": "rene/i o runa/e", "display": "RN"},
+          {"answer": "gioiello/i", "display": "G LL"},
+          {"answer": "matera", "display": "MTR"}
+        ]
+      },
+      {
+        "id": "mv-cat-005",
+        "category_name": "Personaggi e il cibo che amano",
+        "words": [
+          {"answer": "tartarughe ninja e pizza/e", "display": "TRTRG H N NJ PZZ"},
+          {"answer": "winnie the pooh e miele", "display": "WNNT HP HM L"},
+          {"answer": "bugs bunny e carota/e", "display": "B GS B N NY CRT"},
+          {"answer": "obelix e cinghiale/i", "display": "BLX C NGH L"}
         ]
       }
     ]
@@ -220,41 +230,41 @@
       "wall-1": {
         "groups": [
           {
-            "connection": "Tipi di pasta",
-            "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+            "connection": "Ruoli teatrali",
+            "items": ["Spalla", "Gobbo", "Comparsa", "Regista"]
           },
           {
-            "connection": "Capitali europee",
-            "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
+            "connection": "Persone celebri con cognome di animale",
+            "items": ["Tasso", "Leopardi", "Tortora", "Grillo"]
           },
           {
-            "connection": "Pianeti del sistema solare",
-            "items": ["Marte", "Giove", "Saturno", "Venere"]
+            "connection": "Salumi tipici",
+            "items": ["Fiocco", "Coppa", "Ventricina", "Finocchiona" ]
           },
           {
-            "connection": "Strumenti musicali a corde",
-            "items": ["Violino", "Chitarra", "Arpa", "Mandolino"]
+            "connection": "Personaggi in Pinocchio",
+            "items": ["Carabinieri", "Pesce-cane", "Ciuchino", "Gatto"]
           }
         ]
       },
       "wall-2": {
         "groups": [
           {
-            "connection": "Colori primari",
-            "items": ["Rosso", "Blu", "Giallo", "Verde"]
+            "connection": "Film animazione Pixar",
+            "items": ["Elemental", "Cars", "Soul", "Toy story"]
           },
           {
-            "connection": "Frutta tropicale",
-            "items": ["Banana", "Ananas", "Mango", "Papaya"]
+            "connection": "Piatti vegetariani",
+            "items": ["Hummus", "Dhal", "Ratatouille", "Gazpacho"]
           },
           {
-            "connection": "Continenti",
-            "items": ["Africa", "Asia", "Europa", "America"]
+            "connection": "Pseudonimi di stilisti",
+            "items": ["Coco", "Miuccia Prada", "Valentino", "Rocco Barocco"]
           },
           {
-            "connection": "Lingue parlate",
-            "items": ["Italiano", "Spagnolo", "Francese", "Tedesco"]
-          }
+            "connection": "Rover spaziali americani su Marte",
+            "items": ["Spirit", "Curiosity", "Opportunity", "Perseverance"]
+          } 
         ]
       }
     }

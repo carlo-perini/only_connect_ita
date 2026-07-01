@@ -1,0 +1,262 @@
+{
+  "teams": [
+    {
+      "id": "team-1",
+      "name": "Team 1",
+      "color": "#FF8C42"
+    },
+    {
+      "id": "team-2",
+      "name": "Team 2",
+      "color": "#0066FF"
+    }
+  ],
+  "connections": {
+    "symbols": [
+      {"id": "sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "sym-006", "display": "𓂀", "label": "Occhio di Horus"}
+    ],
+    "questions": {
+      "sym-001": {
+        "id": "conn-001",
+        "clues": [
+          {"type": "text", "value": "Rhodesian Ridgeback"},
+          {"type": "text", "value": "Gemelli siamesi"},
+          {"type": "text", "value": "Savoiardi"},
+          {"type": "text", "value": "Tappeto persiano"}
+        ],
+        "answer": "Derivano da nomi di stati che hanno cambiato nome",
+        "explanation": "Rodesia, attuale Zimbabwe, aveva il motto: «Possa essere degna di questo nome». Siam, attuale Thailandia, origine dei gemelli Chang ed Eng Bunker che dopo essere emigrati negli Stati Uniti, lavorarono a lungo nel circo Barnum, sposarono due sorelle, ebbero 21 figli. Persia attuale Iran, da cui proviene il tappeto persiano. Savoiardi, biscotti originari della Savoia, poi chiamata Regno di Sardegna e poi Regno d'Italia."
+      },
+      "sym-002": {
+        "id": "conn-002", 
+        "clues": [
+          {"type": "text", "value": "Caccia giapponese"}, 
+          {"type": "text", "value": "Oscar vinti da Hitchcock"}, 
+          {"type": "text", "value": "Dipinti con firma di Leonardo"}, 
+          {"type": "text", "value": "Ossa in uno squalo"}
+        ], 
+        "answer": "Zero",
+        "explanation": ""
+      },
+      "sym-003": {
+        "id": "conn-003", 
+        "clues": [
+          {"type": "audio", "value": "audio/Fields of Pelennor.mp3", "start_time": "2:56"}, 
+          {"type": "audio", "value": "audio/Harvest Moon.mp3", "start_time": "0:27"}, 
+          {"type": "audio", "value": "audio/the_seed.mp3", "start_time": "0:45"}, 
+          {"type": "audio", "value": "audio/One For The Vine.mp3", "start_time": "2:42"}
+        ], 
+        "answer": "Agricoltura nel titolo",
+        "explanation": "Fields of Pelennor, Harvest moon, The seed, One For The Vine"
+      },
+      "sym-004": {
+        "id": "conn-004", 
+        "clues": [
+          {"type": "text", "value": "Diagrammi di Venn"}, 
+          {"type": "text", "value": "Cometa di Halley"}, 
+          {"type": "text", "value": "Teorema di Pitagora"}, 
+          {"type": "text", "value": "Legge di Stigler"}
+        ], 
+        "answer": "Obbediscono alla legge di Stigler", 
+        "explanation": "«A una scoperta scientifica non si dà mai il nome del suo autore.». La stessa legge di Stigler è un esempio della propria tesi: la sua scoperta è infatti attribuita da Stigler a Robert Merton. Similarly to the fact that America does not carry Columbus name, mathematical results are almost never called by the names of their discoverers. ... Prof. M. Berry once formulated the following two principles: The Arnold principle. If a notion bears a personal name, then this name is not the name of the discoverer. The Berry principle. The Arnold Principle is applicable to itself."
+      },
+      "sym-005": {
+        "id": "conn-005", 
+        "clues": [
+          {"type": "image", "value": "images/monopoli.jpeg"}, 
+          {"type": "image", "value": "images/otello.jpg"},
+          {"type": "image", "value": "images/risico.png"}, 
+          {"type": "image", "value": "images/scarabeo.jpg"}
+        ], 
+        "answer": "Classici da tavolo", 
+        "explanation": "Cittadina di Monopoli, il gioco è del 1935; Othello ha un antesignano del 1880 (Reversi) mentre la versione moderna è giapponese (1970), in cui si imprigionano le pedine avversarie diventando proprie; Risiko che significa rischio (da risicare); Alfred Butts manually tabulated the frequency of letters in words of various length, using examples in a dictionary,."
+      },
+      "sym-006": {
+        "id": "conn-006",
+        "clues": [
+          {"type": "text", "value": "2 x 2/√2 x 2/√(2+√2) x 2/√(2+√(2+√2)) x ..."}, 
+          {"type": "text", "value": "4/1 - 4/3 + 4/5 - 4/7 + ..."}, 
+          {"type": "text", "value": "ln(-1)/i"}, 
+          {"type": "text", "value": "C/d"}
+        ], 
+        "answer": "Pi", 
+        "explanation": "Formula di Viète, Formula di Leibniz, Formula di Eulero, Rapporto tra circonferenza e diametro."
+      }
+    }
+  },
+  "sequence": {
+    "symbols": [
+      {"id": "seq-sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "seq-sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "seq-sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "seq-sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "seq-sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "seq-sym-006", "display": "𓂀", "label": "Occhio di Horus"}
+    ],
+    "questions": {
+      "seq-sym-001": {
+        "id": "seq-001", 
+          "clues": [
+            {"type": "image", "value": "images/io_robot.jpg"},
+            {"type": "image", "value": "images/v_for_vendetta.jpg"}, 
+            {"type": "image", "value": "images/x_men.webp"}
+          ],
+          "answer": "Un film che inizia per L",
+          "sequence_rule": "i.e. La La Land. Film che iniziano per I, V, X (numeri romani) in ordine crescente ",
+          "explanation": ""
+      },
+      "seq-sym-002": {
+        "id": "seq-002",
+        "clues": [
+            {"type": "text", "value": "9 uomini"}, 
+            {"type": "text", "value": "7 nani"}, 
+            {"type": "text", "value": "3 elfi"}
+          ], 
+          "answer": "1 oscuro signore", 
+          "sequence_rule": "Dalla poesia dell'Anello di Tolkien: \nTre Anelli ai Re degli Elfi sotto il cielo che risplende,\nSette ai Principi dei Nani nelle loro rocche di pietra,\nNove agli Uomini Mortali che la triste morte attende,\nUno per l'Oscuro Sire chiuso nella reggia tetra,\nNella Terra di Mordor, dove l'Ombra nera scende.",
+          "explanation": "Da indice verso mignolo"
+      },
+      "seq-sym-003": {
+        "id": "seq-003", 
+        "clues": [
+          {"type": "image", "value": "images/4_led_bar.png"}, 
+          {"type": "image", "value": "images/235_led_bar.png"}, 
+          {"type": "image", "value": "images/069_led_bar.png"}
+        ], 
+        "answer": "8 in barre led", 
+        "sequence_rule": "4 si scrive con 4 barrette, 2,3,5 con 5 barrette, 0,6,9 con 6 barrette. 8 si scrive con 7 barrette.", 
+        "explanation": ""
+      },
+      "seq-sym-004": {
+        "id": "seq-004", 
+        "clues": [
+          {"type": "text", "value": "Dora l'esploratrice"}, 
+          {"type": "text", "value": "Re leone"}, 
+          {"type": "text", "value": "Mila e shiro"}
+        ], 
+        "answer": "un cartone animato che inizi per Fa Es. Fantasia, Fantaghirò", 
+        "sequence_rule": "La prima sillaba del titolo di un cartone animato in sequenza con le note musicali", 
+        "explanation": ""
+      },
+      "seq-sym-005": {
+        "id": "seq-005", 
+        "clues": [
+          {"type": "text", "value": "5832 Ve"}, 
+          {"type": "text", "value": "1408 Me"}, 
+          {"type": "text", "value": "24,62 Ma"}
+        ], 
+        "answer": "24 Te", 
+        "sequence_rule": "Durata giorno in h per i pianeti del sistema solare in ordine decrescente", 
+        "explanation": "Su Venere il giorno (243 gg) dura più di un anno (225 gg). Seguono Urano ~17 h, Nettuno ~16 h, Giove e Saturno con ~10 h"
+      },
+      "seq-sym-006": {
+        "id": "seq-006", 
+        "clues": [
+          {"type": "text", "value": ""}, 
+          {"type": "text", "value": ""}, 
+          {"type": "text", "value": ""}
+        ], 
+        "answer": "", 
+        "sequence_rule": "", 
+        "explanation": ""
+      }
+    }
+  },
+  "missing_vowels": {
+    "categories": [
+      {
+        "id": "mv-cat-001",
+        "category_name": "proverbi latini",
+        "words": [
+          {"answer": "DURA LEX SED LEX", "display": "DRLXS DLX"},
+          {"answer": "PECUNIA NON OLET", "display": "PCNNN LT"},
+          {"answer": "PER ASPERA AD ASTRA", "display": "PRS P R D ST R"},
+          {"answer": "NOMEN OMEN", "display": "MN N M N"}
+        ]
+      },
+      {
+        "id": "mv-cat-002",
+        "category_name": "Film italiani celebri",
+        "words": [
+                {"answer": "La vita è bella",        "display": "LV TBLL"},
+                {"answer": "Il postino",             "display": "LP STN"},
+                {"answer": "Nuovo cinema Paradiso",  "display": "N VCN MP RDS"},
+                {"answer": "La grande bellezza",     "display": "LGR N DBL LZ Z"}
+              ]
+      },
+      {
+        "id": "mv-cat-003",
+        "category_name": "Sono \"grandiosi\"",
+        "words": [
+          {"answer": "Gran Canyon", "display": "GRNCNYN"},
+          {"answer": "Gran Canaria", "display": "G R NCN R"},
+          {"answer": "Grand Budapest Hotel", "display": "G RN DB D PSTH TL"},
+          {"answer": "Grand rift valley", "display": "GR NDR FTVL LY"}
+        ]
+      },
+      {
+        "id": "mv-cat-004",
+        "category_name": "da fare",
+        "words": [
+          {"answer": "Mercurio", "display": "MR CR"},
+          {"answer": "Giove", "display": "GV"},
+          {"answer": "Saturno", "display": "ST RN"},
+          {"answer": "Nettuno", "display": "NT TN"}
+        ]
+      }
+    ]
+  },
+  "wall": {
+    "symbols": [
+      {"id": "wall-1", "display": "𓃭", "label": "Leone"},
+      {"id": "wall-2", "display": "𓈗", "label": "Acqua"}
+    ],
+    "questions": {
+      "wall-1": {
+        "groups": [
+          {
+            "connection": "Tipi di pasta",
+            "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+          },
+          {
+            "connection": "Capitali europee",
+            "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
+          },
+          {
+            "connection": "Pianeti del sistema solare",
+            "items": ["Marte", "Giove", "Saturno", "Venere"]
+          },
+          {
+            "connection": "Strumenti musicali a corde",
+            "items": ["Violino", "Chitarra", "Arpa", "Mandolino"]
+          }
+        ]
+      },
+      "wall-2": {
+        "groups": [
+          {
+            "connection": "Colori primari",
+            "items": ["Rosso", "Blu", "Giallo", "Verde"]
+          },
+          {
+            "connection": "Frutta tropicale",
+            "items": ["Banana", "Ananas", "Mango", "Papaya"]
+          },
+          {
+            "connection": "Continenti",
+            "items": ["Africa", "Asia", "Europa", "America"]
+          },
+          {
+            "connection": "Lingue parlate",
+            "items": ["Italiano", "Spagnolo", "Francese", "Tedesco"]
+          }
+        ]
+      }
+    }
+  }
+}

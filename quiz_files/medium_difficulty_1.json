@@ -2,12 +2,12 @@
   "teams": [
     {
       "id": "team-1",
-      "name": "Gli spakkoni",
+      "name": "I divini divanatori",
       "color": "#FF8C42"
     },
     {
       "id": "team-2",
-      "name": "Le canterine",
+      "name": "Scientorogy",
       "color": "#0066FF"
     }
   ],
