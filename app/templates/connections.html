@@ -103,8 +103,8 @@
     const questionData = {
         id: "{{ question.id }}",
         clues: {{ question.clues | tojson }},
-        answer: "{{ question.answer }}",
-        explanation: "{{ question.explanation }}"
+        answer: {{ question.answer | tojson }},
+        explanation: {{ question.explanation | tojson }}
     };
     
     const symbolId = "{{ symbol_id or '' }}";
@@ -164,6 +164,7 @@
         
         if (clue.type === 'text') {
             content.innerHTML = `<p>${clue.value}</p>`;
+            renderLatex(content);
         } else if (clue.type === 'image') {
             const mediaPath = `/static/media/${clue.value}`;
             content.innerHTML = `<img src="${mediaPath}" alt="${clue.label || 'Clue ' + (index + 1)}" />`;
@@ -279,8 +280,8 @@
     // Mostra la risposta corretta
     document.getElementById('show-answer-btn').addEventListener('click', function() {
         const answerArea = document.getElementById('answer-area');
-        document.getElementById('answer-text').textContent = questionData.answer;
-        document.getElementById('explanation-text').textContent = questionData.explanation;
+        setTextWithLatex(document.getElementById('answer-text'), questionData.answer);
+        setTextWithLatex(document.getElementById('explanation-text'), questionData.explanation);
         answerArea.style.display = 'block';
     });
     
@@ -416,8 +417,8 @@
         
         // Mostra la risposta subito
         const answerArea = document.getElementById('answer-area');
-        document.getElementById('answer-text').textContent = questionData.answer;
-        document.getElementById('explanation-text').textContent = questionData.explanation;
+        setTextWithLatex(document.getElementById('answer-text'), questionData.answer);
+        setTextWithLatex(document.getElementById('explanation-text'), questionData.explanation);
         answerArea.style.display = 'block';
         
         // Disabilita il bottone "Prossimo Indizio"

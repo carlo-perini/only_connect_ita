@@ -214,7 +214,7 @@
             `Categoria ${currentCategoryIndex + 1}/${categories.length} — Parola ${currentWordIndex + 1}/${category.words.length}`;
         
         // Mostra la parola senza vocali
-        document.getElementById('word-display').textContent = word.display;
+        setTextWithLatex(document.getElementById('word-display'), word.display);
         
         // Nascondi la risposta
         document.getElementById('answer-area').style.display = 'none';
@@ -255,7 +255,7 @@
         const category = categories[currentCategoryIndex];
         const word = category.words[currentWordIndex];
         
-        document.getElementById('answer-text').textContent = word.answer;
+        setTextWithLatex(document.getElementById('answer-text'), word.answer);
         document.getElementById('answer-area').style.display = 'block';
     }
     

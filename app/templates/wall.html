@@ -145,6 +145,7 @@
                 cell.style.backgroundColor = wallColors[rowIndex];
                 cell.textContent = item;
                 cell.dataset.text = item;
+                renderLatex(cell);
                 grid.appendChild(cell);
             });
         });
@@ -163,6 +164,7 @@
                 cell.className = 'wall-cell';
                 cell.textContent = item.text;
                 cell.dataset.text = item.text;
+                renderLatex(cell);
                 
                 if (selectedItems.includes(item.text)) {
                     cell.classList.add('selected');
@@ -371,11 +373,13 @@
             itemsText.className = 'wall-card-items';
             itemsText.textContent = group.items.join(' \u2014 ');
             itemsText.style.color = wallColors[rowIndex];
+            renderLatex(itemsText);
             card.appendChild(itemsText);
             
             const connectionText = document.createElement('p');
             connectionText.className = 'wall-card-connection';
             connectionText.textContent = group.connection;
+            renderLatex(connectionText);
             connectionText.style.display = 'none';
             card.appendChild(connectionText);
             

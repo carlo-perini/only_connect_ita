@@ -52,7 +52,7 @@
           {"type": "audio", "value": "audio/One For The Vine.mp3", "start_time": "2:42"}
         ], 
         "answer": "Agricoltura nel titolo",
-        "explanation": "Fields of Pelennor, Harvest moon, The seed, One For The Vine"
+        "explanation": "Fields of Pelennor - Howard Shore, Harvest moon - Neil Young, The seed - Roots, One For The Vine - Genesis"
       },
       "sym-004": {
         "id": "conn-004", 
@@ -79,13 +79,13 @@
       "sym-006": {
         "id": "conn-006",
         "clues": [
-          {"type": "text", "value": "2 x 2/√2 x 2/√(2+√2) x 2/√(2+√(2+√2)) x ..."}, 
-          {"type": "text", "value": "4/1 - 4/3 + 4/5 - 4/7 + ..."}, 
-          {"type": "text", "value": "ln(-1)/i"}, 
-          {"type": "text", "value": "C/d"}
+          {"type": "text", "value": "$2 \\cdot \\frac{2}{\\sqrt{2}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2}}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2+\\sqrt{2}}}} \\cdot \\dots$"}, 
+          {"type": "text", "value": "$\\frac{4}{1} - \\frac{4}{3} + \\frac{4}{5} - \\frac{4}{7} + \\dots$"}, 
+          {"type": "text", "value": "$\\frac{\\ln(-1)}{i}$"}, 
+          {"type": "text", "value": "$\\frac{C}{d}$"}
         ], 
-        "answer": "Pi", 
-        "explanation": "Formula di Viète, Formula di Leibniz, Formula di Eulero, Rapporto tra circonferenza e diametro."
+        "answer": "$\\pi$",
+        "explanation": "Formula di Viète, formula di Leibniz, formula di Eulero, rapporto tra circonferenza e diametro."
       }
     }
   },
@@ -113,13 +113,13 @@
       "seq-sym-002": {
         "id": "seq-002",
         "clues": [
-            {"type": "text", "value": "9 uomini"}, 
-            {"type": "text", "value": "7 nani"}, 
-            {"type": "text", "value": "3 elfi"}
+            {"type": "text", "value": "n  O   -> uomini"}, 
+            {"type": "text", "value": "n - 2  O   -> nani"}, 
+            {"type": "text", "value": "n - 6  O   -> elfi"}
           ], 
-          "answer": "1 oscuro signore", 
+          "answer": "X - 8  O   -> oscuro signore", 
           "sequence_rule": "Dalla poesia dell'Anello di Tolkien: \nTre Anelli ai Re degli Elfi sotto il cielo che risplende,\nSette ai Principi dei Nani nelle loro rocche di pietra,\nNove agli Uomini Mortali che la triste morte attende,\nUno per l'Oscuro Sire chiuso nella reggia tetra,\nNella Terra di Mordor, dove l'Ombra nera scende.",
-          "explanation": "Da indice verso mignolo"
+          "explanation": ""
       },
       "seq-sym-003": {
         "id": "seq-003", 
@@ -135,12 +135,12 @@
       "seq-sym-004": {
         "id": "seq-004", 
         "clues": [
-          {"type": "text", "value": "Dora l'esploratrice"}, 
-          {"type": "text", "value": "Re leone"}, 
-          {"type": "text", "value": "Mila e shiro"}
+          {"type": "text", "value": "4: Hispaniola"}, 
+          {"type": "text", "value": "3: Irlanda"}, 
+          {"type": "text", "value": "2: Borneo"}
         ], 
-        "answer": "un cartone animato che inizi per Fa Es. Fantasia, Fantaghirò", 
-        "sequence_rule": "La prima sillaba del titolo di un cartone animato in sequenza con le note musicali", 
+        "answer": "1: Nuova Guinea", 
+        "sequence_rule": "Largest territorially divided islands. Haiti and Dominican Republic, UK and Ireland, Indonesia, Malaysia and Brunei, Papua New Guinea and Indonesia.", 
         "explanation": ""
       },
       "seq-sym-005": {
@@ -181,12 +181,12 @@
       },
       {
         "id": "mv-cat-002",
-        "category_name": "Film italiani celebri",
+        "category_name": "",
         "words": [
-                {"answer": "La vita è bella",        "display": "LV TBLL"},
-                {"answer": "Il postino",             "display": "LP STN"},
-                {"answer": "Nuovo cinema Paradiso",  "display": "N VCN MP RDS"},
-                {"answer": "La grande bellezza",     "display": "LGR N DBL LZ Z"}
+                {"answer": "",        "display": "LV TBLL"},
+                {"answer": "",             "display": "LP STN"},
+                {"answer": "",  "display": "N VCN MP RDS"},
+                {"answer": "",     "display": "LGR N DBL LZ Z"}
               ]
       },
       {
@@ -203,7 +203,7 @@
         "id": "mv-cat-004",
         "category_name": "da fare",
         "words": [
-          {"answer": "Mercurio", "display": "MR CR"},
+          {"answer": "", "display": "MR CR"},
           {"answer": "Giove", "display": "GV"},
           {"answer": "Saturno", "display": "ST RN"},
           {"answer": "Nettuno", "display": "NT TN"}
@@ -220,40 +220,40 @@
       "wall-1": {
         "groups": [
           {
-            "connection": "Tipi di pasta",
-            "items": ["Penne", "Fusilli", "Rigatoni", "Farfalle"]
+            "connection": "Divinità egizie",
+            "items": ["Set", "Api", "Anti", "Thot"]
           },
           {
-            "connection": "Capitali europee",
-            "items": ["Roma", "Berlino", "Madrid", "Lisbona"]
+            "connection": "Glossario tennistico",
+            "items": ["Let", "Bagel", "Lob", "Swing"]
           },
           {
-            "connection": "Pianeti del sistema solare",
-            "items": ["Marte", "Giove", "Saturno", "Venere"]
+            "connection": "Tipi di pane dal mondo",
+            "items": ["Polka", "Pita", "Naan", "Michetta"]
           },
           {
-            "connection": "Strumenti musicali a corde",
-            "items": ["Violino", "Chitarra", "Arpa", "Mandolino"]
+            "connection": "Prefissi per solubile",
+            "items": ["Idro", "Lipo", "In", "Oro"]
           }
         ]
       },
       "wall-2": {
         "groups": [
           {
-            "connection": "Colori primari",
-            "items": ["Rosso", "Blu", "Giallo", "Verde"]
+            "connection": "Parole Swahili",
+            "items": ["Safari", "Jenga", "Jambo", "Karibu"]
           },
           {
-            "connection": "Frutta tropicale",
-            "items": ["Banana", "Ananas", "Mango", "Papaya"]
+            "connection": "Rompicapi/puzzle",
+            "items": ["Tangram", "Kakuro", "Labirinto", "Ruzzle"]
           },
           {
-            "connection": "Continenti",
-            "items": ["Africa", "Asia", "Europa", "America"]
+            "connection": "Parti dell'orecchio",
+            "items": ["Tromba", "Trago", "Coclea", "Incudine"]
           },
           {
-            "connection": "Lingue parlate",
-            "items": ["Italiano", "Spagnolo", "Francese", "Tedesco"]
+            "connection": "Percussioni",
+            "items": ["Timpano", "Conga", "Taiko", "Djembé"]
           }
         ]
       }

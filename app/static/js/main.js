@@ -2,6 +2,46 @@
  * Main JavaScript - Utilità globali e logica condivisa
  */
 
+/**
+ * Renderizza LaTeX in un elemento DOM usando KaTeX auto-render.
+ * Supporta delimitatori: $...$ (inline) e $$...$$ (display).
+ * Se KaTeX non è ancora caricato, ritenta dopo un breve delay.
+ */
+function renderLatex(element) {
+    if (!element) return;
+    if (typeof renderMathInElement === 'function') {
+        renderMathInElement(element, {
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false }
+            ],
+            throwOnError: false
+        });
+    } else {
+        // KaTeX non ancora caricato (defer), ritenta
+        setTimeout(() => renderLatex(element), 100);
+    }
+}
+
+/**
+ * Imposta il testo di un elemento e renderizza eventuale LaTeX.
+ * Usa textContent per sicurezza, poi processa LaTeX.
+ */
+function setTextWithLatex(element, text) {
+    if (!element || !text) return;
+    element.textContent = text;
+    renderLatex(element);
+}
+
+/**
+ * Imposta innerHTML di un elemento e renderizza eventuale LaTeX.
+ */
+function setHtmlWithLatex(element, html) {
+    if (!element || !html) return;
+    element.innerHTML = html;
+    renderLatex(element);
+}
+
 // Funzione per formattare i secondi in MM:SS
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);

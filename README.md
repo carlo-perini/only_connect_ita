@@ -349,6 +349,76 @@ yt-dlp -f "ba/b" --extract-audio --audio-format mp3 -o "app/static/media/audio/%
 
 Il file audio sarà salvato direttamente in `app/static/media/audio/` pronto da usare nel JSON! 🎵
 
+### 5c. Formule e notazione matematica (LaTeX)
+
+Puoi usare sintassi **LaTeX** negli indizi (`value`), nelle risposte (`answer`), nelle spiegazioni (`explanation`), nelle regole di sequenza (`sequence_rule`), e nelle connessioni del muro (`connection`). L'app usa [KaTeX](https://katex.org/) per renderizzare le formule nel browser.
+
+#### Delimitatori
+
+| Sintassi | Tipo | Esempio |
+|----------|------|---------|
+| `$...$` | Inline (nel testo) | `$E = mc^2$` |
+| `$$...$$` | Display (blocco centrato) | `$$\int_0^\infty e^{-x} dx = 1$$` |
+
+#### Esempi nel JSON
+
+Bisogna raddoppiare i backslash nei blocchi JSON!
+
+**Indizio con formula inline:**
+```json
+{
+  "type": "text",
+  "value": "L'equazione $E = mc^2$ di Einstein",
+  "label": "Fisica"
+}
+```
+
+**Indizio con formula display (blocco):**
+```json
+{
+  "type": "text",
+  "value": "$$\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}$$",
+  "label": "Serie"
+}
+```
+
+**Risposta con formula:**
+```json
+{
+  "answer": "$\\pi$ (pi greco)",
+  "explanation": "Tutti gli indizi portano a $\\pi \\approx 3.14159$"
+}
+```
+
+**Connessione del muro con formula:**
+```json
+{
+  "connection": "Costanti matematiche ($e$, $\\pi$, $\\phi$, $\\sqrt{2}$)",
+  "items": ["2.718...", "3.14159...", "1.618...", "1.414..."]
+}
+```
+
+#### Sintassi LaTeX comune
+
+| Cosa | Sintassi | Risultato |
+|------|----------|-----------|
+| Esponente | `$x^2$` | x² |
+| Pedice | `$x_n$` | xₙ |
+| Frazione | `$\\frac{a}{b}$` | a/b |
+| Radice | `$\\sqrt{x}$` | √x |
+| Integrale | `$\\int_a^b f(x) dx$` | ∫ |
+| Sommatoria | `$\\sum_{i=1}^n i$` | Σ |
+| Lettere greche | `$\\alpha, \\beta, \\gamma, \\pi$` | α, β, γ, π |
+| Infinito | `$\\infty$` | ∞ |
+| Freccia | `$\\rightarrow$` | → |
+| Diverso | `$\\neq$` | ≠ |
+| Maggiore uguale | `$\\geq$` | ≥ |
+| Matrice | `$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$` | matrice 2x2 |
+
+> **Nota**: Nel JSON i backslash `\` devono essere raddoppiati: scrivi `\\frac` invece di `\frac`.
+
+Per la lista completa delle funzioni supportate: [KaTeX Supported Functions](https://katex.org/docs/supported)
+
 ### 6. Validazione
 
 L'app valida il `quiz_data.json` all'avvio. Controlla:
@@ -573,6 +643,7 @@ pytest tests/ -v
 - [x] Landing e victory pages
 - [x] Musiche per ogni round + sigla inziale
 - [x] Sound effects temporizzati
+- [x] Formattazione LaTex
 - [ ] Immagine come answer da poter inserire nei round di immagini
 - [ ] Punteggi scritti sopra le clue card in sequenze e connessioni come nel bbc
 
