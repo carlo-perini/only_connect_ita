@@ -1083,6 +1083,10 @@ h1, h2, h3 {
     line-height: 1.7;
     margin: 0;
     text-align: center;
+    white-space: pre-line;
+}
+.sequence-rule-text {
+    white-space: pre-line;
 }
 
 /* --- Scoring section --- */

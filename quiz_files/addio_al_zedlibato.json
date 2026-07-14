@@ -51,7 +51,7 @@
           {"type": "audio", "value": "audio/the_seed.mp3", "start_time": "0:45"}, 
           {"type": "audio", "value": "audio/One For The Vine.mp3", "start_time": "2:42"}
         ], 
-        "answer": "Agricoltura nel titolo",
+        "answer": "In campagna",
         "explanation": "Fields of Pelennor - Howard Shore, Harvest moon - Neil Young, The seed - Roots, One For The Vine - Genesis"
       },
       "sym-004": {
@@ -63,7 +63,7 @@
           {"type": "text", "value": "Legge di Stigler"}
         ], 
         "answer": "Obbediscono alla legge di Stigler", 
-        "explanation": "«A una scoperta scientifica non si dà mai il nome del suo autore.». La stessa legge di Stigler è un esempio della propria tesi: la sua scoperta è infatti attribuita da Stigler a Robert Merton. Similarly to the fact that America does not carry Columbus name, mathematical results are almost never called by the names of their discoverers. ... Prof. M. Berry once formulated the following two principles: The Arnold principle. If a notion bears a personal name, then this name is not the name of the discoverer. The Berry principle. The Arnold Principle is applicable to itself."
+        "explanation": "«A una scoperta scientifica non si dà mai il nome del suo autore.». La stessa legge di Stigler è un esempio della propria tesi: la sua scoperta è attribuita da Stigler a Robert Merton. Altro esempio noto è che l'America non porta il nome di Colombo."
       },
       "sym-005": {
         "id": "conn-005", 
@@ -74,7 +74,7 @@
           {"type": "image", "value": "images/scarabeo.jpg"}
         ], 
         "answer": "Classici da tavolo", 
-        "explanation": "Cittadina di Monopoli, il gioco è del 1935; Othello ha un antesignano del 1880 (Reversi) mentre la versione moderna è giapponese (1970), in cui si imprigionano le pedine avversarie diventando proprie; Risiko che significa rischio (da risicare); Alfred Butts manually tabulated the frequency of letters in words of various length, using examples in a dictionary,."
+        "explanation": "Cittadina di Monopoli, gioco del 1935; Othello ha un antesignano del 1880 (Reversi), la versione moderna è giapponese (1970), in cui si imprigionano le pedine avversarie; Risiko! significa rischio (da risicare); Alfred Butts ha tabulato la frequenza delle lettere usando esempi tratti da un dizionario nel 1938, per definire i punteggi in Scarabeo."
       },
       "sym-006": {
         "id": "conn-006",
@@ -113,11 +113,11 @@
       "seq-sym-002": {
         "id": "seq-002",
         "clues": [
-            {"type": "text", "value": "n  O   -> uomini"}, 
-            {"type": "text", "value": "n - 2  O   -> nani"}, 
-            {"type": "text", "value": "n - 6  O   -> elfi"}
+            {"type": "text", "value": "$n \\qquad \\Omicron \\qquad \\rightarrow $ uomini"}, 
+            {"type": "text", "value": "$n - 2 \\qquad \\Omicron \\qquad \\rightarrow $ nani"}, 
+            {"type": "text", "value": "$n - 6 \\qquad \\Omicron \\qquad \\rightarrow $ elfi"}
           ], 
-          "answer": "X - 8  O   -> oscuro signore", 
+          "answer": "$n - 8 \\qquad \\Omicron \\qquad \\rightarrow $ oscuro signore", 
           "sequence_rule": "Dalla poesia dell'Anello di Tolkien: \nTre Anelli ai Re degli Elfi sotto il cielo che risplende,\nSette ai Principi dei Nani nelle loro rocche di pietra,\nNove agli Uomini Mortali che la triste morte attende,\nUno per l'Oscuro Sire chiuso nella reggia tetra,\nNella Terra di Mordor, dove l'Ombra nera scende.",
           "explanation": ""
       },
