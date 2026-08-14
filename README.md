@@ -2,11 +2,7 @@
 
 Un'app web basata su Flask per giocare a **Only Connect**, il quiz televisivo BBC, in italiano.
 
-## 🎯 Obiettivo
-
-Creare una piattaforma completamente personalizzabile per giocare a Only Connect con amici su un'unica schermata (conduttore + squadra). Supporto per testo, immagini e audio nei clue.
-
-## 🚀 Quickstart
+## Istruzioni
 
 ### 1. Installa le dipendenze nella venv
 
@@ -20,7 +16,6 @@ e installare i pacchetti
 ```bash
 pip install -r requirements.txt
 ```
-()
 
 ### 2. Avvia l'app
 
@@ -28,42 +23,40 @@ pip install -r requirements.txt
 python app.py
 ```
 
-L'app sarà disponibile a `http://localhost:5000`
+L'app sarà disponibile in locale a `http://localhost:5000`
 
 ### 3. Accedi alla home
 
-Apri il browser all'indirizzo sopra. Vedrai il menu principale con i round disponibili.
+Apri il browser all'indirizzo sopra.
 
-## 🎯 Usare Quiz Diversi
+## Caricare il Quiz
 
-### Opzione 1: Quiz Default (quiz_data.json)
+### Opzione 1: Quiz default (quiz_data.json)
 Avvia l'app normalmente:
 ```bash
 python app.py
 ```
-L'app caricherà il file `quiz_data.json` dalla radice del progetto.
+L'app caricherà il file `quiz_data.json`, che è un semplice quiz "placheolder" con dati generati, dalla root del progetto. Questo è il modello per i quiz personalizzati.
 
-### Opzione 2: Quiz Personalizzati da Cartella
+### Opzione 2: Quiz personalizzato
 
-Puoi preparare diversi quiz JSON e sceglierli dinamicamente tramite variabile d'ambiente:
-
-**Passo 1:** Crea una cartella `quiz_files/` nella radice del progetto:
+**Passo 1:** Vai alla cartella `quiz_files/` nella root del progetto:
 ```
 only_connect_ita/
 ├── quiz_files/
-│   ├── quiz_storia.json
-│   ├── quiz_geografia.json
-│   └── quiz_letteratura.json
+│   ├── addio_al_zedlibato.json
+│   ├── granuzzo_home_edition.json
+│   └── medium_difficulty_1.json   ← usa questo come esempio
 ├── quiz_data.json
 ├── app.py
 └── ...
 ```
 
-**Passo 2:** Sposta i tuoi quiz personalizzati in `quiz_files/` o crea nuovi file seguendo la [struttura](#-come-personalizzare-il-quiz).
+**Passo 2:** Metti il tuo quiz .json in `quiz_files/` seguendo la [struttura personalizzabile](#-come-personalizzare-il-quiz).
 
-**Passo 3:** Crea (o modifica) un file `.env` nella radice del progetto:
+**Passo 3:** Crea (o modifica) un file `.env` nella root del progetto e scrivi la riga per selezionare il caricamento del quiz:
 ```env
-QUIZ_DATA_FILE=quiz_files/quiz_storia.json
+QUIZ_DATA_FILE=quiz_files/<nome_quiz>.json
 ```
 
 **Passo 4:** Avvia l'app:
@@ -85,7 +78,7 @@ $env:QUIZ_DATA_FILE="quiz_files/quiz_geografia.json"
 python app.py
 ```
 
-### Priorità di Caricamento
+### Priorità di caricamento
 1. Variabile d'ambiente `QUIZ_DATA_FILE` (da `.env` o PowerShell)
 2. File `quiz_data.json` nella radice (default)
 
@@ -97,36 +90,43 @@ only-connect-ita/
 ├── config.py                 # Configurazioni globali
 ├── requirements.txt          # Dipendenze Python
 ├── .env                      # Variabili d'ambiente (non versionare)
-├── quiz_data.json            # I dati del quiz (default, PERSONALIZZABILE)
-├── quiz_files/               # Cartella con quiz personalizzati (opzionale)
-│   ├── quiz_storia.json
-│   ├── quiz_geografia.json
-│   └── quiz_letteratura.json
+├── quiz_data.json            # Quiz di default (placeholder)
+├── quiz_files/               # Cartella con quiz personalizzati
+│   ├── addio_al_zedlibato.json
+│   ├── granuzzo_home_edition.json
+│   └── medium_difficulty_1.json
 ├── README.md                 # Questo file
 │
 ├── app/
-│   ├── __init__.py          # Factory pattern di Flask
-│   ├── routes.py            # Rotte Flask (home, round, API)
-│   ├── models.py            # Modelli Pydantic per i dati
+│   ├── __init__.py           # Factory pattern di Flask
+│   ├── routes.py             # Rotte Flask (home, round, API)
+│   ├── models.py             # Modelli Pydantic per i dati
 │   ├── services/
-│   │   ├── quiz_loader.py   # Caricamento e validazione JSON
-│   │   ├── text_utils.py    # Matching risposte (case-insensitive, etc)
-│   │   └── __init__.py
-│   ├── templates/           # Template HTML Jinja2
-│   │   ├── base.html        # Template base
-│   │   ├── home.html        # Home page
-│   │   ├── connections.html # Round Connessioni
-│   │   ├── sequence.html    # Round Sequenza
-│   │   ├── missing_vowels.html # Round Vocali Mancanti
-│   │   ├── wall.html        # Round Muro (TODO)
-│   └── static/              # File statici (CSS, JS, media)
+│   │   ├── __init__.py
+│   │   ├── quiz_loader.py    # Caricamento e validazione JSON
+│   │   └── text_utils.py     # Matching risposte (case-insensitive, etc)
+│   ├── templates/            # Template HTML Jinja2
+│   │   ├── base.html         # Template base
+│   │   ├── landing.html      # Pagina iniziale
+│   │   ├── home.html         # Home con punteggi e round
+│   │   ├── choose_team.html  # Scelta squadra
+│   │   ├── round_symbols.html    # Griglia simboli
+│   │   ├── round_completed.html  # Round completato
+│   │   ├── connections.html  # Round Connessioni
+│   │   ├── sequence.html     # Round Sequenza
+│   │   ├── wall.html         # Round Muro
+│   │   ├── wall_symbols.html # Simboli Muro
+│   │   ├── missing_vowels.html   # Round Vocali Mancanti
+│   │   └── winner.html       # Schermata vincitore
+│   └── static/               # File statici (CSS, JS, media)
 │       ├── css/style.css
 │       ├── js/main.js
-│       └── media/           # File media (immagini, audio)
+│       └── media/            # File media (immagini, audio)
 │           ├── images/
 │           └── audio/
 │
-└── tests/                   # Test Python (TODO)
+└── tests/
+    └── test_models.py        # Test modelli Pydantic
 ```
 
 ## 📝 Come personalizzare il quiz
@@ -137,6 +137,10 @@ Il file `quiz_data.json` contiene tutte le domande organizzate per round con gri
 
 ```json
 {
+  "teams": [
+    {"id": "team-1", "name": "Nome Squadra 1", "color": "#FF8C42"},
+    {"id": "team-2", "name": "Nome Squadra 2", "color": "#0066FF"}
+  ],
   "connections": {
     "symbols": [
       {
@@ -165,7 +169,21 @@ Il file `quiz_data.json` contiene tutte le domande organizzate per round con gri
     }
   },
   "sequence": {
-    // ... stessa struttura ma con 3 clue per domanda
+    "symbols": [
+      // ... esattamente 6 simboli (stessa struttura di connections)
+    ],
+    "questions": {
+      "seq-sym-001": {
+        "id": "seq-001",
+        "clues": [
+          // ... esattamente 3 clue (text, image o audio)
+        ],
+        "answer": "Il quarto elemento della sequenza",
+        "sequence_rule": "Descrizione della regola",
+        "explanation": "Spiegazione della sequenza"
+      }
+      // ... esattamente 6 domande (una per simbolo)
+    }
   },
   "wall": {
     "symbols": [
@@ -205,11 +223,16 @@ Il file `quiz_data.json` contiene tutte le domande organizzate per round con gri
           {"answer": "Madrid", "display": "MDR D"}
         ]
       }
-      // ... esattamente 4 categorie con 4 parole ciascuna
+      // ... da 4 a 5 categorie con 4 parole ciascuna
     ]
   }
 }
 ```
+
+### Format Squadre
+- **id**: ID unico (es: "team-1", "team-2")
+- **name**: Nome della squadra mostrato in gioco
+- **color**: Colore esadecimale per l'interfaccia (es: "#FF8C42")
 
 ### Format Vocali Mancanti
 - **id**: ID unico della categoria (es: "mv-cat-001")
@@ -229,30 +252,7 @@ Esempio di rimozione vocali:
 Esempio:
 - Astrologia: ♀ ♂ ☿ ♃ ♄ ♅ ♆ ♇
 
-### 3. Sessioni e Tracciamento
-
-L'app usa il **game_state** nella sessione Flask per tracciare lo stato globale della partita:
-
-```python
-# I simboli completati sono persistenti per tutta la partita
-game_state['completed_symbols'] = {
-    'connections': ['sym-001', 'sym-002'],
-    'sequence': ['seq-sym-001']
-}
-# Il round Vocali Mancanti è completato
-game_state['completed_rounds'] = {
-    'missing_vowels': True
-}
-```
-
-I simboli completati sono:
-- marcati con un checkmark verde
-- Cliccabili per **modificare il punteggio** (modifica retroattiva)
-- Persistenti anche tornando alla home e rientrando nel round
-
-I punteggi assegnati sono tracciati in `symbol_points_history` per permettere correzioni.
-
-### 4. Aggiungere Simboli Personalizzati
+### 2. Aggiungere Simboli Personalizzati
 
 Per usare simboli diversi dai geroglifici egizi:
 
@@ -269,7 +269,7 @@ Opzione 2: **Numeri o lettere**
 "display": "A"
 ```
 
-### 5. File media
+### 3. File media
 
 I file media devono essere salvati in `app/static/media/`:
 

@@ -2,12 +2,12 @@
   "teams": [
     {
       "id": "team-1",
-      "name": "Team 1",
+      "name": "Murialdini",
       "color": "#FF8C42"
     },
     {
       "id": "team-2",
-      "name": "Team 2",
+      "name": "Sionasti",
       "color": "#0066FF"
     }
   ],
@@ -113,11 +113,11 @@
       "seq-sym-002": {
         "id": "seq-002",
         "clues": [
-            {"type": "text", "value": "$n \\qquad \\Omicron \\qquad \\rightarrow $ uomini"}, 
-            {"type": "text", "value": "$n - 2 \\qquad \\Omicron \\qquad \\rightarrow $ nani"}, 
-            {"type": "text", "value": "$n - 6 \\qquad \\Omicron \\qquad \\rightarrow $ elfi"}
+            {"type": "text", "value": "$n \\quad \\Omicron \\rightarrow \\ $ uomini"}, 
+            {"type": "text", "value": "$ n - 2 \\quad \\Omicron \\rightarrow \\ $ nani"}, 
+            {"type": "text", "value": "$ n - 6 \\quad \\Omicron \\rightarrow \\ $ elfi"}
           ], 
-          "answer": "$n - 8 \\qquad \\Omicron \\qquad \\rightarrow $ oscuro signore", 
+          "answer": "$  n - 8 \\quad \\Omicron \\rightarrow \\ $ oscuro signore", 
           "sequence_rule": "Dalla poesia dell'Anello di Tolkien: \nTre Anelli ai Re degli Elfi sotto il cielo che risplende,\nSette ai Principi dei Nani nelle loro rocche di pietra,\nNove agli Uomini Mortali che la triste morte attende,\nUno per l'Oscuro Sire chiuso nella reggia tetra,\nNella Terra di Mordor, dove l'Ombra nera scende.",
           "explanation": ""
       },
@@ -140,7 +140,7 @@
           {"type": "text", "value": "2: Borneo"}
         ], 
         "answer": "1: Nuova Guinea", 
-        "sequence_rule": "Largest territorially divided islands. Haiti and Dominican Republic, UK and Ireland, Indonesia, Malaysia and Brunei, Papua New Guinea and Indonesia.", 
+        "sequence_rule": "Isole più estese divise tra più stati. 4. Haiti - Dominican Republic, 3. UK - Ireland, 2. Indonesia - Malaysia - Brunei, 1. Papua New Guinea - Indonesia.", 
         "explanation": ""
       },
       "seq-sym-005": {
@@ -181,12 +181,12 @@
       },
       {
         "id": "mv-cat-002",
-        "category_name": "",
+        "category_name": "Noti Franceschi",
         "words": [
-                {"answer": "",        "display": "LV TBLL"},
-                {"answer": "",             "display": "LP STN"},
-                {"answer": "",  "display": "N VCN MP RDS"},
-                {"answer": "",     "display": "LGR N DBL LZ Z"}
+                {"answer": "Papa Francesco",        "display": "PPFRNCSC"},
+                {"answer": "Cecco Angiolieri",             "display": "C C NGLRI"},
+                {"answer": "Francesco Giuseppe",  "display": "FRN CSC GSPP"},
+                {"answer": "Francesco D'assisi",     "display": "FR N CSCDS SS"}
               ]
       },
       {
@@ -201,12 +201,12 @@
       },
       {
         "id": "mv-cat-004",
-        "category_name": "da fare",
+        "category_name": "Piaghe d'Egitto",
         "words": [
-          {"answer": "", "display": "MR CR"},
-          {"answer": "Giove", "display": "GV"},
-          {"answer": "Saturno", "display": "ST RN"},
-          {"answer": "Nettuno", "display": "NT TN"}
+          {"answer": "Morte del bestiame", "display": "MR TDLBS T M"},
+          {"answer": "Invasione di zanzare", "display": "NVSND ZNZR"},
+          {"answer": "Pioggia di fuoco e ghiaccio", "display": "PG GDFC GHCC"},
+          {"answer": "Ulcere su uomini e animali", "display": "LCRSGL MN NML"}
         ]
       }
     ]
@@ -221,7 +221,7 @@
         "groups": [
           {
             "connection": "Divinità egizie",
-            "items": ["Set", "Api", "Anti", "Thot"]
+            "items": ["Seth", "Api", "Nut", "Thot"]
           },
           {
             "connection": "Glossario tennistico",
@@ -253,7 +253,7 @@
           },
           {
             "connection": "Percussioni",
-            "items": ["Timpano", "Conga", "Taiko", "Djembé"]
+            "items": ["Timpano", "Conga", "Bongo", "Djembe"]
           }
         ]
       }

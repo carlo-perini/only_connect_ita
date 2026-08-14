@@ -2,12 +2,12 @@
   "teams": [
     {
       "id": "team-1",
-      "name": "La figa",
+      "name": "Tutti contro tutti 1",
       "color": "#FF8C42"
     },
     {
       "id": "team-2",
-      "name": "I linux",
+      "name": "Tutti contro tutti 2",
       "color": "#0066FF"
     }
   ],
