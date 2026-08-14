@@ -29,6 +29,9 @@ instance/
 # Media files (optional - se usa git-lfs)
 # app/static/media/
 
+# GitHub agents configuration
+.github/agents/
+
 # Test coverage
 .coverage
 htmlcov/
