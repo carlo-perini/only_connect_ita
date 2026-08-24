@@ -23,6 +23,12 @@ import config
 # Crea un blueprint per le rotte
 bp = Blueprint("main", __name__)
 
+# Squadre di default: i nomi/colori sono scelti dall'interfaccia (home), NON dal JSON del quiz
+DEFAULT_TEAMS = [
+    {"id": "team-1", "name": "Team 1", "color": "#FF8C42"},
+    {"id": "team-2", "name": "Team 2", "color": "#4A90D9"},
+]
+
 # Istanza globale del quiz loader (inizializzata al primo caricamento)
 _quiz_loader = None
 
@@ -43,19 +49,25 @@ def get_quiz_loader():
 
 def init_game_state():
     """
-    Inizializza il game state nella sessione con i dati dei team dal quiz.
+    Inizializza il game state nella sessione con le squadre scelte dall'interfaccia.
     Questa funzione viene chiamata UNA SOLA VOLTA all'inizio della partita.
+
+    I nomi e colori delle squadre NON provengono dal JSON del quiz: sono quelli
+    scelti dall'utente in home (o i default) e conservati in sessione.
     """
     try:
-        loader = get_quiz_loader()
-        quiz_data = loader.load()
-        
-        teams = quiz_data.teams or []
+        teams = session.get('teams') or DEFAULT_TEAMS
         teams_scores = [
-            TeamScore(team_id=t["id"], team_name=t["name"], score=0).dict()
+            TeamScore(
+                team_id=t["id"],
+                team_name=t["name"],
+                team_color=t.get("color", "#FF8C42"),
+                score=0,
+            ).dict()
             for t in teams
         ]
-        
+
+        session['teams'] = teams
         session['game_state'] = {
             'current_team_index': 0,
             'teams_scores': teams_scores,  # Punteggio globale di partita
@@ -68,6 +80,17 @@ def init_game_state():
         session.modified = True
     except Exception as e:
         print(f"Errore nell'inizializzazione del game state: {str(e)}")
+
+
+def get_teams():
+    """
+    Ritorna le squadre correnti (id, name, color) dalla sessione,
+    inizializzandole con i default se non presenti.
+    """
+    if not session.get('teams'):
+        session['teams'] = [dict(t) for t in DEFAULT_TEAMS]
+        session.modified = True
+    return session['teams']
 
 
 def get_game_state():
@@ -96,7 +119,7 @@ def home():
     game_state = get_game_state()
     teams_scores = game_state.get('teams_scores', [])
     completed_rounds = game_state.get('completed_rounds', {})
-    
+
     return render_template(
         "home.html",
         teams_scores=teams_scores,
@@ -105,12 +128,66 @@ def home():
     )
 
 
+@bp.route("/api/update-teams", methods=["POST"])
+def update_teams():
+    """
+    Aggiorna nomi e colori delle squadre scelti dall'interfaccia (home).
+
+    Conserva i punteggi correnti: aggiorna solo nome e colore delle squadre
+    esistenti in game_state, senza toccare i punti.
+
+    Richiesta JSON:
+        { "teams": [ {"id": "team-1", "name": "...", "color": "#RRGGBB"}, ... ] }
+    """
+    try:
+        data = request.get_json()
+        teams = data.get("teams") if data else None
+
+        if not teams or not isinstance(teams, list):
+            return jsonify({"success": False, "error": "Parametri mancanti"}), 400
+
+        # Normalizza e valida ogni squadra
+        normalized = []
+        for t in teams:
+            team_id = t.get("id")
+            name = (t.get("name") or "").strip()
+            color = (t.get("color") or "#FF8C42").strip()
+            if not team_id:
+                return jsonify({"success": False, "error": "ID squadra mancante"}), 400
+            if not name:
+                return jsonify({"success": False, "error": "Il nome squadra non può essere vuoto"}), 400
+            normalized.append({"id": team_id, "name": name, "color": color})
+
+        # Salva le squadre in sessione
+        session['teams'] = normalized
+
+        # Aggiorna anche il game_state esistente (preservando i punteggi)
+        game_state = get_game_state()
+        teams_scores = game_state.get('teams_scores', [])
+        for team_info in normalized:
+            for team_score in teams_scores:
+                if team_score['team_id'] == team_info['id']:
+                    team_score['team_name'] = team_info['name']
+                    team_score['team_color'] = team_info['color']
+                    break
+        game_state['teams_scores'] = teams_scores
+        session['game_state'] = game_state
+        session.modified = True
+
+        return jsonify({"success": True, "teams_scores": teams_scores})
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 @bp.route("/reset-game", methods=["POST"])
 def reset_game():
-    """Resetta il game state (punteggi e round completati)."""
-    if 'game_state' in session:
-        session.clear()
-        session.modified = True
+    """Resetta il game state (punteggi e round completati), conservando le squadre scelte."""
+    teams = session.get('teams')
+    session.clear()
+    if teams:
+        session['teams'] = teams
+    session.modified = True
     return jsonify({"success": True, "message": "Gioco resettato"})
 
 
@@ -148,8 +225,8 @@ def choose_team(round_type):
             # Il round è già stato iniziato, vai direttamente alla griglia
             return redirect(f"/round/{round_type}/symbols")
         
-        # Ottieni i team
-        teams = quiz_data.teams or []
+        # Ottieni i team scelti dall'interfaccia (non dal JSON del quiz)
+        teams = get_teams()
         
         return render_template(
             "choose_team.html",
@@ -180,7 +257,7 @@ def start_round(round_type, team_id):
         
         # Ottieni il game state (crea solo se non esiste)
         game_state = get_game_state()
-        teams = quiz_data.teams or []
+        teams = get_teams()
         
         # Imposta il team iniziale
         team_index = 0
@@ -701,8 +778,8 @@ def wall_choose_team():
                 # Il round è già stato iniziato, vai direttamente alla griglia simboli
                 return redirect(f"/round/wall/symbols")
             
-            # Ottieni i team
-            teams = quiz_data.teams or []
+            # Ottieni i team scelti dall'interfaccia (non dal JSON del quiz)
+            teams = get_teams()
             
             return render_template(
                 "choose_team.html",
@@ -725,7 +802,7 @@ def start_wall_round(team_id):
         
         # Ottieni il game state
         game_state = get_game_state()
-        teams = quiz_data.teams or []
+        teams = get_teams()
         
         # Imposta il team iniziale
         team_index = 0

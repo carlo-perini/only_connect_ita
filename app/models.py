@@ -225,6 +225,7 @@ class TeamScore(BaseModel):
     """Punteggio di una squadra durante il gioco."""
     team_id: str = Field(..., description="ID della squadra")
     team_name: str = Field(..., description="Nome della squadra")
+    team_color: str = Field(default="#FF8C42", description="Colore esadecimale della squadra")
     score: int = Field(default=0, description="Punteggio attuale")
 
 

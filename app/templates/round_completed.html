@@ -25,7 +25,7 @@
     <div class="scoreboard">
         {% for team in teams_scores %}
         <div class="score-card">
-            <div class="team-name">{{ team.team_name }}</div>
+            <div class="team-name" style="color: {{ team.team_color }};">{{ team.team_name }}</div>
             <div class="team-score">{{ team.score }}</div>
         </div>
         {% endfor %}

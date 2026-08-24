@@ -1,0 +1,250 @@
+{
+  "connections": {
+    "symbols": [
+      {"id": "sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "sym-006", "display": "𓂀", "label": "Occhio di Horus"}
+    ],
+    "questions": {
+      "sym-001": {
+        "id": "conn-001",
+        "clues": [
+          {"type": "text", "value": "Rhodesian Ridgeback"},
+          {"type": "text", "value": "Gemelli siamesi"},
+          {"type": "text", "value": "Savoiardi"},
+          {"type": "text", "value": "Tappeto persiano"}
+        ],
+        "answer": "Derivano da nomi di stati che hanno cambiato nome",
+        "explanation": "Rodesia, attuale Zimbabwe, aveva il motto: «Possa essere degna di questo nome». Siam, attuale Thailandia, origine dei gemelli Chang ed Eng Bunker che dopo essere emigrati negli Stati Uniti, lavorarono a lungo nel circo Barnum, sposarono due sorelle, ebbero 21 figli. Persia attuale Iran, da cui proviene il tappeto persiano. Savoiardi, biscotti originari della Savoia, poi chiamata Regno di Sardegna e poi Regno d'Italia."
+      },
+      "sym-002": {
+        "id": "conn-002", 
+        "clues": [
+          {"type": "image", "value": "images/monopoli.jpeg"}, 
+          {"type": "image", "value": "images/otello.jpg"},
+          {"type": "image", "value": "images/risico.png"}, 
+          {"type": "image", "value": "images/scarabeo.jpg"}
+        ], 
+        "answer": "",
+        "explanation": ""
+      },
+      "sym-003": {
+        "id": "conn-003", 
+        "clues": [
+          {"type": "audio", "value": "audio/Fields of Pelennor.mp3", "start_time": "2:56"}, 
+          {"type": "audio", "value": "audio/Harvest Moon.mp3", "start_time": "0:27"}, 
+          {"type": "audio", "value": "audio/the_seed.mp3", "start_time": "0:45"}, 
+          {"type": "audio", "value": "audio/One For The Vine.mp3", "start_time": "2:42"}
+        ], 
+        "answer": "In campagna",
+        "explanation": "Fields of Pelennor - Howard Shore, Harvest moon - Neil Young, The seed - Roots, One For The Vine - Genesis"
+      },
+      "sym-004": {
+        "id": "conn-004", 
+        "clues": [
+          {"type": "text", "value": "$2 \\cdot \\frac{2}{\\sqrt{2}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2}}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2+\\sqrt{2}}}} \\cdot \\dots$"}, 
+          {"type": "text", "value": "$\\frac{4}{1} - \\frac{4}{3} + \\frac{4}{5} - \\frac{4}{7} + \\dots$"}, 
+          {"type": "text", "value": "$\\frac{\\ln(-1)}{i}$"}, 
+          {"type": "text", "value": "$\\frac{C}{d}$"}
+        ], 
+        "answer": "Obbediscono alla legge di Stigler", 
+        "explanation": "«A una scoperta scientifica non si dà mai il nome del suo autore.». La stessa legge di Stigler è un esempio della propria tesi: la sua scoperta è attribuita da Stigler a Robert Merton. Altro esempio noto è che l'America non porta il nome di Colombo."
+      },
+      "sym-005": {
+        "id": "conn-005", 
+        "clues": [
+          {"type": "audio", "value": "audio/Fields of Pelennor.mp3", "start_time": "2:56"}, 
+          {"type": "audio", "value": "audio/Harvest Moon.mp3", "start_time": "0:27"}, 
+          {"type": "audio", "value": "audio/the_seed.mp3", "start_time": "0:45"}, 
+          {"type": "audio", "value": "audio/One For The Vine.mp3", "start_time": "2:42"}
+        ], 
+        "answer": "", 
+        "explanation": "Cittadina di Monopoli, gioco del 1935; Othello ha un antesignano del 1880 (Reversi), la versione moderna è giapponese (1970), in cui si imprigionano le pedine avversarie; Risiko! significa rischio (da risicare); Alfred Butts ha tabulato la frequenza delle lettere usando esempi tratti da un dizionario nel 1938, per definire i punteggi in Scarabeo."
+      },
+      "sym-006": {
+        "id": "conn-006",
+        "clues": [
+          {"type": "text", "value": "$2 \\cdot \\frac{2}{\\sqrt{2}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2}}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2+\\sqrt{2}}}} \\cdot \\dots$"}, 
+          {"type": "text", "value": "$\\frac{4}{1} - \\frac{4}{3} + \\frac{4}{5} - \\frac{4}{7} + \\dots$"}, 
+          {"type": "text", "value": "$\\frac{\\ln(-1)}{i}$"}, 
+          {"type": "text", "value": "$\\frac{C}{d}$"}
+        ], 
+        "answer": "$\\pi$",
+        "explanation": "Formula di Viète, formula di Leibniz, formula di Eulero, rapporto tra circonferenza e diametro."
+      }
+    }
+  },
+  "sequence": {
+    "symbols": [
+      {"id": "seq-sym-001", "display": "𓇌", "label": "Due spighe"},
+      {"id": "seq-sym-002", "display": "𓃭", "label": "Leone"},
+      {"id": "seq-sym-003", "display": "𓎛", "label": "Lino ritorto"},
+      {"id": "seq-sym-004", "display": "𓆑", "label": "Vipera cornuta"},
+      {"id": "seq-sym-005", "display": "𓈗", "label": "Acqua"},
+      {"id": "seq-sym-006", "display": "𓂀", "label": "Occhio di Horus"}
+    ],
+    "questions": {
+      "seq-sym-001": {
+        "id": "seq-001", 
+          "clues": [
+            {"type": "image", "value": "images/io_robot.jpg"},
+            {"type": "image", "value": "images/v_for_vendetta.jpg"}, 
+            {"type": "image", "value": "images/x_men.webp"}
+          ],
+          "answer": "Un film che inizia per L",
+          "sequence_rule": "i.e. La La Land. Film che iniziano per I, V, X (numeri romani) in ordine crescente ",
+          "explanation": ""
+      },
+      "seq-sym-002": {
+        "id": "seq-002",
+        "clues": [
+            {"type": "text", "value": "$n \\quad \\Omicron \\rightarrow \\ $ uomini"}, 
+            {"type": "text", "value": "$ n - 2 \\quad \\Omicron \\rightarrow \\ $ nani"}, 
+            {"type": "text", "value": "$ n - 6 \\quad \\Omicron \\rightarrow \\ $ elfi"}
+          ], 
+          "answer": "$  n - 8 \\quad \\Omicron \\rightarrow \\ $ oscuro signore", 
+          "sequence_rule": "Dalla poesia dell'Anello di Tolkien: \nTre Anelli ai Re degli Elfi sotto il cielo che risplende,\nSette ai Principi dei Nani nelle loro rocche di pietra,\nNove agli Uomini Mortali che la triste morte attende,\nUno per l'Oscuro Sire chiuso nella reggia tetra,\nNella Terra di Mordor, dove l'Ombra nera scende.",
+          "explanation": ""
+      },
+      "seq-sym-003": {
+        "id": "seq-003", 
+        "clues": [
+          {"type": "image", "value": "images/4_led_bar.png"}, 
+          {"type": "image", "value": "images/235_led_bar.png"}, 
+          {"type": "image", "value": "images/069_led_bar.png"}
+        ], 
+        "answer": "8 in barre led", 
+        "sequence_rule": "4 si scrive con 4 barrette, 2,3,5 con 5 barrette, 0,6,9 con 6 barrette. 8 si scrive con 7 barrette.", 
+        "explanation": ""
+      },
+      "seq-sym-004": {
+        "id": "seq-004", 
+        "clues": [
+          {"type": "text", "value": "4: Hispaniola"}, 
+          {"type": "text", "value": "3: Irlanda"}, 
+          {"type": "text", "value": "2: Borneo"}
+        ], 
+        "answer": "1: Nuova Guinea", 
+        "sequence_rule": "Isole più estese divise tra più stati. 4. Haiti - Dominican Republic, 3. UK - Ireland, 2. Indonesia - Malaysia - Brunei, 1. Papua New Guinea - Indonesia.", 
+        "explanation": ""
+      },
+      "seq-sym-005": {
+        "id": "seq-005", 
+        "clues": [
+          {"type": "text", "value": "5832 Ve"}, 
+          {"type": "text", "value": "1408 Me"}, 
+          {"type": "text", "value": "24,62 Ma"}
+        ], 
+        "answer": "24 Te", 
+        "sequence_rule": "Durata giorno in h per i pianeti del sistema solare in ordine decrescente", 
+        "explanation": "Su Venere il giorno (243 gg) dura più di un anno (225 gg). Seguono Urano ~17 h, Nettuno ~16 h, Giove e Saturno con ~10 h"
+      },
+      "seq-sym-006": {
+        "id": "seq-006", 
+        "clues": [
+          {"type": "text", "value": ""}, 
+          {"type": "text", "value": ""}, 
+          {"type": "text", "value": ""}
+        ], 
+        "answer": "", 
+        "sequence_rule": "", 
+        "explanation": ""
+      }
+    }
+  },
+  "missing_vowels": {
+    "categories": [
+      {
+        "id": "mv-cat-001",
+        "category_name": "proverbi latini",
+        "words": [
+          {"answer": "DURA LEX SED LEX", "display": "DRLXS DLX"},
+          {"answer": "PECUNIA NON OLET", "display": "PCNNN LT"},
+          {"answer": "PER ASPERA AD ASTRA", "display": "PRS P R D ST R"},
+          {"answer": "NOMEN OMEN", "display": "MN N M N"}
+        ]
+      },
+      {
+        "id": "mv-cat-002",
+        "category_name": "Noti Franceschi",
+        "words": [
+                {"answer": "Papa Francesco",        "display": "PPFRNCSC"},
+                {"answer": "Cecco Angiolieri",             "display": "C C NGLRI"},
+                {"answer": "Francesco Giuseppe",  "display": "FRN CSC GSPP"},
+                {"answer": "Francesco D'assisi",     "display": "FR N CSCDS SS"}
+              ]
+      },
+      {
+        "id": "mv-cat-003",
+        "category_name": "Sono \"grandiosi\"",
+        "words": [
+          {"answer": "Gran Canyon", "display": "GRNCNYN"},
+          {"answer": "Gran Canaria", "display": "G R NCN R"},
+          {"answer": "Grand Budapest Hotel", "display": "G RN DB D PSTH TL"},
+          {"answer": "Grand rift valley", "display": "GR NDR FTVL LY"}
+        ]
+      },
+      {
+        "id": "mv-cat-004",
+        "category_name": "Piaghe d'Egitto",
+        "words": [
+          {"answer": "Morte del bestiame", "display": "MR TDLBS T M"},
+          {"answer": "Invasione di zanzare", "display": "NVSND ZNZR"},
+          {"answer": "Pioggia di fuoco e ghiaccio", "display": "PG GDFC GHCC"},
+          {"answer": "Ulcere su uomini e animali", "display": "LCRSGL MN NML"}
+        ]
+      }
+    ]
+  },
+  "wall": {
+    "symbols": [
+      {"id": "wall-1", "display": "𓃭", "label": "Leone"},
+      {"id": "wall-2", "display": "𓈗", "label": "Acqua"}
+    ],
+    "questions": {
+      "wall-1": {
+        "groups": [
+          {
+            "connection": "Divinità egizie",
+            "items": ["Seth", "Api", "Nut", "Thot"]
+          },
+          {
+            "connection": "Glossario tennistico",
+            "items": ["Let", "Bagel", "Lob", "Swing"]
+          },
+          {
+            "connection": "Tipi di pane dal mondo",
+            "items": ["Polka", "Pita", "Naan", "Michetta"]
+          },
+          {
+            "connection": "Prefissi per solubile",
+            "items": ["Idro", "Lipo", "In", "Oro"]
+          }
+        ]
+      },
+      "wall-2": {
+        "groups": [
+          {
+            "connection": "Parole Swahili",
+            "items": ["Safari", "Jenga", "Jambo", "Karibu"]
+          },
+          {
+            "connection": "Rompicapi/puzzle",
+            "items": ["Tangram", "Kakuro", "Labirinto", "Ruzzle"]
+          },
+          {
+            "connection": "Parti dell'orecchio",
+            "items": ["Tromba", "Trago", "Coclea", "Incudine"]
+          },
+          {
+            "connection": "Percussioni",
+            "items": ["Timpano", "Conga", "Bongo", "Djembe"]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@
     <div class="round-scoreboard">
         {% for team in teams_scores %}
         <div class="score-card">
-            <span class="team-name">{{ team.team_name }}</span>
+            <span class="team-name" style="color: {{ team.team_color }};">{{ team.team_name }}</span>
             <span class="team-score" id="score-{{ team.team_id }}">{{ team.score }}</span>
         </div>
         {% endfor %}
@@ -18,7 +18,7 @@
     
     {% if current_team %}
     <div class="current-team-banner">
-        <p>Di turno: <strong>{{ current_team.team_name }}</strong></p>
+        <p>Di turno: <strong style="color: {{ current_team.team_color }};">{{ current_team.team_name }}</strong></p>
     </div>
     {% endif %}
     
@@ -56,7 +56,7 @@
     <div class="scoring-section" id="scoring-section" style="display: none;">
         <h3>Assegnazione punti</h3>
         <div class="current-team-display">
-            <p>Di turno: <strong>{{ current_team.team_name }}</strong></p>
+            <p>Di turno: <strong style="color: {{ current_team.team_color }};">{{ current_team.team_name }}</strong></p>
         </div>
         <div class="points-buttons">
             <div class="points-group">

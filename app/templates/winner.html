@@ -9,7 +9,7 @@
 
     <div class="winner-content">
         <p class="winner-label">Il vincitore è</p>
-        <h1 class="winner-name">{{ winner.team_name }}</h1>
+        <h1 class="winner-name" style="color: {{ winner.team_color }};">{{ winner.team_name }}</h1>
         <div class="winner-score-display">
             <span class="winner-score-value">{{ winner.score }}</span>
             <span class="winner-score-label">punti</span>
@@ -23,7 +23,7 @@
         <div class="winner-all-scores">
             {% for team in teams_scores %}
             <div class="winner-team-row {% if team.team_id == winner.team_id %}winner-highlight{% endif %}">
-                <span class="winner-team-name">{{ team.team_name }}</span>
+                <span class="winner-team-name" style="color: {{ team.team_color }};">{{ team.team_name }}</span>
                 <span class="winner-team-score">{{ team.score }}</span>
             </div>
             {% endfor %}

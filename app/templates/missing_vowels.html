@@ -9,7 +9,7 @@
     <div class="round-scoreboard">
         {% for team in teams_scores %}
         <div class="score-card">
-            <span class="team-name">{{ team.team_name }}</span>
+            <span class="team-name" style="color: {{ team.team_color }};">{{ team.team_name }}</span>
             <span class="team-score" id="score-{{ team.team_id }}">{{ team.score }}</span>
         </div>
         {% endfor %}

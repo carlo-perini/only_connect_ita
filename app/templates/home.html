@@ -8,11 +8,14 @@
     {% if teams_scores %}
     <div class="scoreboard">
         {% for team in teams_scores %}
-        <div class="score-card">
-            <div class="team-name">{{ team.team_name }}</div>
+        <div class="score-card" style="border-top: 4px solid {{ team.team_color }};">
+            <div class="team-name" style="color: {{ team.team_color }};">{{ team.team_name }}</div>
             <div class="team-score">{{ team.score }}</div>
         </div>
         {% endfor %}
+    </div>
+    <div class="teams-edit-bar">
+        <button class="btn btn-secondary btn-small" onclick="openTeamsModal()">✏️ Modifica squadre</button>
     </div>
     {% endif %}
     
@@ -110,15 +113,107 @@
         <p>Github: <a href="https://github.com/carlo-perini/only_connect_ita.git" target="_blank">only_connect_ita</a></p>
     </div>
 </div>
+
+<!-- Modale modifica squadre -->
+<div class="modal-overlay" id="teamsModal" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="teamsModalTitle">
+        <h2 id="teamsModalTitle">Modifica squadre</h2>
+        <p class="modal-subtitle">Scegli nome e colore di ogni squadra. Le modifiche non azzerano i punteggi.</p>
+        <div id="teamsEditList">
+            {% for team in teams_scores %}
+            <div class="team-edit-row" data-team-id="{{ team.team_id }}">
+                <label class="team-edit-label">Nome squadra</label>
+                <input type="text" class="team-name-input" value="{{ team.team_name }}" maxlength="30" />
+                <label class="team-edit-label">Colore</label>
+                <div class="color-palette" data-selected="{{ team.team_color }}"></div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeTeamsModal()">Annulla</button>
+            <button class="btn btn-primary" onclick="saveTeams()">Salva</button>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script>
+    const COLOR_PALETTE = [
+        "#FF8C42", "#4A90D9", "#8AC926", "#FFCA3A",
+        "#E63946", "#9B5DE5", "#00BBF9", "#F15BB5"
+    ];
+
     function startRound(roundType) {
         // Naviga alla pagina di scelta team
         window.location.href = `/round/${roundType}/choose-team`;
     }
-    
+
+    function buildPalettes() {
+        document.querySelectorAll('.color-palette').forEach(palette => {
+            const selected = palette.getAttribute('data-selected');
+            palette.innerHTML = '';
+            COLOR_PALETTE.forEach(color => {
+                const swatch = document.createElement('button');
+                swatch.type = 'button';
+                swatch.className = 'color-swatch' + (color.toLowerCase() === (selected || '').toLowerCase() ? ' selected' : '');
+                swatch.style.backgroundColor = color;
+                swatch.setAttribute('data-color', color);
+                swatch.setAttribute('aria-label', color);
+                swatch.onclick = () => {
+                    palette.setAttribute('data-selected', color);
+                    palette.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+                    swatch.classList.add('selected');
+                };
+                palette.appendChild(swatch);
+            });
+        });
+    }
+
+    function openTeamsModal() {
+        buildPalettes();
+        document.getElementById('teamsModal').classList.add('open');
+        document.getElementById('teamsModal').setAttribute('aria-hidden', 'false');
+    }
+
+    function closeTeamsModal() {
+        document.getElementById('teamsModal').classList.remove('open');
+        document.getElementById('teamsModal').setAttribute('aria-hidden', 'true');
+    }
+
+    function saveTeams() {
+        const teams = [];
+        document.querySelectorAll('.team-edit-row').forEach(row => {
+            const id = row.getAttribute('data-team-id');
+            const name = row.querySelector('.team-name-input').value.trim();
+            const color = row.querySelector('.color-palette').getAttribute('data-selected');
+            teams.push({ id, name, color });
+        });
+
+        if (teams.some(t => !t.name)) {
+            alert('Il nome squadra non può essere vuoto.');
+            return;
+        }
+
+        fetch('/api/update-teams', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ teams })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert('Errore: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+                alert('Errore nel salvataggio delle squadre');
+            });
+    }
+
     function resetGame() {
         if (confirm('Sei sicuro di voler resettare il gioco? Tutti i progressi verranno cancellati.')) {
             fetch('/reset-game', { method: 'POST' })
@@ -131,5 +226,13 @@
                 .catch(error => console.error('Errore:', error));
         }
     }
+
+    // Chiudi la modale cliccando fuori dal box
+    document.addEventListener('click', (e) => {
+        const modal = document.getElementById('teamsModal');
+        if (e.target === modal) {
+            closeTeamsModal();
+        }
+    });
 </script>
 {% endblock %}

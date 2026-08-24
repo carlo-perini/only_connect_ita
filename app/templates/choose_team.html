@@ -22,8 +22,8 @@
     
     <div class="teams-selection">
         {% for team in teams %}
-        <div class="team-choice-card">
-            <div class="team-choice-name">{{ team.name }}</div>
+        <div class="team-choice-card" style="border-top: 4px solid {{ team.color }};">
+            <div class="team-choice-name" style="color: {{ team.color }};">{{ team.name }}</div>
             <button class="btn btn-primary btn-large" onclick="selectTeam('{{ team.id }}')">
                 Inizia questo round
             </button>

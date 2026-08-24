@@ -29,6 +29,18 @@ L'app sarà disponibile in locale a `http://localhost:5000`
 
 Apri il browser all'indirizzo sopra.
 
+## 👥 Scelta delle squadre
+
+I nomi e i colori delle squadre si scelgono **dall'interfaccia**, direttamente dalla home page. I valori eventualmente presenti nel JSON del quiz vengono **ignorati** (vedi [Format Squadre](#format-squadre)).
+
+- In alto nella home c'è il tabellone con le due squadre (default: **Team 1** e **Team 2**) e il pulsante **✏️ Modifica squadre**.
+- Il pulsante apre una finestra in cui, per ogni squadra, puoi scrivere il **nome** e scegliere un **colore** da una tavolozza.
+- Il nome e il colore scelti vengono mantenuti in **tutte le schermate** dove compare la squadra (tabelloni, banner "Di turno", schermata vincitore, ecc.).
+- La gestione del punteggio non cambia: le squadre scelte **conservano i punti** per tutta la partita.
+- Il pulsante **🔄 Resetta Gioco** azzera punteggi e progressi ma **mantiene** i nomi e i colori scelti. I nomi/colori tornano ai default solo se si cancella la sessione del browser.
+
+> Le scelte sono salvate nella sessione del browser: ogni dispositivo/browser ha le proprie squadre.
+
 ## Caricare il Quiz
 
 ### Opzione 1: Quiz default (quiz_data.json)
@@ -137,10 +149,6 @@ Il file `quiz_data.json` contiene tutte le domande organizzate per round con gri
 
 ```json
 {
-  "teams": [
-    {"id": "team-1", "name": "Nome Squadra 1", "color": "#FF8C42"},
-    {"id": "team-2", "name": "Nome Squadra 2", "color": "#0066FF"}
-  ],
   "connections": {
     "symbols": [
       {
@@ -230,9 +238,10 @@ Il file `quiz_data.json` contiene tutte le domande organizzate per round con gri
 ```
 
 ### Format Squadre
-- **id**: ID unico (es: "team-1", "team-2")
-- **name**: Nome della squadra mostrato in gioco
-- **color**: Colore esadecimale per l'interfaccia (es: "#FF8C42")
+Le squadre **non** si definiscono più nel JSON: nome e colore si scelgono dalla home (vedi [Scelta delle squadre](#-scelta-delle-squadre)).
+
+- La proprietà `teams` nel JSON è **opzionale** e viene **ignorata**: un quiz può essere caricato anche senza di essa.
+- Se presente per compatibilità, non ha alcun effetto sui nomi/colori usati in gioco.
 
 ### Format Vocali Mancanti
 - **id**: ID unico della categoria (es: "mv-cat-001")
