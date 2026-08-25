@@ -12,68 +12,68 @@
       "sym-001": {
         "id": "conn-001",
         "clues": [
-          {"type": "text", "value": "Rhodesian Ridgeback"},
-          {"type": "text", "value": "Gemelli siamesi"},
-          {"type": "text", "value": "Savoiardi"},
-          {"type": "text", "value": "Tappeto persiano"}
+          {"type": "text", "value": "Sostituto"},
+          {"type": "text", "value": "Reticenza"},
+          {"type": "text", "value": "Scorta"},
+          {"type": "text", "value": "Area naturale"}
         ],
-        "answer": "Derivano da nomi di stati che hanno cambiato nome",
-        "explanation": "Rodesia, attuale Zimbabwe, aveva il motto: «Possa essere degna di questo nome». Siam, attuale Thailandia, origine dei gemelli Chang ed Eng Bunker che dopo essere emigrati negli Stati Uniti, lavorarono a lungo nel circo Barnum, sposarono due sorelle, ebbero 21 figli. Persia attuale Iran, da cui proviene il tappeto persiano. Savoiardi, biscotti originari della Savoia, poi chiamata Regno di Sardegna e poi Regno d'Italia."
+        "answer": "Riserva",
+        "explanation": "Riserva di: un giocatore, parole, cibo, naturale (protetta)."
       },
       "sym-002": {
         "id": "conn-002", 
         "clues": [
-          {"type": "image", "value": "images/monopoli.jpeg"}, 
-          {"type": "image", "value": "images/otello.jpg"},
-          {"type": "image", "value": "images/risico.png"}, 
-          {"type": "image", "value": "images/scarabeo.jpg"}
+          {"type": "image", "value": "images/kanji_numbers.png"}, 
+          {"type": "image", "value": "images/santana.jpg"},
+          {"type": "image", "value": "images/sansone.jpg"}, 
+          {"type": "image", "value": "images/sangue.jpg"}
         ], 
-        "answer": "",
-        "explanation": ""
+        "answer": "SAN___",
+        "explanation": "Kanji per il numero 3 in giapponese, Santana, Sansone che distrugge il tempio dei Filistei, Sangue (da Esplorando il corpo umano)."
       },
       "sym-003": {
         "id": "conn-003", 
         "clues": [
-          {"type": "audio", "value": "audio/Fields of Pelennor.mp3", "start_time": "2:56"}, 
-          {"type": "audio", "value": "audio/Harvest Moon.mp3", "start_time": "0:27"}, 
-          {"type": "audio", "value": "audio/the_seed.mp3", "start_time": "0:45"}, 
-          {"type": "audio", "value": "audio/One For The Vine.mp3", "start_time": "2:42"}
+          {"type": "audio", "value": "audio/touch_me.mp3", "start_time": "1:04"}, 
+          {"type": "audio", "value": "audio/guarda_che_luna.mp3", "start_time": "0:39"}, 
+          {"type": "audio", "value": "audio/ma_che_bonta.mp3", "start_time": "2:11"}, 
+          {"type": "audio", "value": "audio/hear_me.mp3", "start_time": "1:15"}
         ], 
-        "answer": "In campagna",
-        "explanation": "Fields of Pelennor - Howard Shore, Harvest moon - Neil Young, The seed - Roots, One For The Vine - Genesis"
+        "answer": "I (quasi) 5 sensi",
+        "explanation": "Touch me - The Doors (tatto), Guarda che luna - Milva (vista), Ma che bontà - Mina (gusto), Hear me - Imagine Dragons (udito)."
       },
       "sym-004": {
         "id": "conn-004", 
         "clues": [
-          {"type": "text", "value": "$2 \\cdot \\frac{2}{\\sqrt{2}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2}}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2+\\sqrt{2}}}} \\cdot \\dots$"}, 
-          {"type": "text", "value": "$\\frac{4}{1} - \\frac{4}{3} + \\frac{4}{5} - \\frac{4}{7} + \\dots$"}, 
-          {"type": "text", "value": "$\\frac{\\ln(-1)}{i}$"}, 
-          {"type": "text", "value": "$\\frac{C}{d}$"}
-        ], 
-        "answer": "Obbediscono alla legge di Stigler", 
-        "explanation": "«A una scoperta scientifica non si dà mai il nome del suo autore.». La stessa legge di Stigler è un esempio della propria tesi: la sua scoperta è attribuita da Stigler a Robert Merton. Altro esempio noto è che l'America non porta il nome di Colombo."
+          {"type": "text", "value": "Andare a dx e sx"},
+          {"type": "text", "value": "Quando suonano alla porta"}, 
+          {"type": "text", "value": "Confetti menta o arancia della Ferrero"}, 
+          {"type": "text", "value": "Versione da tavolo del tennis"}
+        ],
+        "answer": "Reduplicazioni parziali", 
+        "explanation": "Zig zag, Ding dong, tic tac, Ping pong."
       },
       "sym-005": {
         "id": "conn-005", 
         "clues": [
-          {"type": "audio", "value": "audio/Fields of Pelennor.mp3", "start_time": "2:56"}, 
-          {"type": "audio", "value": "audio/Harvest Moon.mp3", "start_time": "0:27"}, 
-          {"type": "audio", "value": "audio/the_seed.mp3", "start_time": "0:45"}, 
-          {"type": "audio", "value": "audio/One For The Vine.mp3", "start_time": "2:42"}
+          {"type": "text", "value": "Quadrato in francese"}, 
+          {"type": "text", "value": "Testuggine in acqua salata"}, 
+          {"type": "text", "value": "Pantofola aperta sul tallone"}, 
+          {"type": "text", "value": "Originaria di mantova"}
         ], 
-        "answer": "", 
-        "explanation": "Cittadina di Monopoli, gioco del 1935; Othello ha un antesignano del 1880 (Reversi), la versione moderna è giapponese (1970), in cui si imprigionano le pedine avversarie; Risiko! significa rischio (da risicare); Alfred Butts ha tabulato la frequenza delle lettere usando esempi tratti da un dizionario nel 1938, per definire i punteggi in Scarabeo."
+        "answer": "Pani comuni", 
+        "explanation": "Lett. francese: Carré; Testuggine è di terra mentre tartaruga è di mare; Ciabatta; Mantovana. Curiosità sul carré: secondo una leggenda torinese del XV secolo, i fornai crearono un pane uguale su entrambi i lati per poterlo servire capovolto, ai boia (che avevano diritto a comprare il pane), in segno di disprezzo e malaugurio, senza violare i divieti."
       },
       "sym-006": {
         "id": "conn-006",
         "clues": [
-          {"type": "text", "value": "$2 \\cdot \\frac{2}{\\sqrt{2}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2}}} \\cdot \\frac{2}{\\sqrt{2+\\sqrt{2+\\sqrt{2}}}} \\cdot \\dots$"}, 
-          {"type": "text", "value": "$\\frac{4}{1} - \\frac{4}{3} + \\frac{4}{5} - \\frac{4}{7} + \\dots$"}, 
-          {"type": "text", "value": "$\\frac{\\ln(-1)}{i}$"}, 
-          {"type": "text", "value": "$\\frac{C}{d}$"}
+          {"type": "image", "value": "image/marche_muta.jpg"}, 
+          {"type": "image", "value": "image/seduto.jpg"}, 
+          {"type": "image", "value": "image/terra.jpg"}, 
+          {"type": "image", "value": "image/zampa.webp"}
         ], 
-        "answer": "$\\pi$",
-        "explanation": "Formula di Viète, formula di Leibniz, formula di Eulero, rapporto tra circonferenza e diametro."
+        "answer": "Comandi tipici di un cane",
+        "explanation": "Fermo, Seduto, Terra, Zampa."
       }
     }
   },
@@ -90,23 +90,23 @@
       "seq-sym-001": {
         "id": "seq-001", 
           "clues": [
-            {"type": "image", "value": "images/io_robot.jpg"},
-            {"type": "image", "value": "images/v_for_vendetta.jpg"}, 
-            {"type": "image", "value": "images/x_men.webp"}
+            {"type": "text", "value": "VI - Eresia"}, 
+            {"type": "text", "value": "VII - Violenza"}, 
+            {"type": "text", "value": "VIII - Frode"}
           ],
-          "answer": "Un film che inizia per L",
-          "sequence_rule": "i.e. La La Land. Film che iniziano per I, V, X (numeri romani) in ordine crescente ",
-          "explanation": ""
+          "answer": "IX - Tradimento",
+          "sequence_rule": "Cerchi della divina commedia verso il basso.",
+          "explanation": "Sapete qual è il X cerchio? Non c'è nella versione di Dante ma in una versione non ufficiale il X cerchio è il muro delle connessioni, il terzo gioco di questo straordinario Only connect."
       },
       "seq-sym-002": {
         "id": "seq-002",
         "clues": [
-            {"type": "text", "value": "$n \\quad \\Omicron \\rightarrow \\ $ uomini"}, 
-            {"type": "text", "value": "$ n - 2 \\quad \\Omicron \\rightarrow \\ $ nani"}, 
-            {"type": "text", "value": "$ n - 6 \\quad \\Omicron \\rightarrow \\ $ elfi"}
+            {"type": "text", "value": "A\nHZ"},
+            {"type": "text", "value": "E\nFLMNRS"}, 
+            {"type": "text", "value": "I\nBCDGPTV"}
           ], 
-          "answer": "$  n - 8 \\quad \\Omicron \\rightarrow \\ $ oscuro signore", 
-          "sequence_rule": "Dalla poesia dell'Anello di Tolkien: \nTre Anelli ai Re degli Elfi sotto il cielo che risplende,\nSette ai Principi dei Nani nelle loro rocche di pietra,\nNove agli Uomini Mortali che la triste morte attende,\nUno per l'Oscuro Sire chiuso nella reggia tetra,\nNella Terra di Mordor, dove l'Ombra nera scende.",
+          "answer": "U\nQ", 
+          "sequence_rule": "La lettera sopra è la finale delle lettere sotto.",
           "explanation": ""
       },
       "seq-sym-003": {
@@ -123,34 +123,34 @@
       "seq-sym-004": {
         "id": "seq-004", 
         "clues": [
-          {"type": "text", "value": "4: Hispaniola"}, 
-          {"type": "text", "value": "3: Irlanda"}, 
-          {"type": "text", "value": "2: Borneo"}
+          {"type": "text", "value": "Mancata occupazione della corsia più a destra"}, 
+          {"type": "text", "value": "Grafia per esprimere omissione"}, 
+          {"type": "text", "value": "Calcio di trasformazione nel rugby"}
         ], 
-        "answer": "1: Nuova Guinea", 
-        "sequence_rule": "Isole più estese divise tra più stati. 4. Haiti - Dominican Republic, 3. UK - Ireland, 2. Indonesia - Malaysia - Brunei, 1. Papua New Guinea - Indonesia.", 
+        "answer": "es. punto percentuale", 
+        "sequence_rule": "", 
         "explanation": ""
-      },
+      },  
       "seq-sym-005": {
         "id": "seq-005", 
         "clues": [
-          {"type": "text", "value": "5832 Ve"}, 
-          {"type": "text", "value": "1408 Me"}, 
-          {"type": "text", "value": "24,62 Ma"}
+          {"type": "text", "value": "Sant'Antioco"}, 
+          {"type": "text", "value": "Elba"}, 
+          {"type": "text", "value": "Sardegna"}
         ], 
-        "answer": "24 Te", 
-        "sequence_rule": "Durata giorno in h per i pianeti del sistema solare in ordine decrescente", 
-        "explanation": "Su Venere il giorno (243 gg) dura più di un anno (225 gg). Seguono Urano ~17 h, Nettuno ~16 h, Giove e Saturno con ~10 h"
+        "answer": "Sicilia", 
+        "sequence_rule": "Isole italiane per superficie crescente", 
+        "explanation": "Sant'Antioco 109 km², Elba 224 km², Sardegna 24k km², Sicilia 25k km²."
       },
       "seq-sym-006": {
         "id": "seq-006", 
         "clues": [
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}, 
-          {"type": "text", "value": ""}
+            {"type": "image", "value": "images/4_mori.svg"},
+            {"type": "image", "value": "images/tremori.jpg"}, 
+            {"type": "image", "value": "images/do_mori.jpg"}
         ], 
-        "answer": "", 
-        "sequence_rule": "", 
+        "answer": "images/aldo_moro.jpg", 
+        "sequence_rule": "Mori in successione: 4 mori, tremori, do mori, Aldo Moro", 
         "explanation": ""
       }
     }
@@ -159,42 +159,42 @@
     "categories": [
       {
         "id": "mv-cat-001",
-        "category_name": "proverbi latini",
+        "category_name": "Personaggi e oggetto loro associato",
         "words": [
-          {"answer": "DURA LEX SED LEX", "display": "DRLXS DLX"},
-          {"answer": "PECUNIA NON OLET", "display": "PCNNN LT"},
-          {"answer": "PER ASPERA AD ASTRA", "display": "PRS P R D ST R"},
-          {"answer": "NOMEN OMEN", "display": "MN N M N"}
+          {"answer": "Newton e mela", "display": "NW TN M L"},
+          {"answer": "Re Artù e Excalibur", "display": "RRTXCLBR"},
+          {"answer": "Obelix e menhir", "display": "BLX M NHR"},
+          {"answer": "Aladdin e tappeto", "display": "LDDNTP T"}
         ]
       },
       {
         "id": "mv-cat-002",
-        "category_name": "Noti Franceschi",
+        "category_name": "Espressioni con 2 animali",
         "words": [
-                {"answer": "Papa Francesco",        "display": "PPFRNCSC"},
-                {"answer": "Cecco Angiolieri",             "display": "C C NGLRI"},
-                {"answer": "Francesco Giuseppe",  "display": "FRN CSC GSPP"},
-                {"answer": "Francesco D'assisi",     "display": "FR N CSCDS SS"}
+                {"answer": "Essere come cane e gatto",        "display": "SSRCM CN GTT"},
+                {"answer": "Quando il gatto non c'è i topi ballano",             "display": "QND LG TTNNC TPBLLN"},
+                {"answer": "Prendere due piccioni con una fava",  "display": "PRNDRDP CCN C N N F V"},
+                {"answer": "Cani e porci",     "display": "C N P RC"}
               ]
       },
       {
         "id": "mv-cat-003",
-        "category_name": "Sono \"grandiosi\"",
+        "category_name": "Abitanti di una regione italiana con aggettivo stereotipico",
         "words": [
-          {"answer": "Gran Canyon", "display": "GRNCNYN"},
-          {"answer": "Gran Canaria", "display": "G R NCN R"},
-          {"answer": "Grand Budapest Hotel", "display": "G RN DB D PSTH TL"},
-          {"answer": "Grand rift valley", "display": "GR NDR FTVL LY"}
+          {"answer": "Liguri tirchi", "display": "L GRTR CH"},
+          {"answer": "Sardi zoofili", "display": "S RD ZFL"},
+          {"answer": "Veneti alcolisti", "display": "VNTLCLST"},
+          {"answer": "Siciliani mafiosi", "display": "S CL N MF S"}
         ]
       },
       {
         "id": "mv-cat-004",
-        "category_name": "Piaghe d'Egitto",
+        "category_name": "Tipicamente in bianco",
         "words": [
-          {"answer": "Morte del bestiame", "display": "MR TDLBS T M"},
-          {"answer": "Invasione di zanzare", "display": "NVSND ZNZR"},
-          {"answer": "Pioggia di fuoco e ghiaccio", "display": "PG GDFC GHCC"},
-          {"answer": "Ulcere su uomini e animali", "display": "LCRSGL MN NML"}
+          {"answer": "Sposa al matrimonio", "display": "SPSLMTRM N"},
+          {"answer": "Bandiera per arrendersi", "display": "BN D R PR RRND RS"},
+          {"answer": "Notte insonne", "display": "NTTNSNN"},
+          {"answer": "Pasta senza sugo", "display": "PS TSNZ SG"}
         ]
       }
     ]
@@ -208,40 +208,40 @@
       "wall-1": {
         "groups": [
           {
-            "connection": "Divinità egizie",
-            "items": ["Seth", "Api", "Nut", "Thot"]
+            "connection": "Sottogeneri del cinema horror",
+            "items": ["Splatter", "Sci-fi", "Zombi", "Snuff"]
           },
           {
-            "connection": "Glossario tennistico",
-            "items": ["Let", "Bagel", "Lob", "Swing"]
+            "connection": "Unità del SI con prima lettera cambiata",
+            "items": ["Melvin", "Bolt", "Mandela", "Roule"]
           },
           {
-            "connection": "Tipi di pane dal mondo",
-            "items": ["Polka", "Pita", "Naan", "Michetta"]
+            "connection": "Vincitori di premio Nobel per la pace",
+            "items": ["Begin", "EU", "Gore", "Tutu"]
           },
           {
-            "connection": "Prefissi per solubile",
-            "items": ["Idro", "Lipo", "In", "Oro"]
+            "connection": "Noti Martin",
+            "items": ["King", "Scorsese", "Sheen", "Pescatore"]
           }
         ]
       },
       "wall-2": {
         "groups": [
           {
-            "connection": "Parole Swahili",
-            "items": ["Safari", "Jenga", "Jambo", "Karibu"]
+            "connection": "Si indicano con N",
+            "items": ["Newton", "Nord", "Azoto", "Naturali"]
           },
           {
-            "connection": "Rompicapi/puzzle",
-            "items": ["Tangram", "Kakuro", "Labirinto", "Ruzzle"]
+            "connection": "Capo ___",
+            "items": ["Lavoro", "Stazione", "Squadra", "Collo"]
           },
           {
-            "connection": "Parti dell'orecchio",
-            "items": ["Tromba", "Trago", "Coclea", "Incudine"]
+            "connection": "Zona",
+            "items": ["Adopelagica", "Rossa", "Caccia", "Erogena"]
           },
           {
-            "connection": "Percussioni",
-            "items": ["Timpano", "Conga", "Bongo", "Djembe"]
+            "connection": "Tipologie di aerei militari",
+            "items": ["Ricognizione", "Cargo", "Parassita", "Addestramento"]
           }
         ]
       }

@@ -653,7 +653,8 @@ pytest tests/ -v
 - [x] Musiche per ogni round + sigla inziale
 - [x] Sound effects temporizzati
 - [x] Formattazione LaTex
-- [ ] Immagine come answer da poter inserire nei round di immagini
+- [x] Immagine come answer da poter inserire nei round di immagini
+- [x] Scelta teams dinamica
 - [ ] Punteggi scritti sopra le clue card in sequenze e connessioni come nel bbc
 
 ### Fase 3

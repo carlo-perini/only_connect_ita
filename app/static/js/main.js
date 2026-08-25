@@ -42,6 +42,27 @@ function setHtmlWithLatex(element, html) {
     renderLatex(element);
 }
 
+/**
+ * Verifica se un valore è un percorso a un'immagine (es: "images/foto.jpg").
+ */
+function isImagePath(value) {
+    return typeof value === 'string' && /\.(jpe?g|png|webp|gif|svg|bmp)$/i.test(value.trim());
+}
+
+/**
+ * Imposta il contenuto di una risposta: se il valore è un percorso immagine
+ * (come nei clue, es. "images/foto.jpg") mostra un'immagine, altrimenti testo con LaTeX.
+ */
+function setAnswerContent(element, value) {
+    if (!element || !value) return;
+    if (isImagePath(value)) {
+        const mediaPath = `/static/media/${value.trim()}`;
+        element.innerHTML = `<img src="${mediaPath}" alt="Risposta" class="answer-image" />`;
+    } else {
+        setTextWithLatex(element, value);
+    }
+}
+
 // Funzione per formattare i secondi in MM:SS
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);

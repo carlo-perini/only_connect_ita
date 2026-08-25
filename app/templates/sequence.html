@@ -298,7 +298,7 @@
     // Mostra la risposta corretta
     document.getElementById('show-answer-btn').addEventListener('click', function() {
         const answerArea = document.getElementById('answer-area');
-        setTextWithLatex(document.getElementById('answer-text'), questionData.answer);
+        setAnswerContent(document.getElementById('answer-text'), questionData.answer);
         setTextWithLatex(document.getElementById('sequence-rule-text'), questionData.sequence_rule);
         setTextWithLatex(document.getElementById('explanation-text'), questionData.explanation);
         answerArea.style.display = 'block';
@@ -436,7 +436,7 @@
         
         // Mostra la risposta subito
         const answerArea = document.getElementById('answer-area');
-        setTextWithLatex(document.getElementById('answer-text'), questionData.answer);
+        setAnswerContent(document.getElementById('answer-text'), questionData.answer);
         setTextWithLatex(document.getElementById('sequence-rule-text'), questionData.sequence_rule);
         setTextWithLatex(document.getElementById('explanation-text'), questionData.explanation);
         answerArea.style.display = 'block';
